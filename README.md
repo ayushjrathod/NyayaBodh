@@ -18,4 +18,5 @@ Change api url in vite.config.js
     "pdf": "https://drive.google.com/file/d/1lZ3jh-rcC_kCqGSja57r-qTM_S0vvqtT/preview" 
 ```
 
-###for chatbot query
+###for chatbot 
+1. for getting pdf -> extract object id from chatbot/:id 

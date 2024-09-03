@@ -6,17 +6,20 @@ const DisplayedResult = ({ results }) => {
   const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
   const [pdfVisible, setPdfVisible] = useState(false);
   const [pdfPath, setPdfPath] = useState("");
-  const [dataId, setDataId] = useState("");
+  const [selectedPdf, setSelectedPdf] = useState(""); // New state variable
+  const [selectedId, setSelectedId] = useState(null); // State to store selected id
 
-  const togglePopover = (e) => {
+  const togglePopover = (e, id) => {
     e.preventDefault();
     const rect = e.target.getBoundingClientRect();
     setPopoverPosition({ top: rect.bottom, left: rect.left - 150 });
     setPopoverVisible(!popoverVisible);
+    setSelectedId(id); // Set the selected id
   };
 
-  const openPdfInFloatingDiv = (pdfPath) => {
-    setPdfPath(pdfPath);
+  const openPdfInFloatingDiv = () => {
+    console.log("Opening PDF with path:", selectedPdf); // Debugging log
+    setPdfPath(selectedPdf);
     setPdfVisible(true);
   };
 
@@ -40,38 +43,39 @@ const DisplayedResult = ({ results }) => {
               <h2 className="font-roboto tracking-wide font-semibold">
                 {result.title}
               </h2>
-              <div className="cursor-pointer" onClick={togglePopover}>
+              <div
+                className="cursor-pointer"
+                onClick={(e) => togglePopover(e, result.id)}
+              >
                 <i className="bx bxs-file-pdf bx-sm"></i>
               </div>
             </div>
-            <div>
-              {popoverVisible && (
-                <div
-                  className="absolute bg-white border border-gray-300 rounded-lg shadow-lg z-50"
-                  style={{
-                    top: popoverPosition.top,
-                    left: popoverPosition.left,
-                  }}
-                >
-                  <ul className="py-2">
-                    {/*result.pdf*/}
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() =>
-                        openPdfInFloatingDiv(
-                          "https://drive.google.com/file/d/1lZ3jh-rcC_kCqGSja57r-qTM_S0vvqtT/preview"
-                        )
-                      }
-                    >
-                      Open PDF
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link to={`/chatbot/${result.id}`}>Open PDF in Chatbot</Link>
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
+            {popoverVisible && selectedId === result.id && (
+              <div
+                className="absolute bg-white border border-gray-300 rounded-lg shadow-lg z-50"
+                style={{
+                  top: popoverPosition.top,
+                  left: popoverPosition.left,
+                }}
+              >
+                <ul className="py-2">
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setSelectedPdf(result.pdf);
+                      openPdfInFloatingDiv();
+                    }}
+                  >
+                    Open PDF
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100">
+                    <Link to={`/chatbot/${result.id}`}>
+                      Open PDF in Chatbot
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
             <p className="font-semibold font-roboto tracking-wide text-gray-600">
               {result.description}
             </p>
@@ -89,13 +93,9 @@ const DisplayedResult = ({ results }) => {
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
               onClick={closePdf}
             >
-              X
+              <i className="bx bx-window-close bx-sm" ></i>
             </button>
-            <iframe
-              src={pdfPath}
-              allow="autoplay"
-              className="w-full h-full"
-            ></iframe>
+            <iframe src={pdfPath} className="w-full h-full"></iframe>
           </div>
         </div>
       )}
