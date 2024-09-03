@@ -54,7 +54,6 @@ const DisplayedResult = ({ results }) => {
                   }}
                 >
                   <ul className="py-2">
-                    {setDataId(result.id)}
                     {/*result.pdf*/}
                     <li
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -67,7 +66,7 @@ const DisplayedResult = ({ results }) => {
                       Open PDF
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link to={`/chatbot/${dataId}`}>Open PDF in Chatbot</Link>
+                      <Link to={`/chatbot/${result.id}`}>Open PDF in Chatbot</Link>
                     </li>
                   </ul>
                 </div>

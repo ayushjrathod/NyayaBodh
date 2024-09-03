@@ -15,7 +15,7 @@ Change api url in vite.config.js
     "date": "2024",
     "judge": "Name 1",
     "party": "1 vs 2",
-    "pdf": "a google drive url"
+    "pdf": "https://drive.google.com/file/d/1lZ3jh-rcC_kCqGSja57r-qTM_S0vvqtT/preview" 
 ```
 
 ###for chatbot query
