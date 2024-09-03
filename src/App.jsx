@@ -6,6 +6,8 @@ import Result from "./pages/FutureResult";
 import Chatbot from "./pages/Chatbot";
 import Layout from "./components/Layout/Layout";
 import Recommend from "./pages/Recommend"
+import Resources from "./pages/Resources";
+import Contact from "./pages/Contact";
 import 'boxicons';
 
 function App() {
@@ -33,6 +35,12 @@ function App() {
           </Route>
           <Route path="/recommend" element={<Layout/>}>
             <Route index element={<Recommend />} />
+          </Route>
+          <Route path="/resources" element={<Layout/>}>
+            <Route index element={<Resources />} />
+          </Route>
+          <Route path="/contact" element={<Layout/>}>
+            <Route index element={<Contact />} />
           </Route>
         </Routes>
       </Router>

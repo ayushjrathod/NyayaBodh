@@ -17,7 +17,7 @@ const FilterableResults = () => {
 
       axios
         .post("/api/search",
-          {cors: true,},
+          {cors: true},
           { query })
         .then((res) => {
           console.log(res);
