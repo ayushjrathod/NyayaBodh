@@ -5,6 +5,7 @@ import Sidebar from "../components/Chatbot/Sidebar";
 import DrawerBackdrop from "../components/Chatbot/DrawerBackdrop";
 import Navbar from "../components/Chatbot/Navbar";
 import axios from "../api/axios";
+import { useParams } from "react-router-dom";
 
 function Chatbot() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -13,6 +14,7 @@ function Chatbot() {
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const id = useParams();
 
   const chats = [
     { id: 1, title: "General Chat" },
@@ -82,7 +84,7 @@ function Chatbot() {
 
     try {
       const response = await axios.post(
-        "/api/ask",
+        `/api/ask/${id}`,
         { query: input },
         { responseType: "stream" }
       );

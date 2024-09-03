@@ -19,4 +19,5 @@ Change api url in vite.config.js
 ```
 
 ###for chatbot 
-1. for getting pdf -> extract object id from chatbot/:id 
+1. post request on "backendUrl/ask/id" with "query"
+2. we need to extract this id using use params on backend, hence we can get pdf to give to model.
