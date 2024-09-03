@@ -1,14 +1,14 @@
 import React, { useState,useRef } from "react";
 import Filters from "../components/Home/Filters";
 import DisplayedResult from "../components/Home/DisplayedResult";
-import resultsData from "../../public/results.json";
+//import resultsData from "../../public/results.json";
 import axios from "../api/axios";
 
 const FilterableResults = () => {
   // Process Input
     const inputRef = useRef();
     const [query, setQuery] = useState("");
-    //const [resultsData, setResultsData] = useState([]);
+    const [resultsData, setResultsData] = useState([]);
   
     const onSubmit = (e) => {
       e.preventDefault();
@@ -21,7 +21,7 @@ const FilterableResults = () => {
           { query })
         .then((res) => {
           console.log(res);
-          //setResultsData(res.data);
+          setResultsData(res.data);
         })
         .catch((err) => {
           console.error(err);
@@ -64,11 +64,11 @@ const FilterableResults = () => {
 
   return (
     <div className="flex justify-between m-2">
-      <div className=" h-screen w-1/4">
+      <div className=" h-screen w-1/6">
         <Filters onFilterChange={handleFilterChange} />
       </div>
-      <div className="h-fit border-l-2 w-3/4">
-          <div className="bg-gray-100 rounded-lg flex justify-center w-full">
+      <div className="h-fit border-l-2 w-5/6">
+          <div className="bg-gray-200 rounded-lg flex justify-center w-full mx-1">
             <div className="bg-white w-full border-2 border-gray-500 rounded-lg p-2 m-2 flex just">
               <input
                 type="text"
