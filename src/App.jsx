@@ -2,7 +2,6 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Result from "./pages/FutureResult";
 import Chatbot from "./pages/Chatbot";
 import Layout from "./components/Layout/Layout";
 import Recommend from "./pages/Recommend"
@@ -23,12 +22,6 @@ function App() {
           {/*Private/Protected Routes */}
           <Route path="/" element={<Layout/>} >
             <Route index element={<Home />} />
-          </Route>
-          <Route path="/search" element={<Layout />} >
-            <Route index element={<Result />} />
-          </Route>
-          <Route path="/result" element={<Layout />} >
-            <Route index element={<Result />} />
           </Route>
           <Route path="/chatbot/:id"  >
             <Route index element={<Chatbot />} />
