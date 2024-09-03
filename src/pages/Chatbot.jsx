@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ChatMessages from "../components/Chatbot/ChatMessages";
 import ChatInput from "../components/Chatbot/ChatInput";
 import Sidebar from "../components/Chatbot/Sidebar";
 import DrawerBackdrop from "../components/Chatbot/DrawerBackdrop";
 import Navbar from "../components/Chatbot/Navbar";
+import axios from "../api/axios";
 
 function Chatbot() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -14,9 +15,9 @@ function Chatbot() {
   const inputRef = useRef(null);
 
   const chats = [
-    { id: 1, title: "Real Estate Dispute" },
-    { id: 2, title: "Need Suggestion" },
-    { id: 3, title: "Compare these disputes" },
+    { id: 1, title: "General Chat" },
+    { id: 2, title: "Tech Support" },
+    { id: 3, title: "Fun Chat" },
   ];
 
   const initialChatMessages = {
@@ -72,48 +73,47 @@ function Chatbot() {
 
   const toggleDrawer = () => setDrawerOpen((prev) => !prev);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (input.trim() === "") return;
 
     const userMessage = { role: "user", content: [{ text: input }] };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
 
-    setTimeout(() => {
-      const assistantMessage = {
+    try {
+      const response = await axios.post(
+        "/api/ask",
+        { query: input },
+        { responseType: "stream" }
+      );
+
+      const reader = response.data.getReader();
+      const decoder = new TextDecoder();
+      let assistantMessage = { role: "assistant", content: [{ text: "" }] };
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        assistantMessage.content[0].text += chunk;
+        setMessages((prev) => [...prev.slice(0, -1), assistantMessage]);
+        scrollToBottom();
+      }
+    } catch (error) {
+      console.error("Error receiving message:", error);
+      const errorMessage = {
         role: "assistant",
-        content: [{ text: generateResponse(input) }],
+        content: [{ text: "Sorry, something went wrong." }],
       };
-      setMessages((prev) => [...prev, assistantMessage]);
-    }, 1000);
+      setMessages((prev) => [...prev, errorMessage]);
+    }
   };
+
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
-    }
-  };
-
-  const generateResponse = (userInput) => {
-    const lowercaseInput = userInput.toLowerCase();
-    if (lowercaseInput.includes("hello") || lowercaseInput.includes("hi")) {
-      return "Hello! How can I assist you today?";
-    } else if (lowercaseInput.includes("how are you")) {
-      return "I'm doing well, thank you for asking! How about you?";
-    } else if (
-      lowercaseInput.includes("bye") ||
-      lowercaseInput.includes("goodbye")
-    ) {
-      return "Goodbye! Have a great day!";
-    } else if (lowercaseInput.includes("thank")) {
-      return "You're welcome! Is there anything else I can help you with?";
-    } else {
-      return (
-        "I understand you're saying something about '" +
-        userInput +
-        "'. Could you please provide more details or ask a specific question?"
-      );
     }
   };
 
