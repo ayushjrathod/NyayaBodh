@@ -13,13 +13,15 @@ const FilterableResults = () => {
     const onSubmit = (e) => {
       e.preventDefault();
       setQuery(inputRef.current.value);
-      console.log("Query: ", query);
-  
+      console.log(query);
+
       axios
-        .post("/search", { query })
+        .post("/api/search",
+          {cors: true,},
+          { query })
         .then((res) => {
           console.log(res);
-          setResultsData(res.data);
+          //setResultsData(res.data);
         })
         .catch((err) => {
           console.error(err);
@@ -66,7 +68,7 @@ const FilterableResults = () => {
         <Filters onFilterChange={handleFilterChange} />
       </div>
       <div className="h-fit border-l-2 w-3/4">
-          <takeinput className="bg-gray-100 rounded-lg flex justify-center w-full">
+          <div className="bg-gray-100 rounded-lg flex justify-center w-full">
             <div className="bg-white w-full border-2 border-gray-500 rounded-lg p-2 m-2 flex just">
               <input
                 type="text"
@@ -81,7 +83,7 @@ const FilterableResults = () => {
                 </button>
               </div>
             </div>
-          </takeinput>
+          </div>
         <div className="mx-6">
           <DisplayedResult results={filteredResults} />
         </div>
