@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Filters from "../components/Home/Filters";
-import DisplayedResult from "../components/Home/DisplayedResult";
-import resultsData from "../../public/results.json";
+import Filters from "./Filters";
+import DisplayedResult from "./DisplayedResult";
+import resultsData from "../../../public/results.json";
 
 const FilterableResults = () => {
   const [filters, setFilters] = useState({
@@ -31,15 +31,9 @@ const FilterableResults = () => {
   });
 
   return (
-    <div className='flex justify-between m-2'>
-      <div className=' h-screen w-1/4'>
-
+    <div className="flex">
       <Filters onFilterChange={handleFilterChange} />
-      </div>
-      <div className='h-fit border-l-2 w-3/4'>
-
       <DisplayedResult results={filteredResults} />
-      </div>
     </div>
   );
 };
