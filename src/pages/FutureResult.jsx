@@ -1,5 +1,4 @@
 import React from 'react'
-import InputOne from '../components/Input/InputOne'
 
 const Result = () => {
   return (
@@ -8,7 +7,6 @@ const Result = () => {
       <p className="text-5xl">AI-Powered Research Assistant</p>
       <p className="text-xl text-gray-500">Unlock precise and lightning-fast insights with our AI-driven<br/> research engine, designed to streamline your search and analysis process.</p>
     </div>
-    <InputOne />
     </div>
   )
 }

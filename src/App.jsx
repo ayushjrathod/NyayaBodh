@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Result from "./pages/FutureResult";
 import Chatbot from "./pages/Chatbot";
 import Layout from "./components/Layout/Layout";
+import Recommend from "./pages/Recommend"
 import 'boxicons';
 
 function App() {
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path="/chatbot"  >
             <Route index element={<Chatbot />} />
+          </Route>
+          <Route path="/recommend" element={<Layout/>}>
+            <Route index element={<Recommend />} />
           </Route>
         </Routes>
       </Router>

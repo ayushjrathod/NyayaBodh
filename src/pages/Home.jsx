@@ -1,9 +1,38 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import Filters from "../components/Home/Filters";
 import DisplayedResult from "../components/Home/DisplayedResult";
 import resultsData from "../../public/results.json";
+import axios from "../api/axios";
 
 const FilterableResults = () => {
+  // Process Input
+    const inputRef = useRef();
+    const [query, setQuery] = useState("");
+    //const [resultsData, setResultsData] = useState([]);
+  
+    const onSubmit = (e) => {
+      e.preventDefault();
+      setQuery(inputRef.current.value);
+      console.log("Query: ", query);
+  
+      axios
+        .post("/search", { query })
+        .then((res) => {
+          console.log(res);
+          setResultsData(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+  
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        onSubmit(e);
+      }
+    };
+
+  // Filter resuts 
   const [filters, setFilters] = useState({
     date: [],
     judge: [],
@@ -30,15 +59,32 @@ const FilterableResults = () => {
     return matchesDate && matchesJudge && matchesParty;
   });
 
+
   return (
-    <div className='flex justify-between m-2'>
-      <div className=' h-screen w-1/4'>
-
-      <Filters onFilterChange={handleFilterChange} />
+    <div className="flex justify-between m-2">
+      <div className=" h-screen w-1/4">
+        <Filters onFilterChange={handleFilterChange} />
       </div>
-      <div className='h-fit border-l-2 w-3/4'>
-
-      <DisplayedResult results={filteredResults} />
+      <div className="h-fit border-l-2 w-3/4">
+          <takeinput className="bg-gray-100 rounded-lg flex justify-center w-full">
+            <div className="bg-white w-full border-2 border-gray-500 rounded-lg p-2 m-2 flex just">
+              <input
+                type="text"
+                ref={inputRef}
+                onKeyDown={handleKeyDown}
+                placeholder="Enter your search query...."
+                className="w-full border-none outline-none"
+              />
+              <div className=" relative">
+                <button onClick={onSubmit}>
+                  <i className="bx bx-send bx-sm"></i>
+                </button>
+              </div>
+            </div>
+          </takeinput>
+        <div className="mx-6">
+          <DisplayedResult results={filteredResults} />
+        </div>
       </div>
     </div>
   );

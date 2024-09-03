@@ -6,6 +6,7 @@ const DisplayedResult = ({ results }) => {
   const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
   const [pdfVisible, setPdfVisible] = useState(false);
   const [pdfPath, setPdfPath] = useState("");
+  const [dataId, setDataId] = useState("");
 
   const togglePopover = (e) => {
     e.preventDefault();
@@ -53,18 +54,20 @@ const DisplayedResult = ({ results }) => {
                   }}
                 >
                   <ul className="py-2">
+                    {setDataId(result.id)}
+                    {/*result.pdf*/}
                     <li
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       onClick={() =>
                         openPdfInFloatingDiv(
-                          "https://drive.google.com/file/d/1lZ3jh-rcC_kCqGSja57r-qTM_S0vvqtT/view?usp=sharing"
+                          "https://drive.google.com/file/d/1lZ3jh-rcC_kCqGSja57r-qTM_S0vvqtT/preview"
                         )
                       }
                     >
                       Open PDF
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link to="/chatbot">Open PDF in Chatbot</Link>
+                      <Link to={`/chatbot/${dataId}`}>Open PDF in Chatbot</Link>
                     </li>
                   </ul>
                 </div>
@@ -91,7 +94,7 @@ const DisplayedResult = ({ results }) => {
             </button>
             <iframe
               src={pdfPath}
-              title="PDF"
+              allow="autoplay"
               className="w-full h-full"
             ></iframe>
           </div>

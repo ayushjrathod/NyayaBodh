@@ -10,8 +10,8 @@ function Navbar() {
         </a>
         <div className="flex mt-1">
           <div className="text-black text-xl font-roboto tracking-wide flex gap-6 py-1 mr-6">
-            <Link className="" to="/community">
-              <p className="py-2 mr-2">Community</p>
+            <Link className="" to="/recommend">
+              <p className="py-2 mr-2">Recommend</p>
             </Link>
             <Link className="" to="/resources">
               <p className="mr-2 py-2">Resources</p>
