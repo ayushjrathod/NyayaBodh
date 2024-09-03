@@ -28,7 +28,7 @@ function App() {
           <Route path="/result" element={<Layout />} >
             <Route index element={<Result />} />
           </Route>
-          <Route path="/chatbot"  >
+          <Route path="/chatbot/:id"  >
             <Route index element={<Chatbot />} />
           </Route>
           <Route path="/recommend" element={<Layout/>}>
