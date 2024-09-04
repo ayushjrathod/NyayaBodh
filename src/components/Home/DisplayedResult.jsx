@@ -91,6 +91,27 @@ const DisplayedResult = ({ results }) => {
     return "Unable to extract party names";
   };
 
+  const handelOpenPdfcall = (currentID) => {
+
+    fetch("http://localhost:8000/get-file", {
+      method:"POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id: currentID})
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      setSelectedPdf(data.path);
+      openPdfInFloatingDiv();
+    })
+    .catch(error => {
+      console.log("Error: ", error);
+    });
+    
+  }
+
   return (
     <div className="flex-1">
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">
@@ -126,7 +147,7 @@ const DisplayedResult = ({ results }) => {
                 }}
               >
                 <ul className="py-2">
-                  <li
+                  {/* <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
                       setSelectedPdf(result.pdf);
@@ -134,7 +155,8 @@ const DisplayedResult = ({ results }) => {
                     }}
                   >
                     Open PDF
-                  </li>
+                  </li> */}
+                  <a onClick={handelOpenPdfcall(result.id)} className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >Open PDF</a>
                   <li className="px-4 py-2 hover:bg-gray-100">
                     <Link to={`/chatbot/${result.id}`}>
                       Open PDF in Chatbot
