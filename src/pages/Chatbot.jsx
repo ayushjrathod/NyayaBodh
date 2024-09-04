@@ -83,12 +83,16 @@ function Chatbot() {
     setInput("");
 
     try {
-      const response = await axios.post(
-        `/api/ask/${id}`,
-        { query: input },
-        { responseType: "stream" }
-      );
-
+      console.log("starting fetch");
+      const response = fetch(`http://127.0.0.1:8000/ask/${id}`, {
+        method: "POST",
+        body: JSON.stringify({ query: input }),
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
       const reader = response.data.getReader();
       const decoder = new TextDecoder();
       let assistantMessage = { role: "assistant", content: [{ text: "" }] };
@@ -110,7 +114,6 @@ function Chatbot() {
       setMessages((prev) => [...prev, errorMessage]);
     }
   };
-
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
