@@ -101,10 +101,14 @@ const DisplayedResult = ({ results }) => {
       body: JSON.stringify({id: currentID})
     })
     .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      setSelectedPdf(data.path);
-      openPdfInFloatingDiv();
+    .then(res => {
+      console.log(currentID);
+      console.log(res);
+      const blob = res.blob;
+      const url = window.URL.createObjectURL(blob);
+      setSelectedPdf(url);
+      //openPdfInFloatingDiv();
+      window.open(selectedPdf, "_blank");
     })
     .catch(error => {
       console.log("Error: ", error);

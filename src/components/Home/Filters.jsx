@@ -3,13 +3,15 @@ import React, { useState, useEffect } from "react";
 const Filters = ({ onFilterChange, results }) => {
   const [judges, setJudges] = useState([]);
   const [parties, setParties] = useState([]);
-  const [years, setYears] = useState([]); // Add this line
+  const [years, setYears] = useState([]);
+  const [showMoreJudges, setShowMoreJudges] = useState(false);
+  const [showMoreParties, setShowMoreParties] = useState(false);
 
   useEffect(() => {
     // Extract unique judges, parties, and years from results
     const uniqueJudges = new Set();
     const uniqueParties = new Set();
-    const uniqueYears = new Set(); // Add this line
+    const uniqueYears = new Set();
 
     results.forEach((result) => {
       const metadata = result.metadata;
@@ -28,14 +30,14 @@ const Filters = ({ onFilterChange, results }) => {
 
       const yearMatch = metadata.match(/\[(\d{4})\]/);
       if (yearMatch) {
-        uniqueYears.add(yearMatch[1]); // Add this line
+        uniqueYears.add(yearMatch[1]);
       }
     });
 
     setJudges(Array.from(uniqueJudges));
     setParties(Array.from(uniqueParties));
     // Sort years in descending order
-    setYears(Array.from(uniqueYears).sort((a, b) => b - a)); // Update this line
+    setYears(Array.from(uniqueYears).sort((a, b) => b - a));
   }, [results]);
 
   const handleChange = (filterType) => (e) => {
@@ -66,7 +68,7 @@ const Filters = ({ onFilterChange, results }) => {
       {/* Judge Filter */}
       <div className="flex flex-col gap-1">
         <p className="mx-2 font-bold">Judge</p>
-        {judges.map((judge) => (
+        {(showMoreJudges ? judges : judges.slice(0, 5)).map((judge) => (
           <div className="mx-4" key={judge}>
             <input
               type="checkbox"
@@ -79,12 +81,20 @@ const Filters = ({ onFilterChange, results }) => {
             </label>
           </div>
         ))}
+        {judges.length > 5 && (
+          <button
+            className="mx-4 text-blue-500"
+            onClick={() => setShowMoreJudges(!showMoreJudges)}
+          >
+            {showMoreJudges ? "Show Less" : "Show More"}
+          </button>
+        )}
       </div>
 
       {/* Party Filter */}
       <div className="flex flex-col gap-1">
         <p className="mx-2 font-bold">Party</p>
-        {parties.map((party) => (
+        {(showMoreParties ? parties : parties.slice(0, 5)).map((party) => (
           <div className="mx-4" key={party}>
             <input
               type="checkbox"
@@ -97,6 +107,14 @@ const Filters = ({ onFilterChange, results }) => {
             </label>
           </div>
         ))}
+        {parties.length > 5 && (
+          <button
+            className="mx-4 text-blue-500"
+            onClick={() => setShowMoreParties(!showMoreParties)}
+          >
+            {showMoreParties ? "Show Less" : "Show More"}
+          </button>
+        )}
       </div>
     </div>
   );
