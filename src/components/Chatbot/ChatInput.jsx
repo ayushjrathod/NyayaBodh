@@ -1,12 +1,4 @@
-import React from "react";
-
-const ChatInput = ({
-  input,
-  setInput,
-  handleSendMessage,
-  handleKeyPress,
-  inputRef,
-}) => (
+const ChatInput = ({ input, setInput, handleSendMessage, handleKeyPress, inputRef }) => (
   <div className="bg-gray-200 rounded-lg flex justify-center w-full">
     <div className="bg-white w-full border-2 border-gray-500 rounded-lg p-2 m-2 flex just">
       <input

@@ -1,12 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import Filters from "../components/Home/Filters";
+import { useEffect, useRef, useState } from "react";
+//If the results.json is needed to be used, uncomment the next line
+//import resultsData from "../../public/results.json";
 import DisplayedResult from "../components/Home/DisplayedResult";
-import resultsData from "../../public/results.json";
-import axios from "../api/axios";
+import Filters from "../components/Home/Filters";
+import SpaceMenu from "../components/Home/SpaceMenu";
 
 const Home = () => {
   const inputRef = useRef();
+  const fileInputRef = useRef();
   const [query, setQuery] = useState("");
+  const [space, setSpace] = useState("Space: general");
+  const [resultsData, setResultsData] = useState([]);
   const [filteredResults, setFilteredResults] = useState(resultsData);
   const [filters, setFilters] = useState({
     date: [],
@@ -16,17 +20,27 @@ const Home = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setQuery(inputRef.current.value);
-    console.log(query);
-    axios
-      .post("/api/search", { cors: true }, { query })
-      .then((res) => {
-        console.log(res);
-        // If you want to update results based on the search, uncomment the next line
-        // setFilteredResults(res.data);
+    const queryValue = inputRef.current.value;
+    setQuery(queryValue);
+    console.log(queryValue);
+
+    fetch("http://0.0.0.0:8000/search", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: `${space} ${queryValue}` }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // If update results based on the search is to be used, uncomment the next line
+        setFilteredResults(data);
+        setResultsData(data);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        console.error("Error:", error);
       });
   };
 
@@ -34,6 +48,32 @@ const Home = () => {
     if (e.key === "Enter") {
       onSubmit(e);
     }
+  };
+
+  const uploadPdf = () => {
+    const file = fileInputRef.current.files[0];
+    if (!file) {
+      console.error("No file selected");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("pdf", file);
+
+    fetch("/upload", {
+      method: "POST",
+      mode: "cors",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        alert("File uploaded successfully");
+      })
+      .catch((error) => {
+        console.error("Error uploading file:", error);
+        alert("Error uploading file");
+      });
   };
 
   const handleFilterChange = (filterType, value, checked) => {
@@ -52,14 +92,10 @@ const Home = () => {
       const judgeMatch = metadata.match(/\[(.*?)\]$/);
       const partyMatch = metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
 
-      const matchesDate =
-        filters.date.length === 0 ||
-        (yearMatch && filters.date.includes(yearMatch[1]));
+      const matchesDate = filters.date.length === 0 || (yearMatch && filters.date.includes(yearMatch[1]));
 
       const matchesJudge =
-        filters.judge.length === 0 ||
-        (judgeMatch &&
-          filters.judge.some((judge) => judgeMatch[1].includes(judge)));
+        filters.judge.length === 0 || (judgeMatch && filters.judge.some((judge) => judgeMatch[1].includes(judge)));
 
       const matchesParty =
         filters.party.length === 0 ||
@@ -88,14 +124,28 @@ const Home = () => {
               placeholder="Enter your search query...."
               className="w-full border-none outline-none"
             />
-            <div className="relative">
-              <button onClick={onSubmit}>
+            <div className="relative flex">
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="application/pdf"
+                style={{ display: "none" }}
+                onChange={uploadPdf}
+              />
+              <button className="mx-4" onClick={() => fileInputRef.current.click()}>
+                <i className="bx bx-cloud-upload bx-sm"></i>
+              </button>
+              <button className="mr-2" onClick={onSubmit}>
                 <i className="bx bx-send bx-sm"></i>
               </button>
             </div>
           </div>
         </div>
         <div className="mx-6">
+          <div className="flex justify-between">
+            <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Results</h1>
+            <SpaceMenu space={space} setSpace={setSpace} />
+          </div>
           <DisplayedResult results={filteredResults} />
         </div>
       </div>

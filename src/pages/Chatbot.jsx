@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import ChatMessages from "../components/Chatbot/ChatMessages";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import ChatInput from "../components/Chatbot/ChatInput";
-import Sidebar from "../components/Chatbot/Sidebar";
+import ChatMessages from "../components/Chatbot/ChatMessages";
 import DrawerBackdrop from "../components/Chatbot/DrawerBackdrop";
 import Navbar from "../components/Chatbot/Navbar";
-import axios from "../api/axios";
-import { useParams } from "react-router-dom";
+import Sidebar from "../components/Chatbot/Sidebar";
 
 function Chatbot() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -19,7 +18,7 @@ function Chatbot() {
   const chats = [
     { id: 1, title: "General Chat" },
     { id: 2, title: "Tech Support" },
-    { id: 3, title: "Fun Chat" },
+    { id: 3, title: "Commercial Dispute" },
   ];
 
   const initialChatMessages = {
@@ -28,29 +27,51 @@ function Chatbot() {
         role: "assistant",
         content: [{ text: "Hello! How can I assist you today?" }],
       },
+      {
+        role: "user",
+        content: [
+          {
+            text: "I need help with this dispute where a movie advertised itself with a song and in actaul movie the song was not there so one of the viewers sued the production house.",
+          },
+        ],
+      },
+      {
+        role: "assistant",
+        content: [
+          {
+            text: "I see. I can help you with that. Can you provide me with more details?",
+          },
+        ],
+      },
     ],
     2: [
       {
         role: "assistant",
-        content: [
-          { text: "Welcome to tech support. What issue are you experiencing?" },
-        ],
+        content: [{ text: "Welcome to tech support. What issue are you experiencing?" }],
+      },
+      {
+        role: "user",
+        content: [{ text: "I am having trouble with my computer. It keeps crashing." }],
+      },
+      {
+        role: "assistant",
+        content: [{ text: "I can help you with that. Have you tried restarting your computer?" }],
       },
     ],
     3: [
       {
         role: "assistant",
-        content: [{ text: "Hey there! Ready for some fun chat?" }],
+        content: [{ text: "Can you provide more details regarding your dispute?" }],
+      },
+      {
+        role: "user",
+        content: [
+          {
+            text: "So the dispute is regarding a commercial dispute where a company has not paid for the services provided by another company.",
+          },
+        ],
       },
     ],
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const openChat = (id) => {
@@ -58,6 +79,15 @@ function Chatbot() {
     setMessages(initialChatMessages[id] || []);
     setDrawerOpen(false);
     inputRef.current?.focus();
+  };
+
+  //Scroll to bottom when new message is added
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const newChat = () => {
@@ -75,6 +105,7 @@ function Chatbot() {
 
   const toggleDrawer = () => setDrawerOpen((prev) => !prev);
 
+  //Handling user input
   const handleSendMessage = async () => {
     if (input.trim() === "") return;
 
@@ -128,13 +159,7 @@ function Chatbot() {
 
       {drawerOpen && <DrawerBackdrop onClick={toggleDrawer} />}
 
-      <Sidebar
-        chats={chats}
-        chatId={chatId}
-        openChat={openChat}
-        newChat={newChat}
-        drawerOpen={drawerOpen}
-      />
+      <Sidebar chats={chats} chatId={chatId} openChat={openChat} newChat={newChat} drawerOpen={drawerOpen} />
 
       <main className="p-4 md:ml-64 pt-20 h-screen">
         <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl h-full py-2 px-4">

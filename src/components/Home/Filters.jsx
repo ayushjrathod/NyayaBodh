@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Filters = ({ onFilterChange, results }) => {
   const [judges, setJudges] = useState([]);
@@ -17,9 +17,7 @@ const Filters = ({ onFilterChange, results }) => {
       const metadata = result.metadata;
       const judgeMatch = metadata.match(/\[(.*?)\]$/);
       if (judgeMatch) {
-        judgeMatch[1]
-          .split(" and ")
-          .forEach((judge) => uniqueJudges.add(judge.trim()));
+        judgeMatch[1].split(" and ").forEach((judge) => uniqueJudges.add(judge.trim()));
       }
 
       const partyMatch = metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
@@ -52,12 +50,7 @@ const Filters = ({ onFilterChange, results }) => {
         <p className="mx-2 font-bold">Date</p>
         {years.map((year) => (
           <div className="mx-4" key={year}>
-            <input
-              type="checkbox"
-              id={`date-${year}`}
-              value={year}
-              onChange={handleChange("date")}
-            />
+            <input type="checkbox" id={`date-${year}`} value={year} onChange={handleChange("date")} />
             <label htmlFor={`date-${year}`} className="ml-2">
               {year}
             </label>
@@ -68,22 +61,17 @@ const Filters = ({ onFilterChange, results }) => {
       {/* Judge Filter */}
       <div className="flex flex-col gap-1">
         <p className="mx-2 font-bold">Judge</p>
-        {(showMoreJudges ? judges : judges.slice(0, 5)).map((judge) => (
+        {(showMoreJudges ? judges : judges.slice(0, 7)).map((judge) => (
           <div className="mx-4" key={judge}>
-            <input
-              type="checkbox"
-              id={`judge-${judge}`}
-              value={judge}
-              onChange={handleChange("judge")}
-            />
+            <input type="checkbox" id={`judge-${judge}`} value={judge} onChange={handleChange("judge")} />
             <label htmlFor={`judge-${judge}`} className="ml-2">
               {judge}
             </label>
           </div>
         ))}
-        {judges.length > 5 && (
+        {judges.length > 7 && (
           <button
-            className="mx-4 text-blue-500"
+            className="mx-2 flex justify-start font-bold text-blue-400"
             onClick={() => setShowMoreJudges(!showMoreJudges)}
           >
             {showMoreJudges ? "Show Less" : "Show More"}
@@ -94,22 +82,17 @@ const Filters = ({ onFilterChange, results }) => {
       {/* Party Filter */}
       <div className="flex flex-col gap-1">
         <p className="mx-2 font-bold">Party</p>
-        {(showMoreParties ? parties : parties.slice(0, 5)).map((party) => (
+        {(showMoreParties ? parties : parties.slice(0, 7)).map((party) => (
           <div className="mx-4" key={party}>
-            <input
-              type="checkbox"
-              id={`party-${party}`}
-              value={party}
-              onChange={handleChange("party")}
-            />
+            <input type="checkbox" id={`party-${party}`} value={party} onChange={handleChange("party")} />
             <label htmlFor={`party-${party}`} className="ml-2">
               {party}
             </label>
           </div>
         ))}
-        {parties.length > 5 && (
+        {parties.length > 7 && (
           <button
-            className="mx-4 text-blue-500"
+            className="mx-2 flex justify-start font-bold text-blue-400"
             onClick={() => setShowMoreParties(!showMoreParties)}
           >
             {showMoreParties ? "Show Less" : "Show More"}

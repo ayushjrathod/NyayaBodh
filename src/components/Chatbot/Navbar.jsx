@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = ({ toggleDrawer }) => (
@@ -10,8 +9,12 @@ const Navbar = ({ toggleDrawer }) => (
       >
         <p>toggle</p>
       </button>
-      <Link to="/chatbot" className="p-1 font-semibold whitespace-nowrap">JIA</Link>
-      <Link to="/" className="text-xl text-gray-800" >Home</Link>
+      <Link to="/chatbot" className="p-1 font-semibold whitespace-nowrap">
+        JIA
+      </Link>
+      <Link to="/" className="text-xl text-gray-800">
+        Home
+      </Link>
     </div>
   </nav>
 );
