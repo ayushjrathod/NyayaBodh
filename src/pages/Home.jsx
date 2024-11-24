@@ -1,80 +1,72 @@
 import { useEffect, useRef, useState } from "react";
-//If the results.json is needed to be used, uncomment the next line
-//import resultsData from "../../public/results.json";
+import { useLocation } from "react-router-dom";
+import results from "../../public/results.json";
 import DisplayedResult from "../components/Home/DisplayedResult";
 import Filters from "../components/Home/Filters";
 import SpaceMenu from "../components/Home/SpaceMenu";
 
 const Home = () => {
+  const location = useLocation();
+  const { query, jurisdiction, timeFrame, file } = location.state || {};
+  const [newQuery, setNewQuery] = useState(query);
   const inputRef = useRef();
   const fileInputRef = useRef();
-  const [query, setQuery] = useState("");
   const [space, setSpace] = useState("Space: general");
-  const [resultsData, setResultsData] = useState([]);
+  // const [resultsData, setResultsData] = useState([]);
+  const [resultsData, setResultsData] = useState(results);
   const [filteredResults, setFilteredResults] = useState(resultsData);
   const [filters, setFilters] = useState({
     date: [],
     judge: [],
     party: [],
   });
+  console.log(query);
+  console.log(jurisdiction);
+  console.log(timeFrame);
+  console.log(file);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const queryValue = inputRef.current.value;
-    setQuery(queryValue);
-    console.log(queryValue);
-
-    fetch("http://0.0.0.0:8000/search", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query: `${space} ${queryValue}` }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // If update results based on the search is to be used, uncomment the next line
-        setFilteredResults(data);
-        setResultsData(data);
+  useEffect(() => {
+    if (query) {
+      fetch("http://0.0.0.0:8000/search", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: `${space} ${query}` }),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      onSubmit(e);
+        .then((response) => response.json())
+        .then((data) => {
+          setFilteredResults(data);
+          setResultsData(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
-  };
+  }, [query, space]);
 
-  const uploadPdf = () => {
-    const file = fileInputRef.current.files[0];
-    if (!file) {
-      console.error("No file selected");
-      return;
-    }
+  useEffect(() => {
+    if (file) {
+      const formData = new FormData();
+      formData.append("pdf", file);
 
-    const formData = new FormData();
-    formData.append("pdf", file);
-
-    fetch("/upload", {
-      method: "POST",
-      mode: "cors",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        alert("File uploaded successfully");
+      fetch("/upload", {
+        method: "POST",
+        mode: "cors",
+        body: formData,
       })
-      .catch((error) => {
-        console.error("Error uploading file:", error);
-        alert("Error uploading file");
-      });
-  };
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          alert("File uploaded successfully");
+        })
+        .catch((error) => {
+          console.error("Error uploading file:", error);
+          alert("Error uploading file");
+        });
+    }
+  }, [file]);
 
   const handleFilterChange = (filterType, value, checked) => {
     setFilters((prevFilters) => {
@@ -111,31 +103,36 @@ const Home = () => {
 
   return (
     <div className="flex justify-between m-2">
-      <div className="h-screen w-1/6">
+      <div className="h-screen w-1/6 ml-8 mt-4">
+        <p className="text-xl font-bold mb-2">Filter By</p>
         <Filters onFilterChange={handleFilterChange} results={resultsData} />
       </div>
-      <div className="h-fit border-l-2 w-5/6">
-        <div className="bg-gray-200 rounded-lg flex justify-center w-full mx-1">
-          <div className="bg-white w-full border-2 border-gray-500 rounded-lg p-2 m-2 flex just">
+      <div className="h-fit w-5/6 border-2 rounded-3xl mr-8">
+        <div className="flex w-full mx-1">
+          <div className="w-full p-2 m-2 flex justify-between">
             <input
               type="text"
               ref={inputRef}
-              onKeyDown={handleKeyDown}
               placeholder="Enter your search query...."
-              className="w-full border-none outline-none"
+              className="w-1/2 border-none outline-none"
+              value={newQuery}
+              onChange={(e) => {
+                setNewQuery(e.target.value);
+              }}
             />
             <div className="relative flex">
+              <SpaceMenu className="" space={space} setSpace={setSpace} />
               <input
                 type="file"
                 ref={fileInputRef}
                 accept="application/pdf"
                 style={{ display: "none" }}
-                onChange={uploadPdf}
+                onChange={() => {}}
               />
               <button className="mx-4" onClick={() => fileInputRef.current.click()}>
                 <i className="bx bx-cloud-upload bx-sm"></i>
               </button>
-              <button className="mr-2" onClick={onSubmit}>
+              <button className="mr-2" onClick={() => {}}>
                 <i className="bx bx-send bx-sm"></i>
               </button>
             </div>
@@ -144,7 +141,6 @@ const Home = () => {
         <div className="mx-6">
           <div className="flex justify-between">
             <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Results</h1>
-            <SpaceMenu space={space} setSpace={setSpace} />
           </div>
           <DisplayedResult results={filteredResults} />
         </div>

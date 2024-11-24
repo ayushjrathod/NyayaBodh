@@ -1,44 +1,43 @@
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Chatbot from "./pages/Chatbot";
+import "boxicons";
+import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import Layout from "./components/Layout/Layout";
-import Recommend from "./pages/Recommend"
-import Resources from "./pages/Resources";
+import Chatbot from "./pages/Chatbot";
 import Contact from "./pages/Contact";
-import 'boxicons';
+import Home from "./pages/Home";
+import HomeSearch from "./pages/HomeSearch";
+import Recommend from "./pages/Recommend";
+import Resources from "./pages/Resources";
 
-function App() {
-
+const App = () => {
   return (
-    <>
+    <RecoilRoot>
       <Router>
-        <Routes >
+        <Routes>
           {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} /> */}
 
-          {/*Private/Protected Routes */}
-          <Route path="/" element={<Layout/>} >
+          {/* Main Routes */}
+          <Route path="/" element={<HomeSearch />} />
+          <Route path="/results" element={<Layout />}>
             <Route index element={<Home />} />
           </Route>
-          <Route path="/chatbot/:id"  >
-            <Route index element={<Chatbot />} />
-          </Route>
-          <Route path="/recommend" element={<Layout/>}>
+          <Route path="/chatbot/:id" element={<Chatbot />} />
+          <Route path="/recommend" element={<Layout />}>
             <Route index element={<Recommend />} />
           </Route>
-          <Route path="/resources" element={<Layout/>}>
+          <Route path="/resources" element={<Layout />}>
             <Route index element={<Resources />} />
           </Route>
-          <Route path="/contact" element={<Layout/>}>
+          <Route path="/contact" element={<Layout />}>
             <Route index element={<Contact />} />
           </Route>
         </Routes>
       </Router>
-    </>
-  )
-}
+    </RecoilRoot>
+  );
+};
 
-export default App
+export default App;
