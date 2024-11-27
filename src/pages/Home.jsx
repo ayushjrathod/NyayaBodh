@@ -20,10 +20,6 @@ const Home = () => {
     judge: [],
     party: [],
   });
-  console.log(query);
-  console.log(jurisdiction);
-  console.log(timeFrame);
-  console.log(file);
 
   useEffect(() => {
     if (query) {

@@ -74,8 +74,16 @@ const DisplayedResult = ({ results }) => {
     return "Unable to extract party names";
   };
 
-  const handleTitleClick = (e) => {
-    navigate(`/pages/${e.target.innerText}`);
+  const handleTitleClick = (data) => {
+    const title = extractParties(data.metadata);
+    console.log(data);
+    navigate(`/summary/${title}`, {
+      state: {
+        id: data.id,
+        title: title,
+        pdf: `/pdf/${data.pdf}`, // Ensure the path is relative
+      },
+    });
   };
   const handelOpenPdfcall = (currentID) => {
     fetch("http://127.0.0.1:8000/get-file", {
@@ -109,7 +117,10 @@ const DisplayedResult = ({ results }) => {
         {filteredResults.map((result) => (
           <div key={result.id} className="my-4 mx-2 px-4 py-2 border-b-2 w-full">
             <div className="flex justify-between">
-              <button onClick={handleTitleClick} className="font-roboto tracking-wide font-semibold text-base mb-2">
+              <button
+                onClick={() => handleTitleClick(result)}
+                className="font-roboto tracking-wide font-semibold text-base mb-2"
+              >
                 {extractParties(result.metadata)}
               </button>
               <div className="cursor-pointer" onClick={(e) => togglePopover(e, result.id)}>
@@ -148,7 +159,7 @@ const DisplayedResult = ({ results }) => {
         ))}
       </div>
       {pdfVisible && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-800 bg-opacit</button>y-75 flex items-center justify-center z-50">
           <div className="relative bg-white w-3/4 h-3/4 rounded-lg overflow-hidden">
             <button className="absolute top-2 left-2 text-gray-600 bg-white hover:text-gray-800" onClick={closePdf}>
               <i className="bx bx-window-close bx-sm"></i>
