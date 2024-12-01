@@ -20,6 +20,12 @@ const Sidebar = ({ chats, chatId, openChat, newChat, drawerOpen }) => (
           <span className="ml-3 truncate text-ellipsis">New chat</span>
         </NavItem>
       </div>
+      <div className="absolute bottom-4 justify-start flex flex-col">
+        {/* <Link to="/report" className="flex font-bold text-gray-600 text-center items-center">
+          <i className="bx bxs-report bx-sm"></i>
+          <span className="ml-3">Generate Report</span>
+        </Link> */}
+      </div>
     </div>
   </aside>
 );
