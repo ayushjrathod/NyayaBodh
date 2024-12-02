@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const DisplayedResult = ({ results }) => {
+const SemanticResult = ({ results }) => {
   const [filteredResults, setFilteredResults] = useState(results);
   const [filters, setFilters] = useState({ date: [], judge: [], party: [] });
   const [popoverVisible, setPopoverVisible] = useState(false);
@@ -151,6 +151,9 @@ const DisplayedResult = ({ results }) => {
                   <li className="px-4 py-2 hover:bg-gray-100">
                     <Link to={`/chatbot/${result.id}`}>Open PDF in Chatbot</Link>
                   </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 ">
+                    <Link to={`/recommend/${result.id}`}>Recommend</Link>
+                  </li>
                 </ul>
               </div>
             )}
@@ -172,4 +175,4 @@ const DisplayedResult = ({ results }) => {
   );
 };
 
-export default DisplayedResult;
+export default SemanticResult;

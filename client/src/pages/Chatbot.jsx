@@ -70,9 +70,9 @@ function Chatbot() {
 
     try {
       console.log("starting fetch");
-      const response = await fetch(`http://127.0.0.1:8000/chat`, {
+      const response = await fetch(`http://127.0.0.1:8000/ask/`, {
         method: "POST",
-        body: JSON.stringify({ query: input }),
+        body: JSON.stringify({ question: input, chatId }),
         mode: "cors",
         headers: {
           "Content-Type": "application/json",

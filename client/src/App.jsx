@@ -5,10 +5,10 @@ import { RecoilRoot } from "recoil";
 import Layout from "./components/Layout/Layout";
 import Chatbot from "./pages/Chatbot";
 import Contact from "./pages/Contact";
-import Home from "./pages/Home";
-import HomeSearch from "./pages/HomeSearch";
+import LandingSearch from "./pages/LandingSearch";
 import Recommend from "./pages/Recommend";
 import Resources from "./pages/Resources";
+import Results from "./pages/Results";
 import Summary from "./pages/Summary";
 
 const ProtectedRoute = ({ children }) => {
@@ -42,7 +42,7 @@ const App = () => {
             path="/"
             element={
               <ProtectedRoute>
-                <HomeSearch />
+                <LandingSearch />
               </ProtectedRoute>
             }
           />
@@ -54,7 +54,7 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<Home />} />
+            <Route index element={<Results />} />
           </Route>
           <Route
             path="/chatbot/:id"
@@ -65,7 +65,7 @@ const App = () => {
             }
           />
           <Route
-            path="/recommend"
+            path="/recommend/:id"
             element={
               <ProtectedRoute>
                 <Layout />

@@ -1,20 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import results from "../../public/results.json";
-import DisplayedResult from "../components/Home/DisplayedResult";
-import Filters from "../components/Home/Filters";
-import SpaceMenu from "../components/Home/SpaceMenu";
+import EntityData from "../../public/EntityResult.json";
+import SemanticData from "../../public/SemanticResult.json";
+import EntityResult from "../components/Results/EntityResult";
+import SemanticResult from "../components/Results/SemanticResults";
+import SpaceMenu from "../components/Results/SpaceMenu";
 
-const Home = () => {
+const Results = () => {
   const location = useLocation();
-  const { query, jurisdiction, timeFrame, file } = location.state || {};
+  const { query, selectedSearch, selectedSpace, selectedParam, file } = location.state || {};
+  const searchType = selectedSearch.toLowerCase().split(" ")[0] || "semantic";
   const [newQuery, setNewQuery] = useState(query);
   const inputRef = useRef();
   const fileInputRef = useRef();
-  const [space, setSpace] = useState("Space: general");
+  const [space, setSpace] = useState(selectedSpace);
   // const [resultsData, setResultsData] = useState([]);
-  const [resultsData, setResultsData] = useState(results);
-  const [filteredResults, setFilteredResults] = useState(resultsData);
+  const [resultsData, setResultsData] = useState(searchType === "semantic" ? SemanticData : EntityData);
+  const [filteredResults, setFilteredResults] = useState(SemanticData);
   const [filters, setFilters] = useState({
     date: [],
     judge: [],
@@ -23,24 +25,31 @@ const Home = () => {
 
   useEffect(() => {
     if (query) {
-      fetch("http://0.0.0.0:8000/search", {
+      fetch(`http://0.0.0.0:8000/search/${searchType}`, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ query: `${space} ${query}` }),
+        body:
+          searchType === "semantic"
+            ? JSON.stringify({ query, param: selectedParam })
+            : JSON.stringify({ query: `${space} ${query}` }),
       })
         .then((response) => response.json())
         .then((data) => {
-          setFilteredResults(data);
-          setResultsData(data);
+          if (searchType === "semantic") {
+            setResultsData(data);
+            setFilteredResults(data);
+          } else {
+            setResultsData(data);
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
         });
     }
-  }, [query, space]);
+  }, [query]);
 
   useEffect(() => {
     if (file) {
@@ -73,35 +82,35 @@ const Home = () => {
     });
   };
 
-  useEffect(() => {
-    const filtered = resultsData.filter((result) => {
-      const metadata = result.metadata;
-      const yearMatch = metadata.match(/\[(\d{4})\]/);
-      const judgeMatch = metadata.match(/\[(.*?)\]$/);
-      const partyMatch = metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
+  // useEffect(() => {
+  //   const filtered = resultsData.filter((result) => {
+  //     const metadata = result.metadata;
+  //     const yearMatch = metadata.match(/\[(\d{4})\]/);
+  //     const judgeMatch = metadata.match(/\[(.*?)\]$/);
+  //     const partyMatch = metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
 
-      const matchesDate = filters.date.length === 0 || (yearMatch && filters.date.includes(yearMatch[1]));
+  //     const matchesDate = filters.date.length === 0 || (yearMatch && filters.date.includes(yearMatch[1]));
 
-      const matchesJudge =
-        filters.judge.length === 0 || (judgeMatch && filters.judge.some((judge) => judgeMatch[1].includes(judge)));
+  //     const matchesJudge =
+  //       filters.judge.length === 0 || (judgeMatch && filters.judge.some((judge) => judgeMatch[1].includes(judge)));
 
-      const matchesParty =
-        filters.party.length === 0 ||
-        (partyMatch &&
-          (filters.party.includes(partyMatch[1].trim()) ||
-            filters.party.includes(partyMatch[2].split("\n")[0].trim())));
+  //     const matchesParty =
+  //       filters.party.length === 0 ||
+  //       (partyMatch &&
+  //         (filters.party.includes(partyMatch[1].trim()) ||
+  //           filters.party.includes(partyMatch[2].split("\n")[0].trim())));
 
-      return matchesDate && matchesJudge && matchesParty;
-    });
+  //     return matchesDate && matchesJudge && matchesParty;
+  //   });
 
-    setFilteredResults(filtered);
-  }, [filters]);
+  //   setFilteredResults(filtered);
+  // }, [filters]);
 
   return (
     <div className="flex justify-between m-2">
       <div className="h-screen w-1/6 ml-8 mt-4">
         <p className="text-xl font-bold mb-2">Filter By</p>
-        <Filters onFilterChange={handleFilterChange} results={resultsData} />
+        {/* <Filters onFilterChange={handleFilterChange} results={resultsData} /> */}
       </div>
       <div className="h-fit w-5/6 border-2 rounded-3xl mr-8">
         <div className="flex w-full mx-1">
@@ -138,11 +147,15 @@ const Home = () => {
           <div className="flex justify-between">
             <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Results</h1>
           </div>
-          <DisplayedResult results={filteredResults} />
+          {searchType === "semantic" ? (
+            <SemanticResult results={filteredResults} />
+          ) : (
+            <EntityResult EntityResultData={resultsData} />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Results;

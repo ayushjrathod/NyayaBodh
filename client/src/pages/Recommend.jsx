@@ -1,39 +1,33 @@
-import React, { useState } from "react";
-import data from "../../public/results.json";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-const Recommend = () => {
-  const [showMore, setShowMore] = useState({});
+const Recommend = ({ uuid }) => {
+  const [recommendations, setRecommendations] = useState([]);
 
-  const toggleShowMore = (id) => {
-    setShowMore((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const response = await axios.get(`/recommend/${uuid}`);
+        setRecommendations(response.data);
+      } catch (error) {
+        console.error("Error fetching recommendations:", error);
+      }
+    };
+
+    fetchRecommendations();
+  }, [uuid]);
 
   return (
     <div>
-      <h1>Recommend</h1>
-      <div className="flex flex-wrap justify-center">
-        {data.map((item) => (
-          <div
-            className=" w-72 m-2 p-4 bg-gray-200 border-2 rounded-xl"
-            key={item.id}
-          >
-            <h2>{item.title}</h2>
-            <p>
-              {showMore[item.id]
-                ? item.description
-                : `${item.description.substring(0, 100)}...`}
-              <button className=" text-blue-700" onClick={() => toggleShowMore(item.id)}>
-                {showMore[item.id] ? "Show Less" : "Show More"}
-              </button>
-            </p>
-            <p>{item.link}</p>
-            <p>{item.image}</p>
-          </div>
+      <h1>Recommendations</h1>
+      <ul>
+        {recommendations.map((recommendation, index) => (
+          <li key={index}>
+            <h2>{recommendation.case_name}</h2>
+            <p>{recommendation.summary}</p>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
