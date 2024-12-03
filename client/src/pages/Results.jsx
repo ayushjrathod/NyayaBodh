@@ -1,60 +1,131 @@
-import { useEffect, useRef, useState } from "react";
+import { Input } from "@nextui-org/react";
+import { Send } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import EntityData from "../../public/EntityResult.json";
-import SemanticData from "../../public/SemanticResult.json";
+import EntityResultData from "../../public/EntityResult.json";
+import SemanticResultData from "../../public/SemanticResult.json";
 import EntityResult from "../components/Results/EntityResult";
+import Filters from "../components/Results/Filters";
 import SemanticResult from "../components/Results/SemanticResults";
-import SpaceMenu from "../components/Results/SpaceMenu";
 
 const Results = () => {
   const location = useLocation();
-  const { query, selectedSearch, selectedSpace, selectedParam, file } = location.state || {};
+
+  const { query, selectedSearch, selectedSpace, selectedParam, SelectedFile } = location.state || {
+    query: "",
+    selectedSearch: "",
+    selectedSpace: "",
+    selectedParam: "",
+    SelectedFile: "",
+  };
+
   const searchType = selectedSearch.toLowerCase().split(" ")[0] || "semantic";
   const [newQuery, setNewQuery] = useState(query);
   const inputRef = useRef();
   const fileInputRef = useRef();
   const [space, setSpace] = useState(selectedSpace);
-  // const [resultsData, setResultsData] = useState([]);
-  const [resultsData, setResultsData] = useState(searchType === "semantic" ? SemanticData : EntityData);
-  const [filteredResults, setFilteredResults] = useState(SemanticData);
+
   const [filters, setFilters] = useState({
-    date: [],
-    judge: [],
-    party: [],
+    category: [],
+    date: "",
+    party: "",
+    judge: "",
   });
 
+  //const [resultsData, setResultsData] = useState([]);  //for using api call
+  const [resultsData, setResultsData] = useState(searchType === "semantic" ? SemanticResultData : EntityResultData); //for using static data
+
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [activeFilters, setActiveFilters] = useState({
+    date: [],
+    party: [],
+    judge: [],
+  });
+
+  // Handle filter changes
+  const handleFilterChange = (filterType, value, checked) => {
+    setActiveFilters((prev) => {
+      const newFilters = { ...prev };
+      if (checked) {
+        newFilters[filterType] = [...prev[filterType], value];
+      } else {
+        newFilters[filterType] = prev[filterType].filter((item) => item !== value);
+      }
+      return newFilters;
+    });
+  };
+
+  // Apply filters to results
+  useEffect(() => {
+    let filtered = resultsData[searchType === "semantic" ? "SemanticResultData" : "EntityResultData"] || [];
+
+    if (searchType === "semantic") {
+      // Apply semantic search filters
+      filtered = filtered.filter((item) => {
+        const metadata = item.metadata;
+        const passes = {
+          date: !activeFilters.date.length || activeFilters.date.some((year) => metadata.includes(year)),
+          party: !activeFilters.party.length || activeFilters.party.some((party) => metadata.includes(party)),
+          judge: !activeFilters.judge.length || activeFilters.judge.some((judge) => metadata.includes(judge)),
+        };
+        return passes.date && passes.party && passes.judge;
+      });
+    } else {
+      // Apply entity search filters
+      filtered = filtered.filter((item) => {
+        const passes = {
+          date: !activeFilters.date.length || activeFilters.date.includes(item.date),
+          party: !activeFilters.party.length || activeFilters.party.some((party) => item.entities.includes(party)),
+          judge: !activeFilters.judge.length || activeFilters.judge.includes(item.judge),
+        };
+        return passes.date && passes.party && passes.judge;
+      });
+    }
+
+    setFilteredResults(filtered);
+  }, [activeFilters, resultsData, searchType]);
+
+  //on submitting new query
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (newQuery) {
+      fetchResults(newQuery);
+    }
+  };
+
+  //fetching results from api
+  const fetchResults = (query) => {
+    fetch(`http://0.0.0.0:8000/search/${searchType}`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:
+        searchType === "semantic"
+          ? JSON.stringify({ query, param: selectedParam })
+          : JSON.stringify({ query: `${space} ${query}` }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setResultsData(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  //fetching results on page load
   useEffect(() => {
     if (query) {
-      fetch(`http://0.0.0.0:8000/search/${searchType}`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body:
-          searchType === "semantic"
-            ? JSON.stringify({ query, param: selectedParam })
-            : JSON.stringify({ query: `${space} ${query}` }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (searchType === "semantic") {
-            setResultsData(data);
-            setFilteredResults(data);
-          } else {
-            setResultsData(data);
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      fetchResults(query);
     }
-  }, [query]);
+  }, []);
 
   useEffect(() => {
-    if (file) {
+    if (SelectedFile) {
       const formData = new FormData();
-      formData.append("pdf", file);
+      formData.append("pdf", SelectedFile);
 
       fetch("/upload", {
         method: "POST",
@@ -71,87 +142,43 @@ const Results = () => {
           alert("Error uploading file");
         });
     }
-  }, [file]);
-
-  const handleFilterChange = (filterType, value, checked) => {
-    setFilters((prevFilters) => {
-      const updatedFilter = checked
-        ? [...prevFilters[filterType], value]
-        : prevFilters[filterType].filter((item) => item !== value);
-      return { ...prevFilters, [filterType]: updatedFilter };
-    });
-  };
-
-  // useEffect(() => {
-  //   const filtered = resultsData.filter((result) => {
-  //     const metadata = result.metadata;
-  //     const yearMatch = metadata.match(/\[(\d{4})\]/);
-  //     const judgeMatch = metadata.match(/\[(.*?)\]$/);
-  //     const partyMatch = metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
-
-  //     const matchesDate = filters.date.length === 0 || (yearMatch && filters.date.includes(yearMatch[1]));
-
-  //     const matchesJudge =
-  //       filters.judge.length === 0 || (judgeMatch && filters.judge.some((judge) => judgeMatch[1].includes(judge)));
-
-  //     const matchesParty =
-  //       filters.party.length === 0 ||
-  //       (partyMatch &&
-  //         (filters.party.includes(partyMatch[1].trim()) ||
-  //           filters.party.includes(partyMatch[2].split("\n")[0].trim())));
-
-  //     return matchesDate && matchesJudge && matchesParty;
-  //   });
-
-  //   setFilteredResults(filtered);
-  // }, [filters]);
+  }, [SelectedFile]);
 
   return (
-    <div className="flex justify-between m-2">
-      <div className="h-screen w-1/6 ml-8 mt-4">
-        <p className="text-xl font-bold mb-2">Filter By</p>
-        {/* <Filters onFilterChange={handleFilterChange} results={resultsData} /> */}
-      </div>
-      <div className="h-fit w-5/6 border-2 rounded-3xl mr-8">
-        <div className="flex w-full mx-1">
-          <div className="w-full p-2 m-2 flex justify-between">
-            <input
-              type="text"
-              ref={inputRef}
-              placeholder="Enter your search query...."
-              className="w-1/2 border-none outline-none"
-              value={newQuery}
-              onChange={(e) => {
-                setNewQuery(e.target.value);
-              }}
+    <div className="min-h-screen bg-background font-Inter text-foreground">
+      <div className="h-fit w-fit rounded-3xl mr-8">
+        <div className="p-4 bg-content1">
+          <form onSubmit={handleSubmit} className="flex gap-2">
+            <Input
+              fullWidth
+              placeholder="Ask a follow-up question..."
+              value={query}
+              onChange={(e) => setNewQuery(e.target.value)}
+              endContent={<Send className="text-default-400" />}
             />
-            <div className="relative flex">
-              <SpaceMenu className="" space={space} setSpace={setSpace} />
-              <input
-                type="file"
-                ref={fileInputRef}
-                accept="application/pdf"
-                style={{ display: "none" }}
-                onChange={() => {}}
-              />
-              <button className="mx-4" onClick={() => fileInputRef.current.click()}>
-                <i className="bx bx-cloud-upload bx-sm"></i>
-              </button>
-              <button className="mr-2" onClick={() => {}}>
-                <i className="bx bx-send bx-sm"></i>
-              </button>
-            </div>
-          </div>
+            {/* <Button color="primary" type="submit">
+              Send
+            </Button> */}
+          </form>
         </div>
-        <div className="mx-6">
-          <div className="flex justify-between">
-            <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Results</h1>
+        <div className="grid grid-cols-5">
+          {/* Left sidebar for filters */}
+          <div className="col-span-1 mt-4">
+            <Filters
+              onFilterChange={handleFilterChange}
+              results={resultsData[searchType === "semantic" ? "SemanticResultData" : "EntityResultData"] || []}
+              searchType={searchType}
+            />
           </div>
-          {searchType === "semantic" ? (
-            <SemanticResult results={filteredResults} />
-          ) : (
-            <EntityResult EntityResultData={resultsData} />
-          )}
+
+          {/* Results */}
+          <div className="col-span-4">
+            {searchType === "semantic" ? (
+              <SemanticResult resultsData={{ SemanticResultData: filteredResults }} />
+            ) : (
+              <EntityResult resultsData={{ EntityResultData: filteredResults }} />
+            )}
+          </div>
         </div>
       </div>
     </div>

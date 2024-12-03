@@ -1,178 +1,80 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
+import { FileText, MessageSquare } from "lucide-react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const SemanticResult = ({ results }) => {
-  const [filteredResults, setFilteredResults] = useState(results);
-  const [filters, setFilters] = useState({ date: [], judge: [], party: [] });
-  const [popoverVisible, setPopoverVisible] = useState(false);
-  const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
-  const [pdfVisible, setPdfVisible] = useState(false);
-  const [pdfPath, setPdfPath] = useState("");
-  const [selectedPdf, setSelectedPdf] = useState("");
-  const [selectedId, setSelectedId] = useState(null);
+// Parse metadata helper function
+function parseMetadata(metadata) {
+  if (!metadata) return { title: "", date: "", judges: "" };
 
-  const navigate = useNavigate();
+  const lines = metadata.split("\n");
 
-  useEffect(() => {
-    applyFilters();
-  }, [filters, results]);
+  // Extract title - get lines between name and appeal number
+  const titleStart = lines.findIndex((line) => !line.includes("[") && !line.includes(":"));
+  const titleEnd = lines.findIndex((line) => line.includes("(Criminal Appeal") || line.includes("(Civil Appeal"));
+  const titleLines = lines.slice(titleStart, titleEnd);
+  const title = titleLines.join(" ").trim();
 
-  const applyFilters = () => {
-    let filtered = results;
+  // Extract date - look specifically for date pattern DD Month YYYY
+  const dateLine = lines.find((line) =>
+    /\d{1,2}\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}/.test(
+      line
+    )
+  );
+  const date = dateLine ? dateLine.trim() : "";
 
-    if (filters.date.length > 0) {
-      filtered = filtered.filter((result) => {
-        const yearMatch = result.metadata.match(/\[(\d{4})\]/);
-        return yearMatch && filters.date.includes(yearMatch[1]);
-      });
-    }
+  // Extract judges
+  const judgeLine = lines.find((line) => line.includes("JJ."));
+  const judges = judgeLine
+    ? judgeLine
+        .replace("[", "")
+        .replace("JJ.]", "")
+        .replace(/\*/g, "")
+        .split("and")
+        .map((j) => j.trim())
+        .join(", ")
+    : "";
 
-    if (filters.judge.length > 0) {
-      filtered = filtered.filter((result) => {
-        const judgeMatch = result.metadata.match(/\[(.*?)\]$/);
-        return judgeMatch && filters.judge.some((judge) => judgeMatch[1].includes(judge));
-      });
-    }
+  return { title, date, judges };
+}
 
-    if (filters.party.length > 0) {
-      filtered = filtered.filter((result) => {
-        const partyMatch = result.metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
-        return (
-          partyMatch &&
-          (filters.party.includes(partyMatch[1].trim()) || filters.party.includes(partyMatch[2].split("\n")[0].trim()))
-        );
-      });
-    }
-
-    setFilteredResults(filtered);
-  };
-
-  const togglePopover = (e, id) => {
-    e.preventDefault();
-    const rect = e.target.getBoundingClientRect();
-    setPopoverPosition({ top: rect.bottom, left: rect.left - 150 });
-    setPopoverVisible(!popoverVisible);
-    setSelectedId(id);
-  };
-
-  const openPdfInFloatingDiv = () => {
-    console.log("Opening PDF with path:", selectedPdf);
-    setPdfPath(selectedPdf);
-    setPdfVisible(true);
-  };
-
-  const closePdf = () => {
-    setPdfVisible(false);
-    setPdfPath("");
-  };
-
-  const extractParties = (metadata) => {
-    const match = metadata.match(/(.+)\nv\.\n(.+)/);
-    if (match) {
-      return `${match[1].trim()} v. ${match[2].split("\n")[0].trim()}`;
-    }
-    return "Unable to extract party names";
-  };
-
-  const handleTitleClick = (data) => {
-    const title = extractParties(data.metadata);
-    console.log(data);
-    navigate(`/summary/${title}`, {
-      state: {
-        id: data.id,
-        title: title,
-        pdf: `/pdf/${data.pdf}`, // Ensure the path is relative
-      },
-    });
-  };
-  const handelOpenPdfcall = (currentID) => {
-    fetch("http://127.0.0.1:8000/get-file", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: currentID }),
-    })
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(currentID);
-        console.log(res);
-        const blob = res.blob;
-        const url = window.URL.createObjectURL(blob);
-        setSelectedPdf(url);
-        //(might work) if you want to open pdf in floating div -> a popup window -> uncomment the below line
-        //also uncomment line 119 to 128 and comment line 129 to 131
-        //openPdfInFloatingDiv();
-        window.open(selectedPdf, "_blank");
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
-  };
-
+const SemanticResults = ({ resultsData }) => {
   return (
-    <div className="flex-1">
-      <div>
-        {filteredResults.map((result) => (
-          <div key={result.id} className="my-4 mx-2 px-4 py-2 border-b-2 w-full">
-            <div className="flex justify-between">
-              <button
-                onClick={() => handleTitleClick(result)}
-                className="font-roboto tracking-wide font-semibold text-base mb-2"
-              >
-                {extractParties(result.metadata)}
-              </button>
-              <div className="cursor-pointer" onClick={(e) => togglePopover(e, result.id)}>
-                <img src="../src/assets/pdfIcon.png" className="w-6 h-6" />
-              </div>
-            </div>
-            {popoverVisible && selectedId === result.id && (
-              <div
-                className="absolute bg-white border border-gray-300 rounded-lg shadow-lg z-50"
-                style={{
-                  top: popoverPosition.top,
-                  left: popoverPosition.left,
-                }}
-              >
-                <ul className="py-2">
-                  {/* <li
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => {
-                      setSelectedPdf(result.pdf);
-                      openPdfInFloatingDiv();
-                    }}
-                  >
-                    Open PDF
-                  </li> */}
-                  <a onClick={handelOpenPdfcall(result.id)} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Open PDF
-                  </a>
-                  <li className="px-4 py-2 hover:bg-gray-100">
-                    <Link to={`/chatbot/${result.id}`}>Open PDF in Chatbot</Link>
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 ">
-                    <Link to={`/recommend/${result.id}`}>Recommend</Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-            <p className="font-roboto tracking-wide text-gray-800">{result.description}</p>
-          </div>
-        ))}
+    <main className="p-4">
+      <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Semantic Search Results</h1>
+      <div className="space-y-4">
+        {resultsData?.SemanticResultData?.map((result) => {
+          const parsed = parseMetadata(result.metadata);
+          return (
+            <Card key={result.id} className="w-full">
+              <CardBody>
+                <Link
+                  to={"/details"}
+                  className="text-lg font-semibold hover:underline hover:decoration-2 cursor-pointer hover:text-blue-600"
+                >
+                  {parsed.title}
+                </Link>
+                <p className="text-small text-default-500">{result.description}</p>
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-small">Date: {parsed.date}</span>
+                  <span className="text-small">Judge: {parsed.judges}</span>
+                </div>
+              </CardBody>
+              <Divider />
+              <CardFooter className="justify-between">
+                <Button color="primary" variant="light" startContent={<FileText size={18} />}>
+                  Open PDF
+                </Button>
+                <Button color="secondary" variant="light" startContent={<MessageSquare size={18} />}>
+                  Chat with PDF
+                </Button>
+              </CardFooter>
+            </Card>
+          );
+        })}
       </div>
-      {pdfVisible && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacit</button>y-75 flex items-center justify-center z-50">
-          <div className="relative bg-white w-3/4 h-3/4 rounded-lg overflow-hidden">
-            <button className="absolute top-2 left-2 text-gray-600 bg-white hover:text-gray-800" onClick={closePdf}>
-              <i className="bx bx-window-close bx-sm"></i>
-            </button>
-            <iframe src={pdfPath} className="w-full h-full"></iframe>
-          </div>
-        </div>
-      )}
-    </div>
+    </main>
   );
 };
 
-export default SemanticResult;
+export default SemanticResults;

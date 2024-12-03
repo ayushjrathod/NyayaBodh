@@ -1,212 +1,125 @@
-import "boxicons";
-import { useEffect, useState } from "react";
+import { Accordion, AccordionItem, Card, CardBody, Checkbox } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
 
-const tooltipTextStyles = {
-  visibility: "hidden",
-  width: "120px",
-  backgroundColor: "black",
-  color: "#fff",
-  textAlign: "center",
-  borderRadius: "6px",
-  padding: "5px 0",
-  position: "absolute",
-  zIndex: 1,
-  bottom: "125%", // Position above the icon
-  left: "50%",
-  marginLeft: "-60px",
-  opacity: 0,
-  transition: "opacity 0.3s",
-};
-
-const tooltipContainerStyles = {
-  position: "relative",
-  display: "inline-block",
-};
-
-const showTooltip = (e) => {
-  const tooltip = e.currentTarget.querySelector(".tooltip-text");
-  tooltip.style.visibility = "visible";
-  tooltip.style.opacity = 1;
-};
-
-const hideTooltip = (e) => {
-  const tooltip = e.currentTarget.querySelector(".tooltip-text");
-  tooltip.style.visibility = "hidden";
-  tooltip.style.opacity = 0;
-};
-
-const Filters = ({ onFilterChange, results }) => {
+const Filters = ({ onFilterChange, results, searchType }) => {
   const [judges, setJudges] = useState([]);
   const [parties, setParties] = useState([]);
   const [years, setYears] = useState([]);
-  const [showMoreJudges, setShowMoreJudges] = useState(false);
-  const [showMoreParties, setShowMoreParties] = useState(false);
-  const [isDataExpanded, setIsDataExpanded] = useState(true);
-  const [isPartiesExpanded, setIsPartiesExpanded] = useState(true);
-  const [isJudgesExpanded, setIsJudgesExpanded] = useState(true);
+  const [selectedFilters, setSelectedFilters] = useState({
+    date: [],
+    party: [],
+    judge: [],
+  });
 
   useEffect(() => {
-    // Extract unique judges, parties, and years from results
-    const uniqueJudges = new Set();
-    const uniqueParties = new Set();
-    const uniqueYears = new Set();
+    if (searchType === "semantic") {
+      const uniqueJudges = new Set();
+      const uniqueParties = new Set();
+      const uniqueYears = new Set();
 
-    results.forEach((result) => {
-      const metadata = result.metadata;
-      const judgeMatch = metadata.match(/\[(.*?)\]$/);
-      if (judgeMatch) {
-        judgeMatch[1].split(" and ").forEach((judge) => uniqueJudges.add(judge.trim()));
+      results.forEach((result) => {
+        const metadata = result.metadata;
+        const judgeMatch = metadata.match(/\[(.*?)\]$/);
+        if (judgeMatch) {
+          judgeMatch[1].split(" and ").forEach((judge) => uniqueJudges.add(judge.trim()));
+        }
+
+        const partyMatch = metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
+        if (partyMatch) {
+          uniqueParties.add(partyMatch[1].trim());
+          uniqueParties.add(partyMatch[2].split("\n")[0].trim());
+        }
+
+        const yearMatch = metadata.match(/\[(\d{4})\]/);
+        if (yearMatch) {
+          uniqueYears.add(yearMatch[1]);
+        }
+      });
+
+      setJudges(Array.from(uniqueJudges));
+      setParties(Array.from(uniqueParties));
+      setYears(Array.from(uniqueYears).sort((a, b) => b - a));
+    } else {
+      const uniqueJudges = new Set(results.map((item) => item.judge));
+      const uniqueParties = new Set(results.flatMap((item) => item.entities.split(", ")));
+      const uniqueYears = new Set(results.map((item) => new Date(item.date).getFullYear().toString()));
+
+      setJudges(Array.from(uniqueJudges));
+      setParties(Array.from(uniqueParties));
+      setYears(Array.from(uniqueYears).sort((a, b) => b - a));
+    }
+  }, [results, searchType]);
+
+  const handleFilterChange = (type, value) => {
+    setSelectedFilters((prev) => {
+      const newFilters = { ...prev };
+      const index = newFilters[type].indexOf(value);
+
+      if (index === -1) {
+        newFilters[type] = [...newFilters[type], value];
+      } else {
+        newFilters[type] = newFilters[type].filter((item) => item !== value);
       }
 
-      const partyMatch = metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
-      if (partyMatch) {
-        uniqueParties.add(partyMatch[1].trim());
-        uniqueParties.add(partyMatch[2].split("\n")[0].trim());
-      }
-
-      const yearMatch = metadata.match(/\[(\d{4})\]/);
-      if (yearMatch) {
-        uniqueYears.add(yearMatch[1]);
-      }
+      return newFilters;
     });
-
-    setJudges(Array.from(uniqueJudges));
-    setParties(Array.from(uniqueParties));
-    // Sort years in descending order
-    setYears(Array.from(uniqueYears).sort((a, b) => b - a));
-  }, [results]);
-
-  const handleChange = (filterType) => (e) => {
-    const { value, checked } = e.target;
-    onFilterChange(filterType, value, checked);
+    onFilterChange(type, value, !selectedFilters[type].includes(value));
   };
 
   return (
-    <div>
-      <div>
-        <div className="flex items-center">
-          <button className="font-bold mb-1 text-[#5a67d8]" onClick={() => setIsDataExpanded(!isDataExpanded)}>
-            {isDataExpanded ? "v" : ">"} Date
-          </button>
-          <div style={tooltipContainerStyles} onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
-            <div className="mt-1 ml-1">
-              <box-icon name="info-circle" type="solid" color="#5A67D8" size="20px"></box-icon>
-            </div>
-            <span className="tooltip-text" style={tooltipTextStyles}>
-              Filter cases by their filing or decision dates
-            </span>
-          </div>
-        </div>
-        {isDataExpanded && (
-          <div>
-            <div className="flex flex-col gap-1">
-              {years.map((year) => (
-                <div className="mx-4" key={year}>
-                  <input
-                    className="custom-checkbox"
-                    type="checkbox"
-                    id={`date-${year}`}
+    <Card className="col-span-1 mt-4">
+      <CardBody>
+        <aside className="p-4">
+          <h2 className="text-xl font-bold mb-4">Filters</h2>
+          <Accordion>
+            <AccordionItem key="date" aria-label="Date" title="Date">
+              <div className="flex flex-col gap-2">
+                {years.map((year) => (
+                  <Checkbox
+                    key={year}
                     value={year}
-                    onChange={handleChange("date")}
-                  />
-                  <label htmlFor={`date-${year}`} className="ml-2">
+                    isSelected={selectedFilters.date.includes(year)}
+                    onValueChange={() => handleFilterChange("date", year)}
+                  >
                     {year}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+                  </Checkbox>
+                ))}
+              </div>
+            </AccordionItem>
 
-      <div>
-        <div className="flex items-center">
-          <button className="font-bold text-[#5a67d8]" onClick={() => setIsPartiesExpanded(!isPartiesExpanded)}>
-            {isPartiesExpanded ? "v" : ">"} Party
-          </button>
-          <div style={tooltipContainerStyles} onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
-            <div className="mt-2 ml-1">
-              <box-icon name="info-circle" type="solid" color="#5A67D8" size="20px"></box-icon>
-            </div>
-            <span className="tooltip-text" style={tooltipTextStyles}>
-              Filter cases by the involved parties
-            </span>
-          </div>
-        </div>
-        {isPartiesExpanded && (
-          <div>
-            <div className="flex flex-col gap-1">
-              {(showMoreParties ? parties : parties.slice(0, 7)).map((party) => (
-                <div className="mx-4" key={party}>
-                  <input
-                    className="custom-checkbox"
-                    type="checkbox"
-                    id={`party-${party}`}
+            <AccordionItem key="party" aria-label="Party" title="Party">
+              <div className="flex flex-col gap-2">
+                {parties.map((party) => (
+                  <Checkbox
+                    key={party}
                     value={party}
-                    onChange={handleChange("party")}
-                  />
-                  <label htmlFor={`party-${party}`} className="ml-2">
+                    isSelected={selectedFilters.party.includes(party)}
+                    onValueChange={() => handleFilterChange("party", party)}
+                  >
                     {party}
-                  </label>
-                </div>
-              ))}
-              {parties.length > 7 && (
-                <button
-                  className="mx-4 flex justify-start font-bold text-[#5a67d8]"
-                  onClick={() => setShowMoreParties(!showMoreParties)}
-                >
-                  {showMoreParties ? "Show Less" : "Show More"}
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
+                  </Checkbox>
+                ))}
+              </div>
+            </AccordionItem>
 
-      <div>
-        <div className="flex items-center">
-          <button className="font-bold text-[#5a67d8]" onClick={() => setIsJudgesExpanded(!isJudgesExpanded)}>
-            {isJudgesExpanded ? "v" : ">"} Judge
-          </button>
-          <div style={tooltipContainerStyles} onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
-            <div className="mt-2 ml-1">
-              <box-icon name="info-circle" type="solid" color="#5A67D8" size="20px"></box-icon>
-            </div>
-            <span className="tooltip-text" style={tooltipTextStyles}>
-              Filter cases by the presiding judge
-            </span>
-          </div>
-        </div>
-        {isJudgesExpanded && (
-          <div>
-            <div className="flex flex-col gap-1">
-              {(showMoreJudges ? judges : judges.slice(0, 7)).map((judge) => (
-                <div className="mx-4" key={judge}>
-                  <input
-                    className="custom-checkbox"
-                    type="checkbox"
-                    id={`judge-${judge}`}
+            <AccordionItem key="judge" aria-label="Judge" title="Judge">
+              <div className="flex flex-col gap-2">
+                {judges.map((judge) => (
+                  <Checkbox
+                    key={judge}
                     value={judge}
-                    onChange={handleChange("judge")}
-                  />
-                  <label htmlFor={`judge-${judge}`} className="ml-2">
+                    isSelected={selectedFilters.judge.includes(judge)}
+                    onValueChange={() => handleFilterChange("judge", judge)}
+                  >
                     {judge}
-                  </label>
-                </div>
-              ))}
-              {judges.length > 7 && (
-                <button
-                  className="mx-4 flex justify-start font-bold text-[#5a67d8]"
-                  onClick={() => setShowMoreJudges(!showMoreJudges)}
-                >
-                  {showMoreJudges ? "Show Less" : "Show More"}
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+                  </Checkbox>
+                ))}
+              </div>
+            </AccordionItem>
+          </Accordion>
+        </aside>
+      </CardBody>
+    </Card>
   );
 };
 

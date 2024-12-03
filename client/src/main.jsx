@@ -1,4 +1,5 @@
 import { Auth0Provider } from "@auth0/auth0-react";
+import { NextUIProvider } from "@nextui-org/react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
@@ -25,7 +26,11 @@ const providerConfig = {
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Auth0Provider {...providerConfig}>
-      <App />
+      <NextUIProvider>
+        <main className="yellow-bright text-foreground bg-background">
+          <App />
+        </main>
+      </NextUIProvider>
     </Auth0Provider>
   </StrictMode>
 );
