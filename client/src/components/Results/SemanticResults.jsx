@@ -1,7 +1,7 @@
 import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { FileText, MessageSquare } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Parse metadata helper function
 function parseMetadata(metadata) {
@@ -15,7 +15,7 @@ function parseMetadata(metadata) {
   const titleLines = lines.slice(titleStart, titleEnd);
   const title = titleLines.join(" ").trim();
 
-  // Extract date - look specifically for date pattern DD Month YYYY
+  // Extract date
   const dateLine = lines.find((line) =>
     /\d{1,2}\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}/.test(
       line
@@ -39,6 +39,19 @@ function parseMetadata(metadata) {
 }
 
 const SemanticResults = ({ resultsData }) => {
+  const navigate = useNavigate();
+
+  const handleTitleClick = (id, title, date, judges) => {
+    navigate(`/result/${id}`, {
+      state: {
+        id,
+        title,
+        date,
+        judges,
+      },
+    });
+  };
+
   return (
     <main className="p-4">
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Semantic Search Results</h1>
@@ -48,12 +61,12 @@ const SemanticResults = ({ resultsData }) => {
           return (
             <Card key={result.id} className="w-full">
               <CardBody>
-                <Link
-                  to={"/details"}
+                <button
+                  onClick={() => handleTitleClick(result.id, parsed.title, parsed.date, parsed.judges)}
                   className="text-lg font-semibold hover:underline hover:decoration-2 cursor-pointer hover:text-blue-600"
                 >
                   {parsed.title}
-                </Link>
+                </button>
                 <p className="text-small text-default-500">{result.description}</p>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-small">Date: {parsed.date}</span>

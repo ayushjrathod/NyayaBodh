@@ -9,7 +9,7 @@ import LandingSearch from "./pages/LandingSearch";
 import Recommend from "./pages/Recommend";
 import Resources from "./pages/Resources";
 import Results from "./pages/Results";
-import Summary from "./pages/Summary";
+import SeprateResults from "./pages/SeperateResults";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
@@ -95,14 +95,14 @@ const App = () => {
             <Route index element={<Contact />} />
           </Route>
           <Route
-            path="/summary/:title"
+            path="/result/:id"
             element={
               <ProtectedRoute>
                 <Layout />
               </ProtectedRoute>
             }
           >
-            <Route index element={<Summary />} />
+            <Route index element={<SeprateResults />} />
           </Route>
         </Routes>
       </Router>
