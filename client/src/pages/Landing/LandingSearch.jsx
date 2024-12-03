@@ -1,9 +1,14 @@
-import { Button, Card, Select, SelectItem, Textarea } from "@nextui-org/react";
-import { FileText, Globe, Paperclip, Send, X } from "lucide-react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Avatar, Button, Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Select, SelectItem, Switch, Textarea } from "@nextui-org/react";
+import { FileText, Globe, MoonIcon, Paperclip, Send, SunIcon, X } from "lucide-react";
 import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { toggleTheme } from "../../store/themeSlice";
 
 const LandingSearch = () => {
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
   const [query, setQuery] = useState("");
   const [selectedSearch, setSelectedSearch] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -12,6 +17,13 @@ const LandingSearch = () => {
   const [selectedSpace, setSelectedSpace] = useState("");
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
+  const handleToggle = () => {
+    dispatch(toggleTheme());
+  };
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -57,6 +69,12 @@ const LandingSearch = () => {
       handleSendMessage();
     }
   };
+  const logoutWithRedirect = () =>
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
 
   const handleSendMessage = () => {
     navigate("/results", {
@@ -75,9 +93,60 @@ const LandingSearch = () => {
       {/* background */}
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
       <div className="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"></div>
-      <Link to="/results" className="absolute top-4 right-4 z-50">
-        O
-      </Link>
+
+
+
+
+      <div className="absolute top-4 right-4 flex gap-2 z-50">
+        <Switch
+          defaultSelected={isDarkMode}
+          size="lg"
+          color="primary"
+          startContent={<SunIcon />}
+          endContent={<MoonIcon />}
+          onChange={handleToggle}
+        />
+        {
+          !isAuthenticated ? (
+
+            <Button color="primary" className="absolute top-4 right-4 z-50" variant="flat" onClick={() => loginWithRedirect()}>
+              {'Login'}
+            </Button>
+
+          ) : (
+            <Dropdown className=' absolute top-4 right-4 z-50 text-foreground bg-background' placement="bottom-end" classNames={{
+              content: "border-small border-divider bg-background",
+            }}>
+              <DropdownTrigger>
+                <Avatar
+                  isBordered
+                  as="button"
+                  className="transition-transform"
+                  color="primary"
+                  name={user.name}
+                  size="sm"
+                  src={user.picture}
+                />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Profile Actions" variant="flat">
+                <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
+                  <p className="font-semibold">{'Signed in as'}</p>
+                  <p className="font-semibold">{user.email}</p>
+                </DropdownItem>
+                <DropdownItem key="profile" as={Link} href="/profile">
+                  {'Profile'}
+                </DropdownItem>
+                <DropdownItem key="logout" color="danger" onClick={() => logoutWithRedirect()}>
+                  {'Log Out'}
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )
+        }
+      </div>
+
+
+
       {/* chat container */}
       <div className="relative z-10 flex items-center justify-center flex-col h-full">
         <div className="w-full max-w-4xl h-[80vh] flex flex-col">
@@ -85,7 +154,7 @@ const LandingSearch = () => {
             AI-Powered <br />
             Research Assistant
           </h2>
-          <Card className="w-full backdrop-blur-[1px] bg-slate-300/5 border border-gray-800">
+          <Card className="w-full backdrop-blur-[1px]  bg-slate-300/5 border border-gray-800">
             <div className="p-4">
               {selectedFile && (
                 <div className="flex items-center bg-slate-700/30 p-2 rounded-lg mb-2">
@@ -205,7 +274,7 @@ const LandingSearch = () => {
                   />
                   <label htmlFor="file-upload">
                     <Button isIconOnly variant="light" as="span" className="text-white">
-                      <Paperclip className="w-5 h-5" />
+                      <Paperclip className="w-5 h-5 text-white" />
                     </Button>
                   </label>
                 </div>
@@ -221,7 +290,7 @@ const LandingSearch = () => {
                   minRows={1}
                   classNames={{
                     input: "bg-transparent text-white",
-                    inputWrapper: "bg-transparent",
+                    inputWrapper: "bg-transparent  ",
                   }}
                 />
 

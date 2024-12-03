@@ -27,12 +27,12 @@ function parseMetadata(metadata) {
   const judgeLine = lines.find((line) => line.includes("JJ."));
   const judges = judgeLine
     ? judgeLine
-        .replace("[", "")
-        .replace("JJ.]", "")
-        .replace(/\*/g, "")
-        .split("and")
-        .map((j) => j.trim())
-        .join(", ")
+      .replace("[", "")
+      .replace("JJ.]", "")
+      .replace(/\*/g, "")
+      .split("and")
+      .map((j) => j.trim())
+      .join(", ")
     : "";
 
   return { title, date, judges };
@@ -40,7 +40,7 @@ function parseMetadata(metadata) {
 
 const SemanticResults = ({ resultsData }) => {
   return (
-    <main className="p-4">
+    <>
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Semantic Search Results</h1>
       <div className="space-y-4">
         {resultsData?.SemanticResultData?.map((result) => {
@@ -73,7 +73,7 @@ const SemanticResults = ({ resultsData }) => {
           );
         })}
       </div>
-    </main>
+    </>
   );
 };
 

@@ -67,10 +67,10 @@ const Filters = ({ onFilterChange, results, searchType }) => {
   };
 
   return (
-    <Card className="col-span-1 mt-4">
+    <Card className="sticky top-[5rem]">
       <CardBody>
         <aside className="p-4">
-          <h2 className="text-xl font-bold mb-4">Filters</h2>
+          <h2 className="text-xl font-bold mb-4" > Filters</h2 >
           <Accordion>
             <AccordionItem key="date" aria-label="Date" title="Date">
               <div className="flex flex-col gap-2">
@@ -117,9 +117,9 @@ const Filters = ({ onFilterChange, results, searchType }) => {
               </div>
             </AccordionItem>
           </Accordion>
-        </aside>
-      </CardBody>
-    </Card>
+        </aside >
+      </CardBody >
+    </Card >
   );
 };
 

@@ -2,11 +2,11 @@ import { Input } from "@nextui-org/react";
 import { Send } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import EntityResultData from "../../public/EntityResult.json";
-import SemanticResultData from "../../public/SemanticResult.json";
-import EntityResult from "../components/Results/EntityResult";
-import Filters from "../components/Results/Filters";
-import SemanticResult from "../components/Results/SemanticResults";
+import EntityResultData from "../../../public/EntityResult.json";
+import SemanticResultData from "../../../public/SemanticResult.json";
+import EntityResult from "../../components/Results/EntityResult";
+import Filters from "../../components/Results/Filters";
+import SemanticResult from "../../components/Results/SemanticResults";
 
 const Results = () => {
   const location = useLocation();
@@ -145,8 +145,8 @@ const Results = () => {
   }, [SelectedFile]);
 
   return (
-    <div className="min-h-screen bg-background font-Inter text-foreground">
-      <div className="h-fit w-fit rounded-3xl mr-8">
+    <div className="min-h-screen bg-background pb-4 font-Inter text-foreground">
+      <div className="h-fit w-fit rounded-3xl ">
         <div className="p-4 bg-content1">
           <form onSubmit={handleSubmit} className="flex gap-2">
             <Input
@@ -161,9 +161,9 @@ const Results = () => {
             </Button> */}
           </form>
         </div>
-        <div className="grid grid-cols-5">
+        <div className="grid px-4 gap-4 grid-cols-[1fr_3fr]">
           {/* Left sidebar for filters */}
-          <div className="col-span-1 mt-4">
+          <div className=" mt-4">
             <Filters
               onFilterChange={handleFilterChange}
               results={resultsData[searchType === "semantic" ? "SemanticResultData" : "EntityResultData"] || []}
@@ -172,7 +172,7 @@ const Results = () => {
           </div>
 
           {/* Results */}
-          <div className="col-span-4">
+          <div className="">
             {searchType === "semantic" ? (
               <SemanticResult resultsData={{ SemanticResultData: filteredResults }} />
             ) : (

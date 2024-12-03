@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import ChatInput from "../components/Chatbot/ChatInput";
-import ChatMessages from "../components/Chatbot/ChatMessages";
-import DrawerBackdrop from "../components/Chatbot/DrawerBackdrop";
-import Navbar from "../components/Chatbot/Navbar";
-import Sidebar from "../components/Chatbot/Sidebar";
+import ChatInput from "../../components/Chatbot/ChatInput";
+import ChatMessages from "../../components/Chatbot/ChatMessages";
+import DrawerBackdrop from "../../components/Chatbot/DrawerBackdrop";
+import Navbar from "../../components/Chatbot/Navbar";
+import Sidebar from "../../components/Chatbot/Sidebar";
 import {
   chatIdState,
   chatsState,
@@ -13,7 +13,7 @@ import {
   initialChatMessagesState,
   inputState,
   messagesState,
-} from "../utils/recoil/atoms";
+} from "../../utils/recoil/atoms";
 
 function Chatbot() {
   const [drawerOpen, setDrawerOpen] = useRecoilState(drawerOpenState);
