@@ -4,7 +4,7 @@ import { FileText, Globe, MoonIcon, Paperclip, Send, SunIcon, X } from "lucide-r
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toggleTheme } from "../../store/themeSlice";
+import { toggleTheme } from "../../store/slices/themeSlice";
 
 const LandingSearch = () => {
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();

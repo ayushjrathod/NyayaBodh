@@ -11,6 +11,7 @@ import SemanticResult from "../../components/Results/SemanticResults";
 const Results = () => {
   const location = useLocation();
 
+
   const { query, selectedSearch, selectedSpace, selectedParam, SelectedFile } = location.state || {
     query: "",
     selectedSearch: "",

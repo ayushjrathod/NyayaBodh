@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { SunIcon, MoonIcon } from 'lucide-react';
-import { toggleTheme } from '../../store/themeSlice';
+import { toggleTheme } from '../../store/slices/themeSlice';
+import { setLanguage } from '../../store/slices/languageSlice';
 function NewNavBar() {
     const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
-    const [language, setLanguage] = useState('en');
 
     const dispatch = useDispatch();
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
+    const language = useSelector((state) => state.language.language);
+
 
     const handleToggle = () => {
         dispatch(toggleTheme());
@@ -24,9 +27,10 @@ function NewNavBar() {
             },
         });
 
-    const toggleLanguage = () => {
-        const newLang = language === 'en' ? 'hi' : 'en';
-        setLanguage(newLang);
+    const toggleLanguage = (lang) => {
+        dispatch(setLanguage(lang));
+        console.log(language);
+
     };
 
     return (
@@ -74,10 +78,11 @@ function NewNavBar() {
                     <Button
                         color="primary"
                         variant="flat"
-                        onClick={toggleLanguage}
+                        onClick={() => toggleLanguage(language === 'en' ? 'hi' : 'en')}
                     >
                         {language === 'en' ? 'हिंदी' : 'English'}
                     </Button>
+
                 </NavbarItem>
                 {!isAuthenticated ? (
                     <NavbarItem>
