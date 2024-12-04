@@ -1,6 +1,6 @@
 import { Input } from "@nextui-org/react";
 import { Send } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import EntityResultData from "../../public/EntityResult.json";
 import SemanticResultData from "../../public/SemanticResult.json";

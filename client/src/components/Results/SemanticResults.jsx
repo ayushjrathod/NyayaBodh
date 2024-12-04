@@ -63,7 +63,7 @@ const SemanticResults = ({ resultsData }) => {
               <CardBody>
                 <button
                   onClick={() => handleTitleClick(result.id, parsed.title, parsed.date, parsed.judges)}
-                  className="text-lg font-semibold hover:underline hover:decoration-2 cursor-pointer hover:text-blue-600"
+                  className="mb-1 justify-start flex text-lg font-semibold hover:underline hover:decoration-2 cursor-pointer hover:text-blue-600"
                 >
                   {parsed.title}
                 </button>
@@ -76,7 +76,7 @@ const SemanticResults = ({ resultsData }) => {
               <Divider />
               <CardFooter className="justify-between">
                 <Button color="primary" variant="light" startContent={<FileText size={18} />}>
-                  Open PDF
+                  Recommend Citations
                 </Button>
                 <Button color="secondary" variant="light" startContent={<MessageSquare size={18} />}>
                   Chat with PDF
