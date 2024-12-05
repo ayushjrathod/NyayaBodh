@@ -1,0 +1,10 @@
+bcrypt
+cryptography
+fastapi
+python-jose
+python-multipart
+SQLAlchemy
+uvicorn
+passlib
+
+# pip install fastapi prisma python-jose[cryptography] passlib[bcrypt] python-dotenv
