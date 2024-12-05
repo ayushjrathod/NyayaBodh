@@ -1,5 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Button, Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Select, SelectItem, Switch, Textarea } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  Card,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Select,
+  SelectItem,
+  Switch,
+  Textarea,
+} from "@nextui-org/react";
 import { FileText, Globe, MoonIcon, Paperclip, Send, SunIcon, X } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,9 +106,6 @@ const LandingSearch = () => {
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
       <div className="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"></div>
 
-
-
-
       <div className="absolute top-4 right-4 flex gap-2 z-50">
         <Switch
           defaultSelected={isDarkMode}
@@ -106,46 +115,49 @@ const LandingSearch = () => {
           endContent={<MoonIcon />}
           onChange={handleToggle}
         />
-        {
-          !isAuthenticated ? (
-
-            <Button color="primary" className="absolute top-4 right-4 z-50" variant="flat" onClick={() => loginWithRedirect()}>
-              {'Login'}
-            </Button>
-
-          ) : (
-            <Dropdown className=' absolute top-4 right-4 z-50 text-foreground bg-background' placement="bottom-end" classNames={{
+        {!isAuthenticated ? (
+          <Button
+            color="primary"
+            className="absolute top-4 right-4 z-50"
+            variant="flat"
+            onClick={() => loginWithRedirect()}
+          >
+            {"Login"}
+          </Button>
+        ) : (
+          <Dropdown
+            className=" absolute top-4 right-4 z-50 text-foreground bg-background"
+            placement="bottom-end"
+            classNames={{
               content: "border-small border-divider bg-background",
-            }}>
-              <DropdownTrigger>
-                <Avatar
-                  isBordered
-                  as="button"
-                  className="transition-transform"
-                  color="primary"
-                  name={user.name}
-                  size="sm"
-                  src={user.picture}
-                />
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Profile Actions" variant="flat">
-                <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
-                  <p className="font-semibold">{'Signed in as'}</p>
-                  <p className="font-semibold">{user.email}</p>
-                </DropdownItem>
-                <DropdownItem key="profile" as={Link} href="/profile">
-                  {'Profile'}
-                </DropdownItem>
-                <DropdownItem key="logout" color="danger" onClick={() => logoutWithRedirect()}>
-                  {'Log Out'}
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          )
-        }
+            }}
+          >
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="primary"
+                name={user.name}
+                size="sm"
+                src={user.picture}
+              />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
+                <p className="font-semibold">{"Signed in as"}</p>
+                <p className="font-semibold">{user.email}</p>
+              </DropdownItem>
+              <DropdownItem key="profile" as={Link} href="/profile">
+                {"Profile"}
+              </DropdownItem>
+              <DropdownItem key="logout" color="danger" onClick={() => logoutWithRedirect()}>
+                {"Log Out"}
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        )}
       </div>
-
-
 
       {/* chat container */}
       <div className="relative z-10 flex items-center justify-center flex-col h-full">
