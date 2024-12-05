@@ -12,7 +12,6 @@ import {
   NavbarItem,
   Switch,
 } from "@nextui-org/react";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -44,7 +43,7 @@ function NewNavBar() {
   };
 
   return (
-    <Navbar isBordered>
+    <Navbar>
       <NavbarBrand>
         <img alt="Logo" src="../src/assets/logoNB.png" className="h-8 w-8 mr-2" />
         <p className="font-bold text-inherit">OutOfBounds</p>
