@@ -1,6 +1,6 @@
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { Send } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import EntityResultData from "../../../public/EntityResult.json";
 import SemanticResultData from "../../../public/SemanticResult.json";
@@ -10,7 +10,6 @@ import SemanticResult from "../../components/Results/SemanticResults";
 
 const Results = () => {
   const location = useLocation();
-
 
   const { query, selectedSearch, selectedSpace, selectedParam, SelectedFile } = location.state || {
     query: "",
@@ -148,18 +147,28 @@ const Results = () => {
   return (
     <div className="min-h-screen bg-background pb-4 font-Inter text-foreground">
       <div className="h-fit w-fit rounded-3xl ">
-        <div className="p-4 bg-content1">
-          <form onSubmit={handleSubmit} className="flex gap-2">
+        <div className="flex justify-center m-4">
+          <form onSubmit={handleSubmit} className="w-full">
             <Input
-              fullWidth
+              ref={inputRef}
               placeholder="Ask a follow-up question..."
-              value={query}
+              value={newQuery}
               onChange={(e) => setNewQuery(e.target.value)}
-              endContent={<Send className="text-default-400" />}
+              className=""
+              endContent={
+                <Button
+                  className="size-1"
+                  size="sm"
+                  isIconOnly
+                  variant="light"
+                  color="primary"
+                  onClick={handleSubmit}
+                  isDisabled={!newQuery.trim()}
+                >
+                  <Send className="size-4" />
+                </Button>
+              }
             />
-            {/* <Button color="primary" type="submit">
-              Send
-            </Button> */}
           </form>
         </div>
         <div className="grid px-4 gap-4 grid-cols-[1fr_3fr]">

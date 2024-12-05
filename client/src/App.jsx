@@ -5,6 +5,7 @@ import { LoaderCircle } from "lucide-react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import Layout from "./components/Layout/Layout";
+// import ChatPage from "./pages/Chatbot/chattest";
 import Chatbot from "./pages/Chatbot/Chatbot";
 import Contact from "./pages/Contact/Contact";
 import LandingSearch from "./pages/Landing/LandingSearch";
@@ -85,13 +86,15 @@ const App = () => {
             <Route index element={<Results />} />
           </Route>
           <Route
-            path="/chatbot/:id"
+            path="/chat/:id"
             element={
               <ProtectedRoute>
-                <Chatbot />
+                <Layout />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route index element={<Chatbot />} />
+          </Route>
           <Route
             path="/recommend/:id"
             element={

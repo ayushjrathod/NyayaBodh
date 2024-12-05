@@ -1,6 +1,6 @@
 import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { FileText, MessageSquare } from "lucide-react";
-import React from "react";
+
 import { useNavigate } from "react-router-dom";
 
 // Parse metadata helper function
@@ -50,6 +50,10 @@ const SemanticResults = ({ resultsData }) => {
       },
     });
   };
+
+  const handleChatWithPdfClick = (pdfchatid) => {
+    navigate(`/chat/${pdfchatid}`);
+  };
   return (
     <>
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Semantic Search Results</h1>
@@ -76,7 +80,12 @@ const SemanticResults = ({ resultsData }) => {
                 <Button color="primary" variant="light" startContent={<FileText size={18} />}>
                   Recommend Citations
                 </Button>
-                <Button color="secondary" variant="light" startContent={<MessageSquare size={18} />}>
+                <Button
+                  onClick={() => handleChatWithPdfClick(result.id)}
+                  color="secondary"
+                  variant="light"
+                  startContent={<MessageSquare size={18} />}
+                >
                   Chat with PDF
                 </Button>
               </CardFooter>
