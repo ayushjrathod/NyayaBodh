@@ -51,20 +51,26 @@ const Chatbot = () => {
     setInputText("");
     setIsAiTyping(true);
 
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: inputText }),
-      });
+    setTimeout(() => {
+      setIsAiTyping(false);
+      setMessages(prev => [...prev, { id: 123, text: "Sorry, Team is working on me", sender: "ai" }]);
 
-      const data = await response.json();
-      setIsAiTyping(false);
-      setMessages(prev => [...prev, { id: Date.now(), text: data.message, sender: "ai" }]);
-    } catch (error) {
-      console.error("Error fetching AI response:", error);
-      setIsAiTyping(false);
-    }
+    }, 4000);
+
+    // try {
+    //   const response = await fetch("/api/chat", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ message: inputText }),
+    //   });
+
+    //   const data = await response.json();
+    //   setIsAiTyping(false);
+    //   setMessages(prev => [...prev, { id: Date.now(), text: data.message, sender: "ai" }]);
+    // } catch (error) {
+    //   console.error("Error fetching AI response:", error);
+    //   setIsAiTyping(false);
+    // }
   };
 
   useEffect(() => {
@@ -87,8 +93,8 @@ const Chatbot = () => {
                   ) : (
                     <Bot className="w-6 h-6 mr-2 text-secondary" />
                   )}
-                  <div className={`max-w-[80%] p-3 rounded-lg ${message.sender === "user"
-                    ? "bg-primary text-primary-foreground"
+                  <div className={`max-w-[80%] p-3 rounded-xl ${message.sender === "user"
+                    ? "bg-primary  text-primary-foreground"
                     : "bg-default-100 text-default-foreground"
                     }`}>
                     {message.sender === "ai" ? (
@@ -104,6 +110,7 @@ const Chatbot = () => {
               <div className="flex items-center">
                 <Bot className="w-6 h-6 mr-2 text-secondary" />
                 <Spinner size="sm" color="secondary" />
+                <p className="ml-1 text-foreground text-xs">I'm thinking</p>
               </div>
             )}
           </div>

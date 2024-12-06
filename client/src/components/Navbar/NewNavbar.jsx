@@ -42,7 +42,7 @@ function NewNavBar() {
 
     const navItems = [
         { name: "Home", path: "/" },
-        { name: "Recommend", path: "/recommend" },
+        { name: "Recommend", path: "/recommend/1" },
         { name: "Resources", path: "/resources" },
         { name: "Contact us", path: "/contact" },
     ];
@@ -103,11 +103,10 @@ function NewNavBar() {
                     </NavbarItem>
                 ) : (
                     <Dropdown
-                        className={`${isDarkMode && 'yellow-bright'}text-foreground bg-background`}
+                        className={` z-50 ${isDarkMode && 'yellow-bright'} text-foreground bg-background `}
                         placement="bottom-end"
                         classNames={{
                             content: "border-small border-divider bg-background",
-
                         }}
                     >
                         <DropdownTrigger>
