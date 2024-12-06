@@ -31,9 +31,7 @@ const ProtectedRoute = ({ children }) => {
     loginWithRedirect();
     return (
       <div className="h-screen w-screen  flex justify-center items-center">
-        <span className="animate-spin mr-1">
-          <LoaderCircle />
-        </span>
+        <Spinner size="sm" color="primary" />
         Redirecting to Login...
       </div>
     );
@@ -64,9 +62,7 @@ const App = () => {
   if (isLoading) {
     return (
       <div className="h-screen w-screen flex justify-center items-center">
-        <span className="animate-spin mr-1">
-          <LoaderCircle />
-        </span>
+        <Spinner size="sm" color="primary" />
         Loading...
       </div>
     );

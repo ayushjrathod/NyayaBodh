@@ -18,15 +18,15 @@ const Recommend = ({ uuid }) => {
   }, [uuid]);
 
   return (
-    <div>
+    <div className="h-screen flex items-center justify-center">
       <h1>Recommendations</h1>
       <ul>
-        {recommendations.map((recommendation, index) => (
+        {/* {recommendations.map((recommendation, index) => (
           <li key={index}>
             <h2>{recommendation.case_name}</h2>
             <p>{recommendation.summary}</p>
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
