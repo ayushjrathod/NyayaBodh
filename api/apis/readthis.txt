@@ -1,0 +1,3 @@
+test.py is for testing the api endpoints before integrating them with the server.py
+apis in server.py have been tested except the /ask
+proceed with caution
