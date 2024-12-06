@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
 import "boxicons";
 import { LoaderCircle } from "lucide-react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -21,9 +21,7 @@ const ProtectedRoute = ({ children }) => {
     loginWithRedirect();
     return (
       <div className="h-screen w-screen  flex justify-center items-center">
-        <span className="animate-spin mr-1">
-          <LoaderCircle />
-        </span>
+        <Spinner size="sm" color="primary" />
         Redirecting to Login...
       </div>
     );
@@ -54,9 +52,7 @@ const App = () => {
   if (isLoading) {
     return (
       <div className="h-screen w-screen flex justify-center items-center">
-        <span className="animate-spin mr-1">
-          <LoaderCircle />
-        </span>
+        <Spinner size="sm" color="primary" />
         Loading...
       </div>
     );
