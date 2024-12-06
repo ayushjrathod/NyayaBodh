@@ -22,15 +22,7 @@ const Results = () => {
   const searchType = selectedSearch.toLowerCase().split(" ")[0] || "semantic";
   const [newQuery, setNewQuery] = useState(query);
   const inputRef = useRef();
-  const fileInputRef = useRef();
   const [space, setSpace] = useState(selectedSpace);
-
-  const [filters, setFilters] = useState({
-    category: [],
-    date: "",
-    party: "",
-    judge: "",
-  });
 
   //const [resultsData, setResultsData] = useState([]);  //for using api call
   const [resultsData, setResultsData] = useState(searchType === "semantic" ? SemanticResultData : EntityResultData); //for using static data
