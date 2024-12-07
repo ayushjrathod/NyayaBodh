@@ -20,6 +20,7 @@ export default {
           extend: "dark",
           colors: {
             foreground: "#ffffff",
+            chatbotPrimary: "#629584",
             primary: {
               50: "#4F6700",
               100: "#698200",
