@@ -1,6 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import { LoaderCircle } from "lucide-react";
+import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import Layout from "./components/Layout/Layout";
