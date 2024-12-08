@@ -1,6 +1,6 @@
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Split from "react-split";
 
@@ -11,16 +11,70 @@ import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { Sparkles } from "lucide-react";
 import { WordFadeIn } from "../../components/ui/WordFadeIn";
 
-const SeprateResults = () => {
+const PdfSummary = () => {
   const location = useLocation();
+  const selectedFile = location.state?.selectedFile;
   const { id, title, date, judges } = location.state || { id: "", title: "", date: "", judges: "" };
   const [summary, setSummary] = useState("");
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const [fileUrl, setFileUrl] = useState(null);
+
+  useEffect(() => {
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile);
+      setFileUrl(url);
+
+      // Clean up the URL object when the component unmounts or selectedFile changes
+      return () => {
+        URL.revokeObjectURL(url);
+      };
+    }
+  }, [selectedFile]);
 
   const generateSummary = () => {
     setSummary(
       "This is a dummy summary of the case. It provides a brief overview of the key points and decisions made in the judgment."
     );
+  };
+
+  const handleGenrateSummary = async () => {
+    try {
+      setSummary(""); // Reset existing summary
+      const response = await fetch("YOUR_BACKEND_URL/generate-summary", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fileUrl,
+          caseId: id,
+        }),
+      });
+
+      if (!response.body) {
+        throw new Error("ReadableStream not supported");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          break;
+        }
+
+        // Decode the chunk and append to accumulated text
+        const chunk = decoder.decode(value);
+        accumulatedText += chunk;
+        setSummary(accumulatedText);
+      }
+    } catch (error) {
+      console.error("Error generating summary:", error);
+      setSummary("Error generating summary. Please try again.");
+    }
   };
 
   return (
@@ -91,11 +145,7 @@ const SeprateResults = () => {
           <div className="overflow-hidden pl-2">
             <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
               <div style={{ height: "100%" }}>
-                <Viewer
-                  theme={"dark"}
-                  fileUrl="https://pdfobject.com/pdf/sample.pdf"
-                  plugins={[defaultLayoutPluginInstance]}
-                />
+                {fileUrl && <Viewer theme="dark" fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />}
               </div>
             </Worker>
           </div>
@@ -105,4 +155,4 @@ const SeprateResults = () => {
   );
 };
 
-export default SeprateResults;
+export default PdfSummary;

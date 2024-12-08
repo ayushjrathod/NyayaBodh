@@ -10,12 +10,12 @@ import {
   Select,
   SelectItem,
   Switch,
-  Textarea,
-  Tabs,
   Tab,
+  Tabs,
+  Textarea,
 } from "@nextui-org/react";
-import { FileText, Globe, MoonIcon, Send, SunIcon, X, Upload } from 'lucide-react';
-import React, { useRef, useState } from "react";
+import { FileText, Globe, MoonIcon, Send, SunIcon, Upload, X } from "lucide-react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
@@ -47,11 +47,7 @@ const LandingSearch = () => {
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
-      setSelectedFile({
-        name: file.name,
-        type: file.type,
-        size: file.size,
-      });
+      setSelectedFile(file); // Pass the entire File object
     } else {
       alert("Please upload a PDF file.");
     }
@@ -104,6 +100,14 @@ const LandingSearch = () => {
     });
   };
 
+  const handlePdfSend = () => {
+    navigate("/summary/pdf", {
+      state: {
+        selectedFile,
+      },
+    });
+  };
+
   const handleDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -128,11 +132,7 @@ const LandingSearch = () => {
     }
     const file = e.dataTransfer.files[0];
     if (file && file.type === "application/pdf") {
-      setSelectedFile({
-        name: file.name,
-        type: file.type,
-        size: file.size,
-      });
+      setSelectedFile(file); // Pass the entire File object
     } else {
       alert("Please upload a PDF file.");
     }
@@ -141,10 +141,13 @@ const LandingSearch = () => {
   return (
     <div className="relative h-screen w-full bg-background overflow-hidden font-Poppins">
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-      <div className={`absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full ${isDarkMode ? 'bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]' : 'bg-[radial-gradient(circle_400px_at_50%_300px,#d5c5ff,#ffffff80)]'} `}></div>
-
-
-
+      <div
+        className={`absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full ${
+          isDarkMode
+            ? "bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"
+            : "bg-[radial-gradient(circle_400px_at_50%_300px,#d5c5ff,#ffffff80)]"
+        } `}
+      ></div>
 
       <div className="absolute top-4 right-4 flex gap-2 z-50">
         <Switch
@@ -166,7 +169,7 @@ const LandingSearch = () => {
           </Button>
         ) : (
           <Dropdown
-            className={`absolute top-4 right-4 z-50 ${isDarkMode && 'yellow-bright'} text-foreground bg-background `}
+            className={`absolute top-4 right-4 z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
             placement="bottom-end"
             classNames={{
               content: "border-small border-divider bg-background",
@@ -201,14 +204,18 @@ const LandingSearch = () => {
 
       <div className="relative z-10 flex items-center justify-center flex-col h-full">
         <div className="w-full max-w-4xl h-[80vh] flex flex-col">
-          <h2 className={`font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${isDarkMode ? 'from-neutral-100 to-neutral-500' : 'from-black to-neutral-500'} text-2xl md:text-4xl lg:text-7xl py-2 md:py-10 font-semibold tracking-tight`}>
+          <h2
+            className={`font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${
+              isDarkMode ? "from-neutral-100 to-neutral-500" : "from-black to-neutral-500"
+            } text-2xl md:text-4xl lg:text-7xl py-2 md:py-10 font-semibold tracking-tight`}
+          >
             AI-Powered <br />
             Research Assistant
           </h2>
 
           <Tabs className="z-50" aria-label="Search Options">
             <Tab key="text" title="Text Input">
-              <Card className={`w-full border  ${isDarkMode && 'backdrop-blur-[1px] bg-slate-300/5  border-gray-800'}`}>
+              <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
                   <div className={`grid grid-cols-2 gap-2 mb-2 w-3/5 `}>
                     <Select
@@ -221,11 +228,10 @@ const LandingSearch = () => {
                         setSelectedSpace("");
                       }}
                       startContent={<Globe className="w-4 h-4 text-default-400" />}
-
                       classNames={{
                         trigger: "bg-transparent ",
                         value: "text-small text-white",
-                        popoverContent: ` ${isDarkMode && 'dark'} bg-background text-foreground`,
+                        popoverContent: ` ${isDarkMode && "dark"} bg-background text-foreground`,
                       }}
                     >
                       <SelectItem key="Semantic Search" value="Semantic Search">
@@ -247,7 +253,7 @@ const LandingSearch = () => {
                         classNames={{
                           trigger: "bg-transparent",
                           value: "text-small text-white",
-                          popoverContent: ` ${isDarkMode && 'dark'} bg-background text-foreground`,
+                          popoverContent: ` ${isDarkMode && "dark"} bg-background text-foreground`,
                         }}
                       >
                         <SelectItem key="lawyer" value="lawyer">
@@ -288,7 +294,7 @@ const LandingSearch = () => {
                         classNames={{
                           trigger: "bg-transparent",
                           value: "text-small text-white",
-                          popoverContent: ` ${isDarkMode && 'dark'} bg-background text-foreground`,
+                          popoverContent: ` ${isDarkMode && "dark"} bg-background text-foreground`,
                         }}
                       >
                         <SelectItem key="all" value="all">
@@ -333,8 +339,9 @@ const LandingSearch = () => {
                 </div>
               </Card>
             </Tab>
+            {/* Upload Document Tab */}
             <Tab key="upload" title="Upload Document">
-              <Card className={`w-full border  ${isDarkMode && 'backdrop-blur-[1px] bg-slate-300/5  border-gray-800'}`}>
+              <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
                   <div
                     ref={dropZoneRef}
@@ -373,7 +380,7 @@ const LandingSearch = () => {
                     <Button
                       color="primary"
                       variant={selectedFile ? "solid" : "light"}
-                      onClick={handleSendMessage}
+                      onClick={handlePdfSend}
                       isDisabled={!selectedFile}
                     >
                       Send
@@ -392,7 +399,6 @@ const LandingSearch = () => {
               </Card>
             </Tab>
           </Tabs>
-
         </div>
       </div>
     </div>
@@ -400,4 +406,3 @@ const LandingSearch = () => {
 };
 
 export default LandingSearch;
-

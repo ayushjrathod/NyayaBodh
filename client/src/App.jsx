@@ -17,6 +17,7 @@ import Chatbot from "./pages/Chatbot/Chatbot";
 import Contact from "./pages/Contact/Contact";
 import SelectionPage from "./pages/DocGen/SelectionPage";
 import LandingSearch from "./pages/Landing/LandingSearch";
+import PdfSummary from "./pages/PdfSummary/PdfSummary";
 import Recommend from "./pages/Recommend/Recommend";
 import Resources from "./pages/Resources/Resources";
 import Results from "./pages/Result/Results";
@@ -140,6 +141,16 @@ const App = () => {
             }
           >
             <Route index element={<SeprateResults />} />
+          </Route>
+          <Route
+            path="/summary/pdf"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<PdfSummary />} />
           </Route>
           {/*legal doc gen routes */}
           <Route
