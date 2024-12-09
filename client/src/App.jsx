@@ -25,6 +25,7 @@ import Resources from "./pages/Resources/Resources";
 import Results from "./pages/Result/Results";
 import SeprateResults from "./pages/SeprateResults/SeprateResults";
 import SiteChatbot from "./sitewidechatbot/Chatbot";
+import LawLookupPage from "./pages/LawLookup/LawLookup";
 
 const App = () => {
   const isLoading = false;
@@ -127,6 +128,16 @@ const App = () => {
             }
           >
             <Route index element={<Contact />} />
+          </Route>
+          <Route
+            path="/lookup"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<LawLookupPage />} />
           </Route>
           <Route
             path="/result/:id"
