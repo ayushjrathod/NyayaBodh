@@ -37,3 +37,13 @@
 .gutter.gutter-vertical:hover {
   cursor: ew-resize !important;
 }
+
+ .VIpgJd-ZVi9od-l4eHX-hSRGPd{
+  display: none !important;
+} 
+.VIpgJd-ZVi9od-ORHb-OEVmcd{
+  position: absolute;
+  top: -10rem;
+  left: 0;
+  visibility: hidden !important;
+}
