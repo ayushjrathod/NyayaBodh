@@ -5,7 +5,7 @@ import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
 import { loginUser, registerUser } from "../../services/user";
@@ -31,6 +31,8 @@ export default function Login() {
   const [selected, setSelected] = useState("login");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
 
   // Setup forms with react-hook-form and zodResolver for validation
   const loginForm = useForm({
@@ -212,6 +214,10 @@ export default function Login() {
                   isInvalid={!!registerForm.formState.errors.role}
                   errorMessage={registerForm.formState.errors.role?.message}
                   {...registerForm.register("role")}
+                  classNames={{
+                    value: "text-small text-white",
+                    popoverContent: ` ${isDarkMode && "dark"} bg-background text-foreground`,
+                  }}
                 >
                   <SelectItem key="USER" value="USER">
                     Normal User
