@@ -1,5 +1,4 @@
-// FILE: pages/Dashboard.jsx
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../store/slices/userSlice";
 

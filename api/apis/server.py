@@ -1,16 +1,16 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import StreamingResponse, JSONResponse
 import os
-import pandas as pd
 from threading import Thread
-from fastapi.middleware.cors import CORSMiddleware
-from PyPDF2 import PdfReader
-from classes import AIChatbot, VALID_PARAMS, SearchRequest, SearchResult, load_ner_data, calculate_similarity
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 from typing import List
-from fuzzywuzzy import process, fuzz
+
 import pandas as pd
+from classes import (VALID_PARAMS, AIChatbot, SearchRequest, SearchResult,
+                     calculate_similarity, load_ner_data)
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, StreamingResponse
+from fuzzywuzzy import fuzz, process
+from pydantic import BaseModel
+from PyPDF2 import PdfReader
 
 # Paths
 ner_data_path = "apis/resources/ner_data.csv"

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Card, CardBody, Input, Link, Tab, Tabs } from "@nextui-org/react";
+import { Button, Card, CardBody, Input, Link, Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
@@ -16,13 +16,14 @@ const API_URL = "http://127.0.0.1:8000";
 // Define the login and register schemas with zod
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  password: z.string().min(4, { message: "Password must be at least 4 characters" }),
 });
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  role: z.enum(["USER", "ADMIN", "JUDGE", "LAWYER", "CLERK"]),
 });
 
 export default function Login() {
@@ -46,6 +47,7 @@ export default function Login() {
       name: "",
       email: "",
       password: "",
+      role: "USER",
     },
   });
 
@@ -204,7 +206,26 @@ export default function Login() {
                 {registerForm.formState.errors.password && (
                   <span className="text-xs text-red-500 -mt-3">{registerForm.formState.errors.password.message}</span>
                 )}
-
+                <Select
+                  label="Role"
+                  isRequired
+                  isInvalid={!!registerForm.formState.errors.role}
+                  errorMessage={registerForm.formState.errors.role?.message}
+                  {...registerForm.register("role")}
+                >
+                  <SelectItem key="USER" value="USER">
+                    Normal User
+                  </SelectItem>
+                  <SelectItem key="ADMIN" value="ADMIN">
+                    Admin
+                  </SelectItem>
+                  <SelectItem key="JUDGE" value="JUDGE">
+                    Judge
+                  </SelectItem>
+                  <SelectItem key="LAWYER" value="LAWYER">
+                    Lawyer
+                  </SelectItem>
+                </Select>
                 <p className="text-center text-small">
                   Already have an account?{" "}
                   <Link
