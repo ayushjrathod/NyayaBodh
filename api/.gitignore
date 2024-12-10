@@ -1,0 +1,6 @@
+//fast api gitignore 
+
+__pycache__
+*.pyc
+*.pyo
+*.pyd
