@@ -18,6 +18,7 @@ import {
     DropdownItem
 } from "@nextui-org/react";
 import { Search, Filter, Book, FileText, Download } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 // Mock data for demonstration
 const mockLaws = [
@@ -32,6 +33,8 @@ const LawLookupPage = () => {
     const [selectedLaw, setSelectedLaw] = useState(null);
     const [selectedFilter, setSelectedFilter] = useState("all");
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
 
     const filteredLaws = mockLaws.filter(law =>
         law.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -44,7 +47,7 @@ const LawLookupPage = () => {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="min-h-screen font-inter container mx-auto p-4">
             <h1 className="text-4xl font-bold mb-8 text-center">Law Lookup</h1>
 
             <div className="flex gap-4 mb-8">
@@ -118,8 +121,9 @@ const LawLookupPage = () => {
                 onOpenChange={onOpenChange}
                 size="3xl"
                 scrollBehavior="inside"
+                className={` ${isDarkMode && "dark"} bg-background text-foreground`}
             >
-                <ModalContent>
+                <ModalContent >
                     {(onClose) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">
