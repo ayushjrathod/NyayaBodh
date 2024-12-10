@@ -128,7 +128,7 @@ const App = () => {
             <Route index element={<Contact />} />
           </Route>
           <Route
-            path="/lookup"
+            path="/lawlookup"
             element={
               <ProtectedRoute>
                 <Layout />

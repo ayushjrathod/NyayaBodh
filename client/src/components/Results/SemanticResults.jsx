@@ -69,7 +69,7 @@ const SemanticResults = ({ resultsData }) => {
               <CardBody>
                 <button
                   onClick={() => handleTitleClick(result.id, parsed.title, parsed.date, parsed.judges)}
-                  className="flex justify-start text-lg font-semibold hover:underline hover:decoration-2 cursor-pointer hover:text-blue-600"
+                  className="flex text-start justify-start text-lg font-semibold hover:underline hover:decoration-2 cursor-pointer hover:text-blue-600"
                 >
                   {parsed.title}
                 </button>

@@ -11,7 +11,6 @@ import {
   Switch,
 } from "@nextui-org/react";
 import { MoonIcon, SunIcon } from "lucide-react";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { setLanguage } from "../../store/slices/languageSlice";
@@ -42,6 +41,7 @@ function NewNavBar() {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Recommend", path: "/recommend/1" },
+    { name: "Law Lookup", path: "/lawlookup" },
     { name: "Contact us", path: "/contact" },
     ...(user.role === "CLERK" ? [{ name: "DocGen", path: "/docgen" }] : []),
   ];
