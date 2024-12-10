@@ -1,10 +1,9 @@
-bcrypt
-cryptography
-fastapi
-python-jose
+fastapi==0.68.0
+uvicorn==0.15.0
+pyjwt==2.1.0
+python-jose[cryptography]
+passlib[bcrypt]
 python-multipart
-SQLAlchemy
-uvicorn
-passlib
-
-# pip install fastapi prisma python-jose[cryptography] passlib[bcrypt] python-dotenv
+google-auth
+prisma
+slowapi

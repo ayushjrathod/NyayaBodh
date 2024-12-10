@@ -43,6 +43,7 @@ const SemanticResults = ({ resultsData }) => {
   const handleTitleClick = (id, title, date, judges) => {
     navigate(`/result/${id}`, {
       state: {
+        searchType: "semantic",
         id,
         title,
         date,
@@ -53,6 +54,9 @@ const SemanticResults = ({ resultsData }) => {
 
   const handleChatWithPdfClick = (pdfchatid) => {
     navigate(`/chat/${pdfchatid}`);
+  };
+  const handleRecommendCitationsClick = (id) => {
+    navigate(`/recommend/${id}`);
   };
   return (
     <>
@@ -77,7 +81,12 @@ const SemanticResults = ({ resultsData }) => {
               </CardBody>
               <Divider />
               <CardFooter className="justify-between">
-                <Button color="primary" variant="light" startContent={<FileText size={18} />}>
+                <Button
+                  onClick={() => handleRecommendCitationsClick(result.id)}
+                  color="primary"
+                  variant="light"
+                  startContent={<FileText size={18} />}
+                >
                   Recommend Citations
                 </Button>
                 <Button

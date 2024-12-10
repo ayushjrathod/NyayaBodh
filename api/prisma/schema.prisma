@@ -1,16 +1,40 @@
+// schema.prisma
+
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("postgresql://neondb_owner:yD9qhla2SIit@ep-twilight-breeze-a5hj2mfe.us-east-2.aws.neon.tech/neondb?sslmode=require")
+  directUrl = env("postgresql://neondb_owner:yD9qhla2SIit@ep-twilight-breeze-a5hj2mfe.us-east-2.aws.neon.tech/neondb?sslmode=require") // Add this for Neon serverless
 }
 
 generator client {
   provider = "prisma-client-py"
+
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  password  String
-  name      String?
-  createdAt DateTime @default(now())
+  id                 Int       @id @default(autoincrement())
+  fullname           String
+  email              String    @unique
+  password           String
+  role               Role      @default(USER)
+  is_verified        Boolean   @default(false)
+  created_at         DateTime  @default(now())
+  preferences        Preferences?
+}
+
+enum Role {
+  ADMIN
+  JUDGE
+  LAWYER
+  CLERK
+  USER  // Default role for regular users
+}
+
+model Preferences {
+  id                 Int      @id @default(autoincrement())
+  language           String
+  email_notifications Boolean @default(true)
+  dark_mode          Boolean @default(false)
+  user               User     @relation(fields: [user_id], references: [id])
+  user_id            Int      @unique
 }
