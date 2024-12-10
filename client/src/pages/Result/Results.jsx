@@ -2,8 +2,8 @@ import { Button, Input } from "@nextui-org/react";
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import EntityResultData from "../../../public/EntityResult.json";
-import SemanticResultData from "../../../public/SemanticResult.json";
+import EntityResultData from "../../../public/EntityResult.json"; //comment this while using api
+import SemanticResultData from "../../../public/SemanticResult.json"; //comment this while using api
 import EntityResult from "../../components/Results/EntityResult";
 import Filters from "../../components/Results/Filters";
 import SemanticResult from "../../components/Results/SemanticResults";
@@ -11,7 +11,7 @@ import SemanticResult from "../../components/Results/SemanticResults";
 const Results = () => {
   const location = useLocation();
 
-  const { query, selectedSearch, selectedSpace, selectedParam, SelectedFile } = location.state || {
+  const { query, selectedSearch, selectedSpace, selectedParam } = location.state || {
     query: "",
     selectedSearch: "",
     selectedSpace: "",
@@ -24,8 +24,8 @@ const Results = () => {
   const inputRef = useRef();
   const [space, setSpace] = useState(selectedSpace);
 
-  //const [resultsData, setResultsData] = useState([]);  //for using api call
-  const [resultsData, setResultsData] = useState(searchType === "semantic" ? SemanticResultData : EntityResultData); //for using static data
+  //const [resultsData, setResultsData] = useState([]);  //uncomment this while using api
+  const [resultsData, setResultsData] = useState(searchType === "semantic" ? SemanticResultData : EntityResultData); //comment this while using api
 
   const [filteredResults, setFilteredResults] = useState([]);
   const [activeFilters, setActiveFilters] = useState({
@@ -49,7 +49,7 @@ const Results = () => {
 
   // Apply filters to results
   useEffect(() => {
-    let filtered = resultsData[searchType === "semantic" ? "SemanticResultData" : "EntityResultData"] || [];
+    let filtered = resultsData[searchType === "semantic" ? "SemanticResultData" : "EntityResultData"] || []; //comment this while using api
 
     if (searchType === "semantic") {
       // Apply semantic search filters
@@ -77,17 +77,9 @@ const Results = () => {
     setFilteredResults(filtered);
   }, [activeFilters, resultsData, searchType]);
 
-  //on submitting new query
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newQuery) {
-      fetchResults(newQuery);
-    }
-  };
-
   //fetching results from api
   const fetchResults = (query) => {
-    fetch(`http://0.0.0.0:8000/search/${searchType}`, {
+    fetch(`http://localhost:8000/search/${searchType}`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -107,34 +99,21 @@ const Results = () => {
       });
   };
 
+  //uncomment while using api
   //fetching results on page load
-  useEffect(() => {
-    if (query) {
-      fetchResults(query);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (query) {
+  //     fetchResults(query);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (SelectedFile) {
-      const formData = new FormData();
-      formData.append("pdf", SelectedFile);
-
-      fetch("/upload", {
-        method: "POST",
-        mode: "cors",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          alert("File uploaded successfully");
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-          alert("Error uploading file");
-        });
+  //on submitting new query
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (newQuery) {
+      fetchResults(newQuery);
     }
-  }, [SelectedFile]);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-4 font-Inter text-foreground">
@@ -143,7 +122,7 @@ const Results = () => {
           <form onSubmit={handleSubmit} className="w-full">
             <Input
               ref={inputRef}
-              placeholder="Ask a follow-up question..."
+              placeholder="Enter a new Query..."
               value={newQuery}
               onChange={(e) => setNewQuery(e.target.value)}
               className=""

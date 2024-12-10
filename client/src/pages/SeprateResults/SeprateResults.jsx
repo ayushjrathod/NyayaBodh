@@ -13,7 +13,18 @@ import { WordFadeIn } from "../../components/ui/WordFadeIn";
 
 const SeprateResults = () => {
   const location = useLocation();
-  const { id, title, date, judges } = location.state || { id: "", title: "", date: "", judges: "" };
+  const { searchType } = location.state;
+  let id, title, date, judges, entities;
+  if (searchType == "semantic") {
+    ({ id, title, date, judges } = location.state || {
+      id: "",
+      title: "",
+      date: "",
+      judges: "",
+    });
+  } else {
+    ({ id, title, entities } = location.state || { id: "", title: "", entities: "" });
+  }
   const [summary, setSummary] = useState("");
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
@@ -77,8 +88,17 @@ const SeprateResults = () => {
                   <dd>{id}</dd>
                   <dt className="font-semibold">Date of Judgment:</dt>
                   <dd>{date}</dd>
-                  <dt className="font-semibold">Judges:</dt>
-                  <dd>{judges}</dd>
+                  {searchType === "semantic" ? (
+                    <>
+                      <dt className="font-semibold">Judges:</dt>
+                      <dd>{judges}</dd>
+                    </>
+                  ) : (
+                    <>
+                      <dt className="font-semibold">Entities:</dt>
+                      <dd>{entities}</dd>
+                    </>
+                  )}
                   <dt className="font-semibold">Parties:</dt>
                   <dd>{title}</dd>
                   <dt className="font-semibold">Acts Referred:</dt>

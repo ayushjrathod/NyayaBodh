@@ -1,9 +1,7 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { RecoilRoot } from "recoil";
-import Layout from "./components/Layout/Layout";
-// import ChatPage from "./pages/Chatbot/chattest";
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import AgreementOfSaleForm from "./components/DocGen/AOS/AOS";
 import DeedOfSaleOfFlat from "./components/DocGen/DOSF/DOSF";
 import LandSaleDeedForm from "./components/DocGen/DOSL/DOSL";
@@ -13,35 +11,31 @@ import GenAIClause from "./components/DocGen/GenAIClause";
 import LicenseAgreementForm from "./components/DocGen/LLA/LLA";
 import NDAForm from "./components/DocGen/NDA/NDA";
 import POA from "./components/DocGen/POW/POA";
+import Layout from "./components/Layout/Layout";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import Login from "./pages/Auth/Login";
 import Chatbot from "./pages/Chatbot/Chatbot";
 import Contact from "./pages/Contact/Contact";
+import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import SelectionPage from "./pages/DocGen/SelectionPage";
 import LandingSearch from "./pages/Landing/LandingSearch";
 import PdfSummary from "./pages/PdfSummary/PdfSummary";
 import Recommend from "./pages/Recommend/Recommend";
-import Resources from "./pages/Resources/Resources";
 import Results from "./pages/Result/Results";
 import SeprateResults from "./pages/SeprateResults/SeprateResults";
+import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import SiteChatbot from "./sitewidechatbot/Chatbot";
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
-
-  if (!isAuthenticated) {
-    loginWithRedirect();
-    return (
-      <div className="h-screen w-screen  flex justify-center items-center">
-        <Spinner size="sm" color="primary" />
-        Redirecting to Login...
-      </div>
-    );
-  }
-
-  return children;
-};
-
 const App = () => {
-  const { isLoading, error } = useAuth0();
+  const isLoading = false;
+  const error = null;
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("access_token")) {
+  //     dispatch(fetchUserProfile());
+  //   }
+  // }, [dispatch]);
 
   if (error) {
     return (
@@ -69,14 +63,24 @@ const App = () => {
   }
 
   return (
-    <RecoilRoot>
+    <GoogleOAuthProvider clientId="141965980825-262jk7uh4h31v5vqojbe7jhl0eof0mgp.apps.googleusercontent.com">
       <Router>
         <Routes>
-          {/* Protected Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route
             path="/"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <LandingSearch />
                 <SiteChatbot />
               </ProtectedRoute>
@@ -85,7 +89,7 @@ const App = () => {
           <Route
             path="/results"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -95,7 +99,7 @@ const App = () => {
           <Route
             path="/chat/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -105,7 +109,7 @@ const App = () => {
           <Route
             path="/recommend/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -113,19 +117,9 @@ const App = () => {
             <Route index element={<Recommend />} />
           </Route>
           <Route
-            path="/resources"
-            element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Resources />} />
-          </Route>
-          <Route
             path="/contact"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -135,7 +129,7 @@ const App = () => {
           <Route
             path="/result/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -145,18 +139,18 @@ const App = () => {
           <Route
             path="/summary/pdf"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
           >
             <Route index element={<PdfSummary />} />
           </Route>
-          {/*legal doc gen routes */}
+
           <Route
             path="/docgen"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -166,7 +160,7 @@ const App = () => {
           <Route
             path="/docgen/NDA"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -176,7 +170,7 @@ const App = () => {
           <Route
             path="/docgen/POA"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -186,7 +180,7 @@ const App = () => {
           <Route
             path="/docgen/LLA"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -196,7 +190,7 @@ const App = () => {
           <Route
             path="/docgen/ENDNCA"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -206,7 +200,7 @@ const App = () => {
           <Route
             path="/docgen/DOSF"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -216,7 +210,7 @@ const App = () => {
           <Route
             path="/docgen/DOSL"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -226,7 +220,7 @@ const App = () => {
           <Route
             path="/docgen/DOW"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -236,7 +230,7 @@ const App = () => {
           <Route
             path="/docgen/GenAIClause"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -246,7 +240,7 @@ const App = () => {
           <Route
             path="/docgen/AOS"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -255,7 +249,7 @@ const App = () => {
           </Route>
         </Routes>
       </Router>
-    </RecoilRoot>
+    </GoogleOAuthProvider>
   );
 };
 

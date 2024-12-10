@@ -43,6 +43,7 @@ const SemanticResults = ({ resultsData }) => {
   const handleTitleClick = (id, title, date, judges) => {
     navigate(`/result/${id}`, {
       state: {
+        searchType: "semantic",
         id,
         title,
         date,
