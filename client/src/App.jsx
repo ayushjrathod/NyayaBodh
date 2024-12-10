@@ -1,6 +1,5 @@
 import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import AgreementOfSaleForm from "./components/DocGen/AOS/AOS";
@@ -17,13 +16,14 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Login from "./pages/Auth/Login";
 import Chatbot from "./pages/Chatbot/Chatbot";
 import Contact from "./pages/Contact/Contact";
+import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import SelectionPage from "./pages/DocGen/SelectionPage";
 import LandingSearch from "./pages/Landing/LandingSearch";
 import PdfSummary from "./pages/PdfSummary/PdfSummary";
 import Recommend from "./pages/Recommend/Recommend";
-import Resources from "./pages/Resources/Resources";
 import Results from "./pages/Result/Results";
 import SeprateResults from "./pages/SeprateResults/SeprateResults";
+import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import SiteChatbot from "./sitewidechatbot/Chatbot";
 import LawLookupPage from "./pages/LawLookup/LawLookup";
 
@@ -68,8 +68,16 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          {/* Protected Routes */}
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route
             path="/"
             element={
@@ -82,7 +90,7 @@ const App = () => {
           <Route
             path="/results"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -92,7 +100,7 @@ const App = () => {
           <Route
             path="/chat/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -102,7 +110,7 @@ const App = () => {
           <Route
             path="/recommend/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -110,19 +118,9 @@ const App = () => {
             <Route index element={<Recommend />} />
           </Route>
           <Route
-            path="/resources"
-            element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Resources />} />
-          </Route>
-          <Route
             path="/contact"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -142,7 +140,7 @@ const App = () => {
           <Route
             path="/result/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -152,7 +150,7 @@ const App = () => {
           <Route
             path="/summary/pdf"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -163,7 +161,7 @@ const App = () => {
           <Route
             path="/docgen"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -173,7 +171,7 @@ const App = () => {
           <Route
             path="/docgen/NDA"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -183,7 +181,7 @@ const App = () => {
           <Route
             path="/docgen/POA"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -193,7 +191,7 @@ const App = () => {
           <Route
             path="/docgen/LLA"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -203,7 +201,7 @@ const App = () => {
           <Route
             path="/docgen/ENDNCA"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -213,7 +211,7 @@ const App = () => {
           <Route
             path="/docgen/DOSF"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -223,7 +221,7 @@ const App = () => {
           <Route
             path="/docgen/DOSL"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -233,7 +231,7 @@ const App = () => {
           <Route
             path="/docgen/DOW"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -243,7 +241,7 @@ const App = () => {
           <Route
             path="/docgen/GenAIClause"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }
@@ -253,7 +251,7 @@ const App = () => {
           <Route
             path="/docgen/AOS"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
                 <Layout />
               </ProtectedRoute>
             }

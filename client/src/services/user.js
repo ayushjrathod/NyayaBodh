@@ -8,7 +8,7 @@ export const registerUser = async (userData) => {
       email: userData.email,
       password: userData.password,
       fullname: userData.name, // Backend expects 'name' instead of 'fullname'
-      role: "USER",
+      role: userData.role,
     });
     return response.data;
   } catch (error) {

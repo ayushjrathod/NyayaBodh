@@ -1,38 +1,21 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import {
-  Avatar,
-  Button,
-  Card,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Select,
-  SelectItem,
-  Switch,
-  Tab,
-  Tabs,
-  Textarea,
-} from "@nextui-org/react";
+import { Button, Card, Select, SelectItem, Switch, Tab, Tabs, Textarea } from "@nextui-org/react";
 import { FileText, Globe, MoonIcon, Send, SunIcon, Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
 
 const LandingSearch = () => {
-  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
-
   const [query, setQuery] = useState("");
   const [selectedSearch, setSelectedSearch] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const navigate = useNavigate();
   const [selectedParam, setSelectedParam] = useState("");
   const [selectedSpace, setSelectedSpace] = useState("");
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
   const dropZoneRef = useRef(null);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
@@ -81,13 +64,6 @@ const LandingSearch = () => {
     }
   };
 
-  const logoutWithRedirect = () =>
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin,
-      },
-    });
-
   const handleSendMessage = () => {
     navigate("/results", {
       state: {
@@ -95,7 +71,6 @@ const LandingSearch = () => {
         selectedSearch,
         selectedParam,
         selectedSpace,
-        selectedFile,
       },
     });
   };
@@ -158,48 +133,6 @@ const LandingSearch = () => {
           endContent={<MoonIcon />}
           onChange={handleToggle}
         />
-        {!isAuthenticated ? (
-          <Button
-            color="primary"
-            className="absolute top-4 right-4 z-50"
-            variant="flat"
-            onClick={() => loginWithRedirect()}
-          >
-            {"Login"}
-          </Button>
-        ) : (
-          <Dropdown
-            className={`absolute top-4 right-4 z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
-            placement="bottom-end"
-            classNames={{
-              content: "border-small border-divider bg-background",
-            }}
-          >
-            <DropdownTrigger>
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform"
-                color="primary"
-                name={user.name}
-                size="sm"
-                src={user.picture}
-              />
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
-                <p className="font-semibold">{"Signed in as"}</p>
-                <p className="font-semibold">{user.email}</p>
-              </DropdownItem>
-              <DropdownItem key="profile" as={Link} href="/profile">
-                {"Profile"}
-              </DropdownItem>
-              <DropdownItem key="logout" color="danger" onClick={() => logoutWithRedirect()}>
-                {"Log Out"}
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        )}
       </div>
 
       <div className="relative z-10 flex items-center justify-center flex-col h-full">

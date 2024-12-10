@@ -20,8 +20,8 @@ from passlib.context import CryptContext
 from prisma import Prisma
 from prisma.errors import ClientNotConnectedError
 from pydantic import BaseModel
-from services import (authenticate_user, create_tokens, get_current_user,
-                      refresh_access_token)
+from services import (authenticate_user, create_tokens, create_user,
+                      get_current_user, refresh_access_token)
 
 # Load environment variables
 load_dotenv()
@@ -228,19 +228,21 @@ async def register(request: Request):
         email = data.get("email")
         password = data.get("password")
         fullname = data.get("fullname")  # Match frontend field name
-        role = data.get("role", "USER")
+        role = data.get("role")
 
         # Validate required fields
-        if not all([email, password, fullname]):
+        if not all([email, password, fullname, role]):
             raise HTTPException(
                 status_code=400,
                 detail="Missing required fields"
             )
+        
 
         # Check for existing user
         existing_user = await prisma.user.find_unique(
             where={"email": email}
         )
+        print(existing_user)
         
         if existing_user:
             raise HTTPException(
@@ -248,20 +250,13 @@ async def register(request: Request):
                 detail="Email already registered"
             )
 
+        print("hi")
         # Create new user
-        user = await prisma.user.create(
-            data={
-                "email": email,
-                "password": hash_password(password),
-                "fullname": fullname,  # Match schema field name
-                "role": role,
-                "is_verified": False
-            }
-        )
-
+        user = await create_user(email, password, fullname, role)
+        print(user)
         # Generate access token
         access_token = create_access_token({"sub": str(user.id)})
-        
+        print(access_token)
         return {
             "access_token": access_token,
             "user": {
@@ -272,12 +267,6 @@ async def register(request: Request):
             }
         }
 
-    except ClientNotConnectedError:
-        logger.error("Database connection error")
-        raise HTTPException(
-            status_code=503,
-            detail="Database connection error"
-        )
     except Exception as e:
         logger.error(f"Registration error: {str(e)}")
         raise HTTPException(
@@ -388,7 +377,40 @@ async def read_user(user_id: int):
     return user
 
 # Admin routes
-# Python
+class UserOut(BaseModel):
+    id: int
+    email: str
+    fullname: str
+    role: str
+    is_verified: bool
+
+class User(BaseModel):
+    id: int
+    email: str
+    fullname: str
+    role: str
+    is_verified: bool
+    
+from typing import List
+
+from services import get_current_admin
+
+
+@app.get("/api/admin/users", response_model=List[UserOut])
+async def get_all_users(current_user: User = Depends(get_current_admin)):
+    users = await prisma.user.find_many()
+    return users
+
+class RoleUpdate(BaseModel):
+    role: str
+
+@app.put("/api/admin/users/{user_id}/role")
+async def update_user_role(user_id: int, role_data: RoleUpdate, current_user: User = Depends(get_current_admin)):
+    updated_user = await prisma.user.update(
+        where={'id': user_id},
+        data={'role': role_data.role}
+    )
+    return updated_user
 
 @app.post("/api/auth/resend-otp")
 async def resend_otp(request: Request):
