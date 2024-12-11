@@ -11,7 +11,7 @@ import * as z from "zod";
 import { loginUser, registerUser } from "../../services/user";
 import { login } from "../../store/slices/userSlice";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "http://127.0.0.1:8080";
 
 // Define the login and register schemas with zod
 const loginSchema = z.object({
@@ -32,7 +32,6 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-
 
   // Setup forms with react-hook-form and zodResolver for validation
   const loginForm = useForm({

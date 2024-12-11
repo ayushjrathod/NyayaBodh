@@ -90,7 +90,7 @@ app.add_middleware(
 
 # Constants
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
-BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:8000')
+BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:8080')
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
 GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI')

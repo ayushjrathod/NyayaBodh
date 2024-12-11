@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getTokens, replaceJWTIfRefreshed } from "./utils/authToken";
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "http://127.0.0.1:8080";
 // User Management
 export const registerUser = async (userData) => {
   try {
