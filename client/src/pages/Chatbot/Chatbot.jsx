@@ -1,7 +1,7 @@
 import { Button, Card, Textarea } from "@nextui-org/react";
 import { ArrowDown, Bot, Send, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { WordFadeIn } from "../../components/ui/WordFadeIn";
 
@@ -14,7 +14,6 @@ const Chatbot = () => {
   const chatContainerRef = useRef(null);
   const textareaRef = useRef(null);
 
-  const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   const handleInputChange = (e) => {
@@ -56,9 +55,13 @@ const Chatbot = () => {
         body: JSON.stringify({ question: inputText, uuid: id }),
         mode: "cors",
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
+
       const tempMessageId = Date.now();
       setMessages((prev) => [...prev, { id: tempMessageId, text: "", sender: "ai" }]);
       let accumulatedText = "";
@@ -70,7 +73,7 @@ const Chatbot = () => {
         const chunk = decoder.decode(value, { stream: true });
         accumulatedText += chunk;
 
-        setMessages((prev) => prev.map((msg) => (msg.id == tempMessageId ? { ...msg, text: accumulatedText } : msg)));
+        setMessages((prev) => prev.map((msg) => (msg.id === tempMessageId ? { ...msg, text: accumulatedText } : msg)));
       }
     } catch (error) {
       console.error("Error fetching AI response:", error);
