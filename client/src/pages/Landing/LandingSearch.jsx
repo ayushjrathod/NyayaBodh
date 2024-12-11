@@ -1,8 +1,8 @@
-import { Button, Card, Select, SelectItem, Switch, Tab, Tabs, Textarea } from "@nextui-org/react";
+import { Avatar, Button, Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Select, SelectItem, Switch, Tab, Tabs, Textarea } from "@nextui-org/react";
 import { FileText, Globe, MoonIcon, Send, SunIcon, Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
 
 const LandingSearch = () => {
@@ -11,6 +11,8 @@ const LandingSearch = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedParam, setSelectedParam] = useState("");
   const [selectedSpace, setSelectedSpace] = useState("");
+  const user = useSelector((state) => state.user);
+
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
   const dropZoneRef = useRef(null);
@@ -117,11 +119,10 @@ const LandingSearch = () => {
     <div className="relative h-screen w-full bg-background overflow-hidden font-Poppins">
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
       <div
-        className={`absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full ${
-          isDarkMode
-            ? "bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"
-            : "bg-[radial-gradient(circle_400px_at_50%_300px,#d5c5ff,#ffffff80)]"
-        } `}
+        className={`absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full ${isDarkMode
+          ? "bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"
+          : "bg-[radial-gradient(circle_400px_at_50%_300px,#d5c5ff,#ffffff80)]"
+          } `}
       ></div>
 
       <div className="absolute top-4 right-4 flex gap-2 z-50">
@@ -133,14 +134,46 @@ const LandingSearch = () => {
           endContent={<MoonIcon />}
           onChange={handleToggle}
         />
+        {user.isLoggedIn && (
+          <Dropdown
+            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
+            placement="bottom-end"
+            classNames={{
+              content: "border-small border-divider bg-background",
+            }}
+          >
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="primary"
+                name={user.name}
+                size="sm"
+                src={user.picture}
+              />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
+                <p className="font-semibold">{"Signed in as"}</p>
+                <p className="font-semibold">{user.email}</p>
+              </DropdownItem>
+              <DropdownItem key="profile" as={NavLink} to="/profile">
+                {"Profile"}
+              </DropdownItem>
+              <DropdownItem key="logout" color="danger" onClick={() => handleLogout()}>
+                {"Log Out"}
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        )}
       </div>
 
       <div className="relative z-10 flex items-center justify-center flex-col h-full">
         <div className="w-full max-w-4xl h-[80vh] flex flex-col">
           <h2
-            className={`font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${
-              isDarkMode ? "from-neutral-100 to-neutral-500" : "from-black to-neutral-500"
-            } text-2xl md:text-4xl lg:text-7xl py-2 md:py-10 font-semibold tracking-tight`}
+            className={`font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${isDarkMode ? "from-neutral-100 to-neutral-500" : "from-black to-neutral-500"
+              } text-2xl md:text-4xl lg:text-7xl py-2 md:py-10 font-semibold tracking-tight`}
           >
             AI-Powered <br />
             Research Assistant
