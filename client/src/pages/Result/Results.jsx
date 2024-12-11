@@ -7,9 +7,13 @@ import SemanticResultData from "../../../public/SemanticResult.json"; //comment 
 import EntityResult from "../../components/Results/EntityResult";
 import Filters from "../../components/Results/Filters";
 import SemanticResult from "../../components/Results/SemanticResults";
+import { useTranslation } from 'react-i18next';
+import { useSelector } from "react-redux";
+
 
 const Results = () => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   const { query, selectedSearch, selectedSpace, selectedParam } = location.state || {
     query: "",
@@ -143,6 +147,7 @@ const Results = () => {
           </form>
         </div>
         <div className="grid px-4 gap-4 grid-cols-[1fr_3fr]">
+
           {/* Left sidebar for filters */}
           <div className=" mt-4">
             <Filters
