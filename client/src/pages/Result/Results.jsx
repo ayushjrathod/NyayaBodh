@@ -7,13 +7,11 @@ import SemanticResultData from "../../../public/SemanticResult.json"; //comment 
 import EntityResult from "../../components/Results/EntityResult";
 import Filters from "../../components/Results/Filters";
 import SemanticResult from "../../components/Results/SemanticResults";
-import { useTranslation } from 'react-i18next';
 import { useSelector } from "react-redux";
 
 
 const Results = () => {
   const location = useLocation();
-  const { t } = useTranslation();
 
   const { query, selectedSearch, selectedSpace, selectedParam } = location.state || {
     query: "",

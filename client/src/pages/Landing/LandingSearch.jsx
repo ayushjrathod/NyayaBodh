@@ -144,11 +144,11 @@ const LandingSearch = () => {
           >
             <DropdownTrigger>
               <Avatar
+                showFallback
                 isBordered
                 as="button"
                 className="transition-transform"
                 color="primary"
-                name={user.name}
                 size="sm"
                 src={user.picture}
               />
