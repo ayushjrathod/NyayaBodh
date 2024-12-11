@@ -1,8 +1,22 @@
-import { Button, Card, Select, SelectItem, Switch, Tab, Tabs, Textarea } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  Card,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Select,
+  SelectItem,
+  Switch,
+  Tab,
+  Tabs,
+  Textarea,
+} from "@nextui-org/react";
 import { Globe, MoonIcon, Send, SunIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
 
 const LandingSearch = () => {
@@ -11,6 +25,8 @@ const LandingSearch = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedParam, setSelectedParam] = useState("");
   const [selectedSpace, setSelectedSpace] = useState("");
+  const user = useSelector((state) => state.user);
+
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
   const dropZoneRef = useRef(null);
@@ -133,6 +149,39 @@ const LandingSearch = () => {
           endContent={<MoonIcon />}
           onChange={handleToggle}
         />
+        {user.isLoggedIn && (
+          <Dropdown
+            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
+            placement="bottom-end"
+            classNames={{
+              content: "border-small border-divider bg-background",
+            }}
+          >
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="primary"
+                name={user.name}
+                size="sm"
+                src={user.picture}
+              />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
+                <p className="font-semibold">{"Signed in as"}</p>
+                <p className="font-semibold">{user.email}</p>
+              </DropdownItem>
+              <DropdownItem key="profile" as={NavLink} to="/profile">
+                {"Profile"}
+              </DropdownItem>
+              <DropdownItem key="logout" color="danger" onClick={() => handleLogout()}>
+                {"Log Out"}
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        )}
       </div>
 
       <div className="relative z-10 flex items-center justify-center flex-col h-full">
