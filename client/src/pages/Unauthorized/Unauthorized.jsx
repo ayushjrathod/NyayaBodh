@@ -1,4 +1,4 @@
-import { Card } from "@nextui-org/react";
+import { Button, Card } from "@nextui-org/react";
 import { AlertTriangle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -15,13 +15,15 @@ export default function Unauthorized() {
           an error.
         </p>
         <div className="flex justify-center">
-          <Link
-            to="/"
-            className="flex items-center px-4 py-2 font-medium text-fo bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Go Back
+
+          <Link to="/login">
+            <Button variant="solid" color="primary" startContent={<ArrowLeft />}>
+
+              Go Back
+            </Button>
           </Link>
+
+
         </div>
       </Card>
     </div>
