@@ -13,17 +13,18 @@ import {
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { setLanguage } from "../../store/slices/languageSlice";
 import { toggleTheme } from "../../store/slices/themeSlice";
 import { logout } from "../../store/slices/userSlice";
-import LanguageSwitcher from "./Translator";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 function NewNavBar() {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-  const language = useSelector((state) => state.language.language);
 
   const handleToggle = () => {
     dispatch(toggleTheme());
@@ -34,15 +35,13 @@ function NewNavBar() {
     navigate("/");
   };
 
-  const toggleLanguage = (lang) => {
-    dispatch(setLanguage(lang));
-  };
+
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "Recommend", path: "/recommend/1" },
-    { name: "Law Lookup", path: "/lawlookup" },
-    { name: "Contact us", path: "/contact" },
+    { name: t("home"), path: "/" },
+    { name: t("recommend"), path: "/recommend/1" },
+    { name: t("law_lookup"), path: "/lawlookup" },
+    { name: t("contact_us"), path: "/contact" },
     ...(user.role === "CLERK" ? [{ name: "DocGen", path: "/docgen" }] : []),
   ];
 
@@ -77,13 +76,13 @@ function NewNavBar() {
             onChange={handleToggle}
           />
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem >
           <LanguageSwitcher />
         </NavbarItem>
         {user.isLoggedIn && (
           <Dropdown
-            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
             placement="bottom-end"
+            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
             classNames={{
               content: "border-small border-divider bg-background",
             }}
