@@ -13,7 +13,7 @@ import {
   Tabs,
   Textarea,
 } from "@nextui-org/react";
-import { Globe, MoonIcon, Send, SunIcon } from "lucide-react";
+import { Globe, MoonIcon, Send, SunIcon, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -149,39 +149,37 @@ const LandingSearch = () => {
           endContent={<MoonIcon />}
           onChange={handleToggle}
         />
-        {user.isLoggedIn && (
-          <Dropdown
-            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
-            placement="bottom-end"
-            classNames={{
-              content: "border-small border-divider bg-background",
-            }}
-          >
-            <DropdownTrigger>
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform"
-                color="primary"
-                name={user.name}
-                size="sm"
-                src={user.picture}
-              />
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
-                <p className="font-semibold">{"Signed in as"}</p>
-                <p className="font-semibold">{user.email}</p>
-              </DropdownItem>
-              <DropdownItem key="profile" as={NavLink} to="/profile">
-                {"Profile"}
-              </DropdownItem>
-              <DropdownItem key="logout" color="danger" onClick={() => handleLogout()}>
-                {"Log Out"}
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        )}
+        <Dropdown
+          className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
+          placement="bottom-end"
+          classNames={{
+            content: "border-small border-divider bg-background",
+          }}
+        >
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              color="primary"
+              name={user.name}
+              size="sm"
+              src={user.picture}
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
+              <p className="font-semibold">{"Signed in as"}</p>
+              <p className="font-semibold">{user.email}</p>
+            </DropdownItem>
+            <DropdownItem key="profile" as={NavLink} to="/profile">
+              {"Profile"}
+            </DropdownItem>
+            <DropdownItem key="logout" color="danger" onClick={() => handleLogout()}>
+              {"Log Out"}
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
 
       <div className="relative z-10 flex items-center justify-center flex-col h-full">
@@ -322,7 +320,7 @@ const LandingSearch = () => {
               </Card>
             </Tab>
             {/* Upload Document Tab */}
-            {/* <Tab key="upload" title="Upload Document">
+            <Tab key="upload" title="Upload Document">
               <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
                   <div
@@ -379,7 +377,7 @@ const LandingSearch = () => {
                   </div>
                 </div>
               </Card>
-            </Tab> */}
+            </Tab>
           </Tabs>
         </div>
       </div>

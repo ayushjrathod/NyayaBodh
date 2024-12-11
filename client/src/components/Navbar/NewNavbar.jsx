@@ -40,10 +40,10 @@ function NewNavBar() {
 
   const navItems = [
     { name: "Home", path: "/" },
-    // { name: "Recommend", path: "/recommend/1" },
-    // { name: "Law Lookup", path: "/lawlookup" },
+    { name: "Recommend", path: "/recommend/1" },
+    { name: "Law Lookup", path: "/lawlookup" },
     { name: "Contact us", path: "/contact" },
-    // ...(user.role === "CLERK" ? [{ name: "DocGen", path: "/docgen" }] : []),
+    ...(user.role === "CLERK" ? [{ name: "DocGen", path: "/docgen" }] : []),
   ];
 
   return (

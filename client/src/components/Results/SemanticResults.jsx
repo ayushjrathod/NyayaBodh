@@ -1,4 +1,5 @@
-import { Card, CardBody, Divider } from "@nextui-org/react";
+import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
+import { FileText, MessageSquare } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -79,7 +80,7 @@ const SemanticResults = ({ resultsData }) => {
                 </div>
               </CardBody>
               <Divider />
-              {/* <CardFooter className="justify-between">
+              <CardFooter className="justify-between">
                 <Button
                   onClick={() => handleRecommendCitationsClick(result.id)}
                   color="primary"
@@ -96,7 +97,7 @@ const SemanticResults = ({ resultsData }) => {
                 >
                   Chat with PDF
                 </Button>
-              </CardFooter> */}
+              </CardFooter>
             </Card>
           );
         })}
