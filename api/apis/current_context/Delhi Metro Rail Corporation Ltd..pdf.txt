@@ -1,0 +1,1249 @@
+* Author[2024] 4 S.C.R. 473 : 2024 INSC 292
+Delhi Metro Rail Corporation Ltd.  
+v. 
+Delhi Airport Metro Express Pvt. Ltd.
+Curative Petition (C) Nos.108-109 of 2022  
+In 
+Review Petition (C) Nos.1158-1159 of 2021  
+In 
+(Civil Appeal Nos 5627-5628 of 2021)
+10 April 2024
+[Dr Dhananjaya Y Chandrachud,* B R Gavai and  
+Surya Kant, JJ.]
+Issue for Consideration
+(i) Whether the curative petition is maintainable; and (ii) Whether 
+this Court (two-judge Bench) was justified in restoring the arbitral 
+award which had been set aside by the Division Bench of the 
+High Court on the ground that it suffered from patently illegality.
+Headnotes
+Curative Petition – Curative Jurisdiction may be invoked if 
+there is a miscarriage of justice:
+Held: The Supreme Court laid down an overarching principle in 
+Rupa Hurra v. Ashok Hurra [2002] 2 SCR 1006  that the Court may 
+entertain a curative petition to (i) prevent abuse of its process; and 
+(ii) to cure a gross miscarriage of justice – The enumeration of 
+the situations in which the curative jurisdiction can be exercised 
+is not intended to be exhaustive – The Court went on to lay down 
+certain procedural requirements to entertain a curative petition 
+such as a certificate by a Senior Advocate about fulfilling of the 
+requirements. [Paras 33 and 34]
+Arbitration and Conciliation Act 1996 – s.34 – Scope of 
+interference of courts with arbitral awards:
+Held: Section 34 of the Arbitration Act delineates the grounds for 
+setting aside an arbitral award – In addition to the grounds on 
+which an arbitral award can be assailed laid down in section 34(2), 
+there is another ground for challenge against domestic awards, 
+such as the award in the present case – Under Section 34(2-A) 
+of the Arbitration Act, a domestic award may be set aside if the 
+474 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+Court finds that it is vitiated by ‘patent illegality’ appearing on the 
+face of the award. [Paras 36, 37]
+Arbitration and Conciliation Act 1996 – s.34 – Setting aside 
+of domestic award – Ground of patent illegality:
+Held: The ground of patent illegality is available for setting aside 
+a domestic award, if the decision of the arbitrator is found to be 
+perverse, or so irrational that no reasonable person would have 
+arrived at it; or the construction of the contract is such that no fair 
+or reasonable person would take; or, that the view of the arbitrator 
+is not even a possible view – A ‘finding’ based on no evidence 
+at all or an award which ignores vital evidence in arriving at its 
+decision would be perverse and liable to be set aside under the 
+head of ‘patent illegality’ – An award without reasons would suffer 
+from patent illegality – The arbitrator commits a patent illegality by 
+deciding a matter not within his jurisdiction or violating a fundamental 
+principle of natural justice. [Para 40]
+Constitution of India – Art.136 – Arbitration and Conciliation 
+Act 1996 – ss. 34, 37 – Remedy u/Art. 136 against a decision 
+rendered in appeal u/s. 37 of 1996 Act:
+Held: In the statutory scheme of the Arbitration Act, a recourse to 
+s.37 is the only appellate remedy available against a decision u/s. 
+34 – The Constitution, however, provides the parties with a remedy 
+u/Art. 136 against a decision rendered in appeal u/s. 37 – This 
+is the discretionary and exceptional jurisdiction of the Supreme 
+Court to grant Special Leave to Appeal – While adjudicating the 
+merits of a Special Leave Petition and exercising its power u/Art. 
+136, this Court must interfere sparingly and only when exceptional 
+circumstances exist, justifying the exercise of this Court’s discretion 
+– The Court must apply settled principles of judicial review such 
+as whether the findings of the High Court are borne out from the 
+record or are based on a misappreciation of law and fact – In 
+particular, this Court must be slow in interfering with a judgement 
+delivered in exercise of powers u/s. 37 unless there is an error in 
+exercising of the jurisdiction by the Court u/s. 37. [Paras 42 and 43]
+Curative Petition – The petitioner-DMRC and DAMEPL (a 
+special purpose vehicle incorporated by a consortium) 
+entered into the Concession Agreement (2008 agreement) – 
+DAMPEL was to undertake among other things, the design, 
+supply, installation, testing and commissioning of railway 
+[2024] 4 S.C.R.  475
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+system – Dispute arose between the parties – DAMEPL 
+alleged that the line was unsafe to operate – Operations were 
+stopped – DAMEPL issued a notice to DMRC listing defects 
+attributable to faulty construction and deficient designs 
+which affected project safety – DMRC was requested to 
+cure the defects within 90 days from the date of this notice 
+– Thereafter, DAMPEL issued another notice terminating the 
+2008 agreement as defects were not cured within 90 days – 
+Arbitral Tribunal passed award in favour of DAMPEL – Single 
+Judge of the High Court dismissed the petition filed u/s. 34 
+of 1996 Act – Division Bench of the High Court allowed the 
+appeal u/s. 37 of 1996 Act in part – DAMEPL moved a SLP 
+u/Art. 136 of the Constitution – A two-judge bench of the 
+Supreme Court allowed the appeal, and restored the award 
+– Correctness:
+Held: Commissioner of Metro Railway Safety (CMRS), after inquiry 
+and inspection had issued sanction for running of the metro line 
+– In the instant case, the Division Bench of the High Court found 
+the award to be perverse, irrational and patently illegal since it 
+ignored the vital evidence of CMRS certification in deciding the 
+validity of termination – It underlined the significance of the CMRS 
+sanction under the Metro Railways (Operation and Maintenance) 
+Act, 2002 – Also, clause 29.5.1(i) of the 2008 agreement entitles 
+the concessionaire to terminate the agreement if DMRC “failed to 
+cure such breach or take effective steps for curing such breach” 
+within the cure period – Pertinently, the clause uses two separate 
+phrases, “cure” and “effective steps to cure” – The Tribunal found 
+that since certain defects remained after the cure period, this was 
+indicative of the fact that the defects were not cured and that no 
+effective steps were taken – The Tribunal fails to explain what 
+amounts to an ‘effective step’ and how the steps taken by DMRC 
+were not effective, within the meaning of the phrase – Parties 
+clearly intended that once a cure notice was served on a party, it 
+would be open to them to either cure defects or to initiate effective 
+steps, even if they could not culminate into the complete curing of 
+defects within the cure period – Incremental progress, even if it 
+does not lead to complete cure, is an acceptable course of action 
+to prevent termination according to the 2008 Agreement – The 
+decisions of the Single Judge of the High Court and this Court 
+(two-judge bench) are similarly silent on the aspect of “effective 
+steps” – The judgment of this Court also never tested the relevance 
+476 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+of the CMRS certificate vis-à-vis “effective steps” – Admittedly, 
+some of the defects were cured in their entirety and steps were 
+taken by DMRC to cure the remainders – DMRC did take certain 
+steps to alleviate DAMEPL’s concerns so as to warrant this change 
+of position – There is no explanation forthcoming in the award 
+about why none of these steps initiated during the cure period 
+were ‘effective steps’ – This gap in reasoning stems from the 
+arbitral tribunal wrongly separating the issue of termination and 
+the CMRS certificate – The structure and safety of the project, 
+as certified by the CMRS, were thus relevant before the Tribunal, 
+making the CMRS certificate a vital piece of evidence in deciding 
+the issue – The CMRS certificate was relevant evidence about 
+the safety of the structure – The arbitral tribunal erroneously 
+rejected the CMRS sanction as irrelevant – The Division Bench 
+correctly held that the arbitral tribunal ignored vital evidence on 
+the record, resulting in perversity and patent illegality, warranting 
+interference – The conclusions of the Division Bench are, thus, in 
+line with the settled precedent including the decisions in Associate 
+Builders and Ssangyong – The judgment of the two-judge Bench 
+of this Court, which interfered with the judgment of the Division 
+Bench of the High Court, has resulted in a miscarriage of justice 
+– Thus, Curative Petitions allowed. [Paras 44, 48, 49, 50, 53, 
+54, 58, 67, 68]
+Case Law Cited
+Rupa Hurra v. Ashok Hurra [2002] 2 SCR 1006  : 2002 
+4 SCC 388; Associate Builders v. Delhi Development 
+Authority [2014] 13 SCR 895 : 2015 3 SCC 49;  
+Ssangyong Engineering & Construction Co. Ltd. v. NHAI 
+[2019] 7 SCR 522 : 2019 15 SCC 131 – relied on.
+List of Acts
+Arbitration and Conciliation Act 1996; Arbitration and Conciliation 
+(Amendment) Act, 2015; Metro Railways (Operation and 
+Maintenance) Act, 2002.
+List of Keywords
+Curative Petition; Arbitral awards; Miscarriage of justice; Patent 
+illegality; Special leave to appeal by the Supreme Court; Concession 
+Agreement; Arbitration; Defects; Faulty construction; Deficient 
+designs; Cure; Effective steps to cure; Vital evidence on record. 
+[2024] 4 S.C.R.  477
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+Case Arising From
+INHERENT JURISDICTION: Curative Petition(C) Nos. 108-109 of 
+2022
+In
+Review Petition(C) Nos. 1158-1159 of 2021
+In
+Civil Appeal Nos. 5627-5628 of 2021
+From the Judgment and Order dated 23.11.2021 in R.P.(C) No. 1158 
+and 1159 of 2021 and dated 09.09.2021 in C.A. No. 5627 and 5628 
+of 2021 of the Supreme Court of India
+Appearances for Parties
+R. Venkataramani, AG., K.K. Venugopal, Parag P Tripathi, Maninder 
+Singh, Sr. Advs., Tarun Johri, Ankur Gupta, Vishwajeet Tyagi, 
+Srinivasan Ramaswamy, Chitvan Singhal, Ms. Ashita Chawla, Ankur 
+Talwar, Ms. Arushi Mishra, Ameyavikrama Thanvi, Kartikey Aggarwal, 
+Advs. for the Petitioner.
+Harish N Salve, Kapil Sibal, J.J. Bhatt, Prateek Seksaria, Sr. Advs., 
+Mahesh Agarwal, Rishi Agrawala, Shri Venkatesh, Megha Mehta 
+Agarwal, Pranjit Bhattacharya, Ms. Madhavi Agarwal, Suhael Buttan, 
+Vineet Kumar, Ms. Manisha Singh, Nishant Chothani, E.C. Agrawala, 
+Advs. for the Respondent
+Judgment / Order of the Supreme Court
+Judgment
+Dr Dhananjaya Y Chandrachud, CJI
+Table of Contents*
+A.Factual Background............................................................ 3
+B.DMRC’s claim and the Tribunal’s findings......................... 7
+C.Decisions of the High Court............................................... 10
+D.Judgment of this Court in appeal....................................... 11
+E.Issues in the Curative Petition........................................... 12
+* Ed. Note: Pagination as per the original Judgment.
+478 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+F.Submissions........................................................................ 12
+G.Analysis............................................................................... 16
+I. Curative Jurisdiction may be invoked if there is a 
+miscarriage of justice..................................................... 16
+II. Scope of interference of courts with arbitral awards..... 19
+III. The award was patently illegal....................................... 24
+i. Interpretation of the termination clause by the 
+Tribunal was unreasonable.................................... 26
+ii. The award overlooked vital evidence and 
+matters on the record............................................ 29
+H.Conclusion........................................................................... 37
+1. The curative jurisdiction of this Court under Article 142 of the 
+Constitution has been invoked in regard to its decision in Delhi Airport 
+Metro Express Private Limited vs. Delhi Metro Rail Corporation 
+Ltd.1. The judgment remained undisturbed in the exercise of the 
+review jurisdiction of this Court.2 
+A. Factual Background 
+2. The petitioner, Delhi Metro Rail Corporation3 is a state-owned 
+company wholly owned by the Government of India and the National 
+Capital Territory of Delhi. The respondent, Delhi Airport Metro 
+Express Private Limited4 is a special-purpose vehicle incorporated 
+by a consortium comprising of Reliance Infrastructure Limited 
+and Construcciones Y Auxiliar de Ferrocarriles SA, Spain. The 
+consortium bagged the contract for the construction, operation and 
+maintenance of the Delhi Airport Metro Express Ltd5 in 2008. The 
+Concession Agreement6 envisaged a public-private partnership 
+1 (2022) 1 SCC 131.
+2 Review Petition (C) Nos. 1158-1159/2921. 
+3 “DMRC”
+4 “DAMEPL”/” Concessionaire”
+5 “AMEL” 
+6 “2008 Agreement”
+[2024] 4 S.C.R.  479
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+for providing metro rail connectivity between New Delhi Railway 
+Station and the Indira Gandhi International Airport and other points 
+within Delhi.
+3. Under the 2008 Agreement, DAMEPL was granted exclusive rights, 
+license and authority to implement the project and concession in 
+respect of AMEL. This included the right to manage and operate 
+the Project as a commercial enterprise. DMRC was to undertake 
+clearances and bear costs relating to land acquisition, and civil 
+structures, while DAMEPL was to undertake among other things, 
+the design, supply, installation, testing and commissioning of railway 
+systems. DAMEPL was to complete the work in two years, and 
+thereafter, to maintain AMEL until August 2038. 
+4. In April 2012, DAMEPL sought a deferment of the concession fee, 
+citing delays in providing access to the stations by DMRC. DAMEPL 
+stated that while AMEL had been running without a glitch since 23 
+February 2011, the retail activity had not picked pace. DAMEPL 
+urged DMRC to extend their support, to this first-of-its-kind public-
+private partnership by deferring the concession fee payable by 
+DAMEPL.
+5. There was an exchange of correspondence between the parties 
+which ultimately led the Ministry of Urban Development to convene 
+a meeting of stakeholders in July 2012. A Joint Inspection Committee 
+was set up to inspect the defects alleged by DAMEPL. 
+6. Meanwhile, DAMEPL expressed its intention to halt operations, 
+alleging that the line was unsafe to operate. Operations were stopped 
+on 08 July 2012. On 09 July 2012, DAMEPL issued a notice to DMRC 
+containing a ‘non-exhaustive’ list of eight defects which according to 
+them, affected the performance of their obligations under the 2008 
+Agreement7. The notice stated that the defects were attributable to 
+faulty construction and deficient designs which affected project safety. 
+7. DAMEPL stated that the defects caused a “material adverse effect” 
+on the performance of the obligations by it to operate, manage and 
+maintain the project. DMRC was therefore requested to cure the 
+defects within 90 days from the date of this notice, failing which 
+it stated that it would be considered that a “Material Breach” and 
+7 “Cure Notice” 
+480 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+a “DMRC Event of Default” had occasioned, entitling DAMEPL to 
+terminate the 2008 agreement.
+8. On 8 October 2012, DAMPEL issued a notice terminating the 2008 
+agreement.8 The termination notice stated that as 90 days had 
+elapsed since the cure notice in spite of which the defects had not 
+been cured within the ‘cure period’, DAMEPL as Concessionaire 
+was terminating the agreement in terms of clause 29.5.1 of the 
+2008 agreement.
+9. DMRC initiated conciliation under clause 36.1 of the 2008 Agreement. 
+Since conciliation did not succeed, DMRC initiated arbitration 
+proceedings on 23 October 2012 under clause 36.2 of the 2008 
+agreement. 
+10. On 30 June 2013, DAMEPL halted operations and handed over the 
+line to DMRC. Before this, on 19 November 2012, both parties made 
+a joint application to the Commissioner of Metro Railway Safety9 
+for re-opening of AMEL for public carriage of passengers. Enclosed 
+with the application, was an administrative note jointly signed by 
+representatives of both DAMEPL and DMRC, which we shall avert 
+to in the course of the judgment. 
+11. Following this application, after inquiry and inspection, the CMRS 
+issued sanction on 18 January 2013. This sanction was subject to 
+certain conditions including speed restrictions. Specifically, the metro 
+was to be run at a speed of 50kmph, and an increase in speed beyond 
+50kmph up to 80kmph was to be authorized in steps of 10kmph at 
+a time. For an increase in speed beyond 80kmph, DMRC was to 
+approach the Commissioner for sanction with a justification as to 
+the improvements carried out by it. 
+12. Consequently, on 22 January 2013, AMEL operations were 
+commenced by DAMEPL. On 30 June 2013, the project assets were 
+handed over by DAMEPL to DMRC. After that, from 01 July 2013, 
+DMRC continued AMEL operations. 
+13. In August 2013, the arbitral tribunal comprising Mr AP Mishra, Mr 
+SS Khurana and Mr HL Bajaj was constituted.10 On 11 May 2017, 
+8 “Termination Notice”
+9 “CMRS”/”Commissioner”
+10 “Tribunal”
+[2024] 4 S.C.R.  481
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+the three-member Tribunal passed a unanimous award in favour of 
+DAMEPL11. 
+14. The award held that DAMEPL was entitled first, to the termination 
+payment of Rs. 2782.33 Crores plus interest in terms of the 
+concession agreement; second, to expenses incurred in operating 
+AMEL from 07 January 2013 to 30 June 2013 and debt service made 
+by DAMEPL during this period, of Rs 147.52 Crores plus interest at 
+11% per annum from the date of payment of stamp duty; third, to 
+the refund of the bank guarantee amounting to Rs 62.07 Crores plus 
+interest at 11% p.a. which had been encashed; fourth, to security 
+deposits with the service providers, amounting to Rs 56.8 Lakhs 
+plus interest at 11% p.a.; and that DMRC was entitled to Rs 46.04 
+Crores as Concession fee for the period from 23 February 2012 to 
+7 January 2013. 
+15. Assailing the award, DMRC instituted an application under Section 
+34 of the Arbitration and Conciliation Act 199612 before the Delhi High 
+Court. The Single-Judge of the High Court dismissed the petition13. 
+This gave rise to an appeal under Section 37 before a Division Bench 
+of the High Court. The appeal was partly allowed.14 
+16. Against the decision of the Division Bench of the High Court, DAMEPL 
+moved a Special Leave Petition under Article 136 of the Constitution. 
+A two-judge bench of this Court allowed the appeal, and restored 
+the award. The review petition assailing this decision was dismissed. 
+Thus, the curative petition. 
+B. DMRC’s claim and the Tribunal’s findings
+17. Before the Tribunal, DMRC claimed that – (i) it took steps to cure 
+the defects immediately after it received the cure notice, including 
+approaching SYSTRA -the original design consultant and convening 
+meetings with the Ministry of Urban Development and that DAMEPL 
+actively participated in all of these steps; (ii) that the real reason 
+for the termination notice was that DAMPL had ceased to find the 
+project financially viable. DMRC sought, inter alia , quashing of the 
+11 “Award” 
+12 “Arbitration Act”. 
+13 OMP (COMM) 307/2017 & OMP (I) (COMM) 200/2017 (‘Single Judge’) 
+14 FAO(OS)(COMM) 58/2018 & CM Nos. 13434/2018 (‘Division Bench’) 
+482 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+termination notice; and a direction to the respondent to resume the 
+performance of its obligations under the 2008 agreement. DAMEPL, 
+on the other hand, claimed that there were defects attributable to 
+DMRC’s faulty design; that these defects were not cured and no 
+effective steps were taken to cure them within the 90-day cure 
+period, resulting in material adverse effects to DAMEPL, entitling it 
+to terminate the concession agreement. 
+18. The Tribunal was required to adjudicate on the validity of the 
+termination notice. It framed the following issues: 
+“Were there any defects in the civil structure of the airport 
+metro line? 
+If there were defects, did such defects have a material 
+adverse effect on the performance of the obligation of 
+DAMEPL under CA? 
+If there were defects in the civil structure, which had 
+a material adverse effect on the performance of the 
+obligations under the CA by DAMEPL, have such defects 
+been cured by DMRC and/or have any effective steps been 
+taken within a period of 90 days from the date of notice 
+by DAMEPL to cure the defects by DMRC and thus, were 
+DMRC in breach of the CA as per 29.5.1 (i)?”
+19. The Tribunal undertook an analysis of the defects in the structure 
+and whether they had been cured or effective steps taken during 
+the cure period. It noted that 72% of the girders were affected by 
+cracks; the cause of the cracks was uncertain; the depth of the 
+cracks was not reliably determined; and that the inspection for 
+repairs carried out at the instance of DMRC was ‘non-serious’. 
+Further, it noted that there were twists in about 80 girders and 
+gaps between the shear key and the girders which were not cured 
+by DMRC in the cure period. Taken together, these defects were 
+considered to have compromised the integrity of the structure. This, 
+the Tribunal held, amounted to a breach of DMRC’s obligations 
+under the 2008 agreement resulting in a material adverse effect 
+on the concessionaire.
+20. The Tribunal framed the legal issues that arose for its consideration. 
+The issue about the validity of the termination agreement was framed 
+in the following terms: 
+[2024] 4 S.C.R.  483
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+“D. Was DAMEPL entitled to or justified in termination of 
+the CA, since the cost of repairs of the alleged defects was 
+only approximately Rs.14 crores as compared to the total 
+costs of the project of approximately Rs. 5700 crores?”
+21. The issue pertaining to the CMRS certificate was framed as follows:
+“H. Did the issuance of certificate by CMRS show that the 
+defects were duly cured?”
+22. Both these issues were answered in the negative by the Tribunal. On 
+Issue ‘D’ about the validity of the termination, it was held that since 
+the Tribunal had found that there were defects in the civil structure, 
+which remained uncured during the cure period, the amount incurred 
+by DMRC in repairs compared to the overall cost of the project was 
+irrelevant.15 On issue ‘H’, about the CMRS certificate, the tribunal 
+found that the CMRS sanction mandated rigorous monitoring of 
+operations of the line and imposed a speed restriction. Since the 
+purpose of the line was to serve as a high-speed line, the tribunal found 
+that the speed restrictions meant that this purpose was not served 
+and therefore, the CMRS certificate or the subsequent operation of 
+the line were not relevant in deciding the issues before it.16 
+C. Decisions of the High Court 
+23. The Single Judge of the High Court17, deciding the Section 34 
+application , upheld the award, observing that so long as the award 
+was reasonable and plausible, considering the material before the 
+Tribunal no interference was warranted, even if an alternate view 
+was possible. It was held that the Tribunal, in this case, had analysed 
+material and evidence in great detail, and arrived at a plausible 
+conclusion.
+24. The Division Bench of the High Court18 partly set aside the award 
+as perverse and patently illegal, for the following reasons: 
+24.1. On the validity of the termination, ex-facie, the termination 
+which was effective immediately from the date of termination 
+15 The Award, para 93. 
+16 ibid, paras 105-108. 
+17 “Single Judge”. 
+18 “Division Bench”. 
+484 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+was invalid. There was some ambiguity on the relevant date 
+of termination. The award did not interpret clause 29.5.1(i) 
+of the concession agreement regarding the duration of the 
+cure period; 
+24.2. The speed restrictions were not stated as the reason for 
+termination in the cure or termination notices and there was no 
+deliberation on this being a justification for termination before 
+the Tribunal. Thus, the award was silent and unreasoned on 
+this issue; and
+24.3. Underlining the significance of the CMRS sanction under the 
+Act of 2002, the findings of the tribunal on this issue were 
+incorrect because (i) the award overlooked the legal effect 
+of the CMRS certificate which was binding on the tribunal; 
+and (ii) the award erroneously treated the CMRS certificate 
+as irrelevant to the issue of the validity of the termination by 
+wrongly separating the issue of defects and material adverse 
+effects from the issue of the certificate.
+D. Judgment of this Court in appeal 
+25. This Court set aside the decision of the Division Bench and restored 
+the arbitral award on the following grounds: 
+25.1. There was no ambiguity in the date of termination and even 
+if a different view from that of the tribunal were possible, 
+construction of the provisions of the contract was within the 
+exclusive domain of the tribunal; 
+25.2. The award was not perverse. The finding of the tribunal that 
+the defects were not cured was a finding of fact, not warranting 
+interference; 
+25.3. DMRC had not contended before the Tribunal that the 
+certificate was binding and conclusive of the fact that the 
+defects were cured or that effective steps had been taken; and
+25.4. The Division Bench of the High Court was in error in 
+holding that the issue of the CMRS certificate was wrongly 
+separated from the issue of defects. It held that dealing with 
+the certificate separately from the validity of termination did 
+not render the tribunal’s findings on the latter erroneous. The 
+Tribunal comprised of engineers and the award could not 
+[2024] 4 S.C.R.  485
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+be scrutinised in the same manner as an award drawn by a 
+legally trained mind.
+26. The review petition against the above judgment of this Court was 
+dismissed on 23 November 2021.
+E. Issues in the Curative Petition
+27. The issues that arise for our consideration are (i) whether the 
+curative petition is maintainable; and (ii) whether this Court was 
+justified in restoring the arbitral award which had been set aside by 
+the Division Bench of the High court on the ground that it suffered 
+from patently illegality. 
+F. Submissions
+28. We have heard Mr R Venkataramani, Attorney General for India 
+and Mr K K Venugopal, Mr Parag Tripathi, and Mr Maninder Singh 
+senior counsel on behalf of the petitioners. They made the following 
+submissions: 
+28.1. Considering the definition of ‘material adverse effect’ under the 
+concession agreement, the defects had no material adverse 
+effect on DAMEPL’s performance of obligations under the 
+agreement, as is apparent from the running of the metro 
+line. The purpose of the agreement was fully subserved, as 
+evinced by the continuous running of the line; 
+28.2. The purpose of the cure notice was to demand cure 
+compliance from DMRC. As long as ‘effective steps’ were 
+taken by DMRC, culminating in cure compliance under the 
+statutory process under the Metro Railways (Operation 
+and Maintenance) Act, 200219, the termination notice was 
+invalid; 
+28.3. Clause 29.5.1 of the agreement shows that the termination 
+ought to have been effected after 90 days from the cure notice 
+plus 90 days in addition. Termination was thus effective only 
+on 07 January 2013 and on this date, none of the defects 
+were pending to be rectified by DMRC; 
+19 The 2002 Act
+486 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+28.4. The sanction/certificate granted by CMRS was issued on a 
+joint application by both the parties after thorough inspection 
+of the operations. The terms of the agreement and the 
+provisions relating to the CMRS process under the 2002 Act 
+are intrinsically connected; 
+28.5. The Tribunal should have considered the binding effect of the 
+CMRS sanction as the issue of speed was neither raised, nor 
+deliberated before it and was irrelevant to the termination; 
+28.6. The line has been running since 1 July 2013. The speed 
+of operations was sanctioned at 50kmph, and has been 
+progressively increased to 60 kmph in January 2013, 80 kmph 
+in August 2013, 90 kmph in July 2019, and ultimately 100 
+kmph and then 110 kmph in 2023. The metro was running 
+at 80 kmph prior to the termination of the agreement. It is 
+currently running at 120kmph for which a fresh sanction was 
+obtained from the CMRS. The smooth operation of the metro 
+line for five and a half years, until the date of the award was 
+entirely ignored by the Tribunal, making the award perverse; 
+28.7. The running of the metro line shows that even if there were 
+defects, they did not render the metro unviable nor did they 
+interfere with DAMEPL’s obligations under the agreement. 
+Thus, the award is perverse and patently illegal; 
+28.8. The tribunal ignored vital evidence, warranting the High 
+Court’s interference under Section 37 of the Arbitration Act. 
+The miscarriage of justice principle is informed by the scheme 
+of the Arbitration Act; 
+28.9. The High Court’s interference with the patent illegality was 
+justified and this Court under Article 136 ought to have been slow 
+to interfere with the decision of the Division Bench of the high 
+Court. Miscarriage of justice in terms of the decision in Rupa 
+Hurra vs. Ashok Hurra20 is linked with patent illegality. The High 
+Court’s interference under Section 37 was justified because the 
+exercise of jurisdiction under Section 34 was erroneous; and
+28.10. The issue of the fitness of the line was a matter falling under 
+the 2002 Act under which the Commissioner was the final 
+20 [2002] 2 SCR 1006  : 2002 4 SCC 388
+[2024] 4 S.C.R.  487
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+authority to decide on the safety of the metro. The certificate 
+could not have been substituted by the Tribunal’s finding on 
+safety of the line. 
+29. We have heard Mr Harish Salve, Mr Kapil Sibal, Mr JJ Bhatt and Mr 
+Prateek Seksaria, learned senior counsel for the respondent. They 
+have made the following submissions: 
+29.1. The curative petition is not maintainable as this Court cannot 
+revisit the conclusions arrived at by the Tribunal; 
+29.2. DMRC has taken over the project and has been operating 
+it since 01 July 2012 without having paid for its operation 
+between 01 January 2013 till 30 June 2013, except for a 
+small fraction of the total awarded amount;
+29.3. Till early March 2023, the trains were running at 90kmph, 
+as opposed to the speed of 120kmph at which they ought to 
+have been running;
+29.4. The issue about the relevance of the CMRS certificate has 
+been squarely addressed by the Single Judge and this Court. 
+The arbitrator is the sole judge of the quality and the quantity 
+of evidence; 
+29.5. The award was made after 68 hearings and after consideration 
+of 35,000 pages of documents and oral evidence. It has been 
+two and a half years since this Court restored the award on 
+09 September 2021 and the review against this decision was 
+dismissed on 23 November 2021; 
+29.6. According to the decision in Rupa Hurra (supra), the court is 
+not supposed to sit over a judgment like a court of appeal. The 
+scope of the review jurisdiction is narrow in itself and does 
+not warrant rehearing and correction of a judgment. Curative 
+proceedings cannot be treated as a second review; and 
+29.7. DAMEPL is not unjustly enriching itself. DAMEPL completed 
+the project with an investment of Rs 2802 Crores comprising 
+of debt and equity contributions and it continued to service 
+the debt even after handing over the line to DMRC. DMRC on 
+the other hand, has paid the decretal amount of Rs 2599.18 
+Crores while Rs 5088 Crores under the decree is outstanding 
+as on 31 January 2024.
+488 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+G. Analysis
+I. Curative Jurisdiction may be invoked if there is a 
+miscarriage of justice
+30. Senior Counsel for the respondent set forth preliminary objections 
+challenging the maintainability of the Curative Petition, in view of the 
+scope of that jurisdiction delineated inter alia  in the decision in Rupa 
+Hurra (supra) We will first lay down the contours of the jurisdiction 
+of this Court to entertain a curative petition in exercise of its inherent 
+powers under Article 142. 
+31. In Rupa Hurra (supra), a Constitution Bench of this Court dwelt on 
+whether any relief is available against a final judgement of this Court 
+after the dismissal of a petition seeking review of the judgement. 
+Two opinions were authored. The main judgment was by Justice 
+Syed Shah Quadri (on behalf of Chief Justice S P Bharucha, Justice 
+Variava, Justice Shivraj Patil and himself). A concurring opinion was 
+authored by Justice U C Banerjee. 
+32. Justice Quadri observed that the concern of the Court for rendering 
+justice in a cause cannot be considered less important than the 
+principle of finality. There are certain situations, the opinion observed, 
+which would require reconsideration of a final judgement even after 
+the review has been dismissed to set right a miscarriage of justice. 
+Such circumstances, the court held, are those where declining to 
+reconsider the judgement would be oppressive to judicial conscience 
+and cause the perpetuation of irremediable injustice. Justice Quadri 
+observed:
+“42. … the duty to do justice in these rarest of rare cases 
+shall have to prevail over the policy of certainty of judgment 
+as though it is essentially in the public interest that a final 
+judgment of the final court in the country should not be 
+open to challenge, yet there may be circumstances, as 
+mentioned above, wherein declining to reconsider the 
+judgment would be oppressive to judicial conscience 
+and would cause perpetuation of irremediable 
+injustice. ”
+(emphasis supplied)
+33. This Court laid down an overarching principle that the Court may 
+entertain a curative petition to (i) prevent abuse of its process; and 
+[2024] 4 S.C.R.  489
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+(ii) to cure a gross miscarriage of justice.21 The Court provided 
+examples of such circumstances, such as a violation of the principles 
+of natural justice; or a situation where the Judge fails to disclose his 
+connection with the subject matter or the parties, giving scope for 
+an apprehension of bias. However, the Court observed that it is not 
+possible to exhaustively enumerate the grounds on which a curative 
+petition may be entertained. The Court noted as follows:
+“50. The next step is to specify the requirements to entertain 
+such a curative petition under the inherent power of this 
+Court so that floodgates are not opened for filing a second 
+review petition as a matter of course in the guise of a 
+curative petition under inherent power. It is common ground 
+that except when very strong reasons exist, the Court 
+should not entertain an application seeking reconsideration 
+of an order of this Court which has become final on 
+dismissal of a review petition . It is neither advisable nor 
+possible to enumerate all the grounds on which such 
+a petition may be entertained.
+51. Nevertheless, we think that a petitioner is entitled to 
+relief ex debito justitiae  if he establishes (1) violation of the 
+principles of natural justice in that he was not a party to 
+the lis but the judgment adversely affected his interests or, 
+if he was a party to the lis, he was not served with notice 
+of the proceedings and the matter proceeded as if he had 
+notice, and (2) where in the proceedings a learned Judge 
+failed to disclose his connection with the subject-matter or 
+the parties giving scope for an apprehension of bias and 
+the judgment adversely affects the petitioner.”
+34. The enumeration of the situations in which the curative jurisdiction 
+can be exercised is thus not intended to be exhaustive. The Court 
+went on to lay down certain procedural requirements to entertain a 
+curative petition such as a certificate by a Senior Advocate about 
+fulfilling of the requirements. 
+35. In his concurring opinion, Justice Banerjee also laid down a similar 
+test of ‘manifest injustice’ to exercise the jurisdiction of this Court 
+21 Rupa Hurra , para 49.
+490 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+under Article 142 while entertaining a curative petition. In essence, the 
+jurisdiction of this Court, while deciding a curative petition, extends 
+to cases where the Court acts beyond its jurisdiction, resulting in 
+a grave miscarriage of justice. We now proceed to lay down the 
+scope of jurisdiction of this Court and the competent courts below 
+while dealing with cases arising out of an application to set aside 
+an arbitral award under Section 34 of the Arbitration Act.
+II. Scope of interference of courts with arbitral awards
+36. Section 34 of the Arbitration Act delineates the grounds for setting 
+aside an arbitral award. The provision, as amended by the Arbitration 
+and Conciliation (Amendment) Act, 2015 reads as follows: 
+“34. Application for setting aside arbitral award.—
+…
+(2) An arbitral award may be set aside by the Court only if—
+…
+(b) the Court finds that--
+(i) the subject-matter of the dispute is not capable of 
+settlement by arbitration under the law for the time being 
+in force, or
+(ii) the arbitral award is in conflict with the public policy 
+of India.
+Explanation 1. --For the avoidance of any doubt, it is 
+clarified that an award is in conflict with the public policy 
+of India, only if,--
+(i) the making of the award was induced or affected by 
+fraud or corruption or was in violation of section 75 or 
+section 81; or
+(ii) it is in contravention with the fundamental policy of 
+Indian law; or
+(iii) it is in conflict with the most basic notions of morality 
+or justice.
+Explanation 2. --For the avoidance of doubt, the test as 
+to whether there is a contravention with the fundamental 
+[2024] 4 S.C.R.  491
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+policy of Indian law shall not entail a review on the merits 
+of the dispute.
+(2A) An arbitral award arising out of arbitrations other 
+than international commercial arbitrations, may also 
+be set aside by the Court, if the Court finds that the 
+award is vitiated by patent illegality appearing on the 
+face of the award:
+Provided that an award shall not be set aside merely on 
+the ground of an erroneous application of the law or by 
+reappreciation of evidence.”
+(emphasis supplied)
+37. The contours of the power of the competent court to set aside an 
+award under Section 34 has been explored in several decisions of 
+this Court. In addition to the grounds on which an arbitral award 
+can be assailed laid down in Section 34(2), there is another ground 
+for challenge against domestic awards, such as the award in the 
+present case. Under Section 34(2-A) of the Arbitration Act, a domestic 
+award may be set aside if the Court finds that it is vitiated by ‘patent 
+illegality’ appearing on the face of the award. 
+38. In Associate Builders vs. Delhi Development Authority22, a two-
+judge Bench of this Court held that although the interpretation of a 
+contract is exclusively within the domain of the arbitrator, construction 
+of a contract in a manner that no fair-minded or reasonable person 
+would take, is impermissible. A patent illegality arises where the 
+arbitrator adopts a view which is not a possible view. A view can be 
+regarded as not even a possible view where no reasonable body of 
+persons could possibly have taken it. This Court held with reference 
+to Sections 28(1)(a) and 28(3), that the arbitrator must take into 
+account the terms of the contract and the usages of trade applicable 
+to the transaction. The decision or award should not be perverse 
+or irrational. An award is rendered perverse or irrational where the 
+findings are (i) based on no evidence; (ii) based on irrelevant material; 
+or (iii) ignores vital evidence. Patent illegality may also arise where 
+the award is in breach of the provisions of the arbitration statute, as 
+when for instance the award contains no reasons at all, so as to be 
+22 [2014] 13 SCR 895  : 2015 3 SCC 49. 
+492 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+described as unreasoned. A fundamental breach of the principles 
+of natural justice will result in a patent illegality, where for instance 
+the arbitrator has let in evidence behind the back of a party. In the 
+above decision, this Court observed: 
+“31. The third juristic principle is that a decision which is 
+perverse or so irrational that no reasonable person would 
+have arrived at the same is important and requires some 
+degree of explanation. It is settled law that where:
+(i) a finding is based on no evidence, or
+(ii) an Arbitral Tribunal takes into account something 
+irrelevant to the decision which it arrives at; or
+(iii) ignores vital evidence in arriving at its decision,
+such decision would necessarily be perverse.
+…
+42.2. (b) A contravention of the Arbitration Act itself 
+would be regarded as a patent illegality — for example 
+if an arbitrator gives no reasons for an award in 
+contravention of Section 31(3) of the Act, such award 
+will be liable to be set aside.”
+(emphasis supplied)
+39. In Ssangyong Engineering & Construction Co. Ltd. vs. NHAI23, 
+a two-judge bench of this Court endorsed the position in Associate 
+Builders (supra), on the scope for interference with domestic awards, 
+even after the 2015 Amendment:
+“40. The change made in Section 28(3) by the Amendment 
+Act really follows what is stated in paras 42.3 to 45 in 
+Associate Builders, namely, that the construction of the 
+terms of a contract is primarily for an arbitrator to decide, 
+unless the arbitrator construes the contract in a manner 
+that no fair-minded or reasonable person would; in 
+short, that the arbitrator’s view is not even a possible 
+view to take. Also, if the arbitrator wanders outside the 
+23 [2019] 7 SCR 522  : 2019 15 SCC 131
+[2024] 4 S.C.R.  493
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+contract and deals with matters not allotted to him, 
+he commits an error of jurisdiction. This ground of 
+challenge will now fall within the new ground added 
+under Section 34(2-A).
+41. … Thus, a finding based on no evidence at all or 
+an award which ignores vital evidence in arriving at its 
+decision would be perverse and liable to be set aside 
+on the ground of patent illegality. Additionally, a finding 
+based on documents taken behind the back of the parties 
+by the arbitrator would also qualify as a decision based 
+on no evidence inasmuch as such decision is not based 
+on evidence led by the parties, and therefore, would also 
+have to be characterised as perverse.”
+(emphasis supplied)
+40. In essence, the ground of patent illegality is available for setting 
+aside a domestic award, if the decision of the arbitrator is found to 
+be perverse, or so irrational that no reasonable person would have 
+arrived at it; or the construction of the contract is such that no fair 
+or reasonable person would take; or, that the view of the arbitrator 
+is not even a possible view.24 A ‘finding’ based on no evidence at all 
+or an award which ignores vital evidence in arriving at its decision 
+would be perverse and liable to be set aside under the head of 
+‘patent illegality’. An award without reasons would suffer from patent 
+illegality. The arbitrator commits a patent illegality by deciding a 
+matter not within his jurisdiction or violating a fundamental principle 
+of natural justice. 
+41. A judgment setting aside or refusing to set aside an arbitral award 
+under Section 34 is appealable in the exercise of the jurisdiction 
+of the court under Section 37 of the Arbitration Act. It has been 
+clarified by this Court, in a line of precedent, that the jurisdiction 
+under Section 37 of the Arbitration Act is akin to the jurisdiction of 
+the Court under Section 34 and restricted to the same grounds of 
+challenge as Section 34.25 
+24 Patel Engineering Limited vs North Eastern Electric Power Corporation Limited (2020) 7 SCC 176. 
+25 MMTC Ltd. v. Vedanta Ltd, (2019) 4 SCC 163, para 14; Konkan Railways v. Chenab Bridge Project 
+Undertaking, 2023 INSC 742, para 14. 
+494 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+42. In the statutory scheme of the Arbitration Act, a recourse to Section 
+37 is the only appellate remedy available against a decision under 
+Section 34. The Constitution, however, provides the parties with a 
+remedy under Article 136 against a decision rendered in appeal under 
+Section 37. This is the discretionary and exceptional jurisdiction of 
+this Court to grant Special Leave to Appeal. In fact, Section 37(3) of 
+the Arbitration Act expressly clarifies that no second appeal shall lie 
+from an order passed under Section 37, but nothing in the section 
+takes away the constitutional right under Article 136. Therefore, in 
+a sense, there is a third stage at which this court tests the exercise 
+of jurisdiction by the courts acting under Section 34 and Section 37 
+of the Arbitration Act.
+43. While adjudicating the merits of a Special Leave Petition and 
+exercising its power under Article 136, this Court must interfere 
+sparingly and only when exceptional circumstances exist, justifying 
+the exercise of this Court’s discretion.26 The Court must apply settled 
+principles of judicial review such as whether the findings of the High 
+Court are borne out from the record or are based on a misappreciation 
+of law and fact. In particular, this Court must be slow in interfering 
+with a judgement delivered in exercise of powers under Section 37 
+unless there is an error in exercising of the jurisdiction by the Court 
+under Section 37 as delineated above. Unlike the exercise of power 
+under Section 37, which is akin to Section 34, this Court (under 
+Article 136) must limit itself to testing whether the court acting under 
+Section 37 exceeded its jurisdiction by failing to apply the correct 
+tests to assail the award. 
+III. The award was patently illegal 
+44. In the case at hand, the Division Bench found the award to 
+be perverse, irrational and patently illegal since it ignored the 
+vital evidence of CMRS certification in deciding the validity of 
+termination. This, the Division Bench held, overlooked the statutory 
+certification deeming it irrelevant without reasons and thus the 
+award was patently illegal according to the test in Associate 
+Builders (supra).27
+26 Chandi Prasad Chokhani v. State of Bihar, AIR 1961 SC 1708; Pritam Singh v. State, 1950 SCC 189.
+27 Division Bench, paras 98-99. 
+[2024] 4 S.C.R.  495
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+45. This Court in appeal against the judgment of the Division Bench 
+of the High Court held that the award was not perverse. Factual 
+findings such as the finding that the cure period was 90 days and 
+that DAMEPL was entitled to terminate the contract, could not, it was 
+held, be interfered with.28 On the CMRS Certificate, this Court held 
+that the arbitral tribunal was deciding whether there was a breach 
+of the agreement and whether the defects were cured within the 
+cure period; hence the safety of the line was not an issue before 
+the tribunal. This Court held that the Commissioner may be the 
+competent authority to determine the safety of the project but the 
+certificate itself did not show that the defects were cured within 90 
+days. This Court disagreed with the Division Bench and held that the 
+CMRS certificate had no bearing on the validity of the termination. 
+46. There is a fundamental error in the manner in which this Court dealt 
+with the challenge to the decision of the High Court. This jurisdiction 
+of this Court was invoked under Article 136 of the Constitution. The 
+Court was exercising its jurisdiction over a decision rendered by the 
+Division Bench of the High Court in appeal under Section 37. The 
+Division Bench had held that the award overlooked crucial facts and 
+evidence on record that were crucial to the determination of the issues 
+before the arbitral tribunal. This led to the award being perverse and 
+patently illegal within the parameters of Section 34 as explained 
+in the judgments of this Court in Associate Builders (supra) and 
+Ssangyong (supra). The award overlooked the express terms of 
+clause 29.5.1(i) which stipulated that if “effective steps” were taken 
+during the cure period by DMRC, the contractual power to terminate 
+could not be exercised. This Court incorrectly considered the CMRS 
+certificate to be irrelevant to the validity of the termination. 
+i. Interpretation of the termination clause by the Tribunal was 
+unreasonable 
+47. Interference with an arbitral award cannot frustrate the ‘commercial 
+wisdom behind opting for alternate dispute resolution’, merely because 
+an alternate view exists.29 However, the interpretation of a contract 
+cannot be unreasonable, such that no person of ordinary prudence 
+would take it. The contract, which is a culmination of the parties’ 
+28 Civil Appeal, para 31. 
+29 Dyna Technologies Private Limited v. Crompton Greaves Limited, (2019) 20 SCC 1, paras 24, 25. 
+496 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+agency, should be given full effect. If the interpretation of the terms 
+of the contract as adopted by the tribunal was not even a possible 
+view, the award is perverse.30
+48. Clause 29.5.1(i) entitles the concessionaire to terminate the 
+agreement if DMRC “failed to cure such breach or take effective 
+steps for curing such breach” within the cure period. Pertinently, 
+the clause uses two separate phrases, “cure” and “effective steps 
+to cure”. The clause reads as follows: 
+“29.5.1 The Concessionaire may after giving 90 (ninety) 
+days’ notice in writing to DMRC terminate this Agreement 
+upon the occurrence and continuation of any of the following 
+events (each a “DMRC Event of Default”), unless any 
+such DMRC Event of Default has occurred as a result 
+of Concessionaire Event of Default or due to a Force 
+Majeure Event. 
+(i) DMRC is in breach of this Agreement and such breach 
+has a Material Adverse Effect on the Concessionaire and 
+DMRC has failed to cure such breach or take effective 
+steps for curing such breach within 90 (ninety) days of 
+receipt of notice in this behalf from the Concessionaire;”
+(emphasis supplied)
+49. The Tribunal found that since certain defects remained after the 
+cure period, this was indicative of the fact that the defects were not 
+cured and that no effective steps were taken. However, logically, 
+the fact that defects existed at the end of the cure period relates 
+to one aspect of the termination clause – that the defects were not 
+completely  cured. It does not explain whether effective steps were 
+taken within the cure period. Effectively, the Tribunal considered that 
+in-progress steps that had not yet culminated into completely cured 
+defects were not “effective steps” to offset termination. This places 
+the two components i.e. ‘curing of defects’ and ‘taking effective steps 
+to cure defects’ at par, to mean that only the completed curing of 
+defects is relevant. The Tribunal fails to explain what amounts to an 
+‘effective step’ and how the steps taken by DMRC were not effective, 
+within the meaning of the phrase.
+30 Konkan Railway Corporation Limited v. Chenab Bridge Project Undertaking, 2023 9 SCC 85.
+[2024] 4 S.C.R.  497
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+50. Evidently, this could not have been the intention of the parties, 
+because they have clearly agreed to include the phrase “effective 
+steps”. They clearly intended that once a cure notice was served 
+on a party, it would be open to them to either cure defects or to 
+initiate effective steps, even if they could not culminate into the 
+complete curing of defects within the cure period. Incremental 
+progress, even if it does not lead to complete cure, is an acceptable 
+course of action to prevent termination according to the 2008 
+Agreement. 
+51. The Tribunal did not appreciate the individual import of the two 
+phrases separately from each other. This was not a matter of mere 
+“alternate interpretation” of the clause, but an unreasonable and 
+uncalled for interpretation of the clause, which frustrated the very 
+provision, and which no reasonable person would have accepted 
+considering the terms of the clause. We must clarify that Tribunal 
+could have still arrived at the conclusion that the steps taken during 
+the cure period were not effective within the meaning of the clause 
+for certain reasons. However, such discussion and reasoning is 
+conspicuously absent. 
+52. Issue H framed by the Tribunal- “Did the issuance of certificate by 
+CMRS show that the defects were duly cured” similarly glosses 
+over the effective steps aspect of the clause. Given this framing, 
+the issue was bound to be answered in the negative since 
+the CMRS certificate does not conclude that the defects were 
+completely cured. 
+53. The decisions of the Single Judge and this Court are similarly silent 
+on the aspect of “effective steps”. In paragraphs 31 to 34 of its 
+judgment, this Court noted that since the defects were not cured in 
+90 days, the termination was valid. Impliedly, this Court found that 
+the defects ought to have been fully cured within the cure period 
+in order to avoid termination.
+54. The judgment of this Court also never tested the relevance of the 
+CMRS certificate vis-à-vis “effective steps”. This Court accepted a 
+reading of the termination clause by the Arbitral tribunal and the 
+Single Judge that was not even a possible view and could not 
+have been arrived at on any objective assessment. This Court not 
+only overlooked the plain words of the clause but also rendered the 
+phrase “effective steps” otiose. 
+498 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+ii. The award overlooked vital evidence and matters on the record
+55. The erroneous and misleading framing of the issue as noted above led 
+to the ignoring of vital evidence relevant to the issue of termination. 
+The arbitral tribunal held that since the Commissioner imposed 
+conditions of inspection and speed restrictions, this meant that the 
+defects were not fully cured. 
+56. Certainly, the imposition of conditions shows that the defects were 
+not cured completely, to warrant an unconditional sanction for full 
+speed operations. However, as the Division Bench of the High Court 
+correctly observed, the separation of the validity of termination and 
+relevance of the CMRS certificate was the reason for this erroneous 
+finding. Since the ‘effective steps’ aspect was overlooked, the CMRS 
+certificate was erroneously deemed to be irrelevant. 
+57.  On 19 November 2012, a joint application was made by the parties 
+to the Commissioner under the 2002 Act. Significantly, the annexure 
+to the application which was jointly signed by the parties states as 
+set out below: 
+“f) The repairs have been Inspected by an Independent 
+Engineer M/s TUV, engaged by 
+DMRC to conduct the technical check on the quality 
+of work and to ensure that the repairs are carried out 
+as per the approved repair methodology . The copies 
+of the certificates obtained from TUV are enclosed as 
+Annexures xvii.
+g) Cracks in soffit of some ‘U’ girders were also observed 
+and, therefore, inspection of all the girders have been 
+done and mapping of the cracks have been undertaken 
+accordingly (Annexure-xviii). Cracks have beery noticed 
+in 367 girders. These cracks were analysed by M/s 
+SYSTRA and their report is, enclosed as Annexure xix. 
+They have concluded that there is no effect on the 
+integrity of the girders and that there is no reason 
+to-be further worried . M/s SYSTRA have also given 
+the repair methodology for these cracks from the point of 
+view of durability and to avoid permeation of water during 
+the service life of girders, (Included in Annexure-xvi). 
+Accordingly, the cracks wider than 0.2 mm have been 
+[2024] 4 S.C.R.  499
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+Injected with epoxy resin and cracks less than 0.2 mm 
+have been sealed with epoxy sealant.
+h) Train trials after repairs by DMRC have been 
+completed successfully and all systems have been 
+checked for correct functioning at various speeds 
+Including at speed of 120 kmph. Track recording was 
+done with OMS-2000 during these trials and no peak of 
+value ≥ 0.15g was recorded upto 120 Kmph (results of 
+OMS 2000 are enclosed in Annexure XIV)”
+(emphasis supplied)
+58. Admittedly, some of the defects were cured in their entirety and 
+steps were taken by DMRC to cure the remainders, based on which 
+the parties had jointly sought permission under the 2002 Act. The 
+parties stated that the repairs had been inspected by an independent 
+engineer; an analysis of the cracks revealed that the integrity of the 
+girders was intact and there was no cause of concern. Further, the 
+parties stated that the train trials “after repairs by DMRC have been 
+completed successfully and all systems have been checked for correct 
+functioning at various speeds including the speed of 120kmph”.  It is 
+apparent on the face of the record that certain repairs were completed 
+by DMRC and the trials had been completed at full speed as on the 
+date of application, 19 November 2012. 
+59. On 9 July 2012, about four months before the date of the joint 
+application, DAMEPL had averred in the cure notice that the project 
+was not ‘safe for operations’ and that it posed a threat to life and 
+property. The arbitral tribunal was correct in concluding that the joint 
+application does not constitute a waiver of the termination, but this 
+evidence was vital considering the change in DAMEPL’s position 
+on the safety of the line from the date of the cure notice to the date 
+of the joint application. DMRC did take certain steps to alleviate 
+DAMEPL’s concerns so as to warrant this change of position. There 
+is no explanation forthcoming in the award about why none of these 
+steps initiated during the cure period were ‘effective steps’. This gap 
+in reasoning stems from the arbitral tribunal wrongly separating the 
+issue of termination and the CMRS certificate. 
+60. Besides the effective steps aspect, there is another reason why the 
+CMRS certificate ought to have been treated as relevant. The Tribunal 
+treats the cure notice as a crucial document . At paragraph 26 of the 
+500 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+award, it noted that “since the cure notice dated 9th July 2012 is a 
+crucial document in this case, it is useful to quote certain paragraphs 
+of the said letter”. The cure notice, in turn, was heavily premised on 
+the safety of operations.31 Interestingly, at paragraph 27 of the cure 
+notice, DAMEPL avers that the trains can only be operated once 
+the defects are cured to the satisfaction of the stakeholders about 
+the safety of operations. 
+61. Reference may be made to the 2002 Act under which the CMRS is 
+the relevant statutory stakeholder whose satisfaction about the safety 
+of operations is necessary for running of the metro. The relevant 
+provisions of the Act may be adverted to here:
+“14. Sanction of Central Government to the opening 
+of metro railway.—The metro railway in the the National 
+Capital Region, metropolitan city and metropolitan area shall 
+not be opened for the public carriage of passengers except 
+with the previous sanction of the Central Government.
+15. Formalities to be complied with before giving 
+sanction to the opening of metro railway.—(1) The 
+Central Government shall, before giving its sanction to the 
+opening of the metro railway under Section 14, obtain a 
+report from the Commissioner that—
+(a) he has made a careful inspection of the metro railway 
+and the rolling stock that may be used thereon;
+(b) the moving and fixed dimensions as laid down by 
+the Central Government have not been infringed;
+(c) the track structure, strength of bridges, standards of 
+signalling system, traction system, general structural 
+character of civil works and the size of, and maximum 
+gross load upon, the axles of any rolling stock, comply 
+with the requirements laid down by the Central 
+Government; and
+(d) in his opinion, metro railway can be opened for the 
+public carriage of passengers without any danger to 
+the public using it.
+31 Cure Notice paras 18,21,26, and 27. 
+[2024] 4 S.C.R.  501
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+(2) If the Commissioner is of the opinion that the metro 
+railway cannot be opened without any danger to the 
+public using it, he shall, in his report, state the grounds 
+therefor, as also the requirements which, in his opinion, 
+are to be complied with before sanction is given by the 
+Central Government.
+(3) The Central Government, after considering the report 
+of the Commissioner, may sanction the opening of the 
+metro railway under Section 14 as such or subject to such 
+conditions as may be considered necessary by it for the 
+safety of the public.
+18. Power to close metro railway opened for public 
+carriage of passengers.—Where, after the inspection 
+of the metro railway opened and used for the public 
+carriage of passengers or any rolling stock used thereon, 
+the Commissioner is of the opinion that the use of the 
+metro railway or of any rolling stock will be attended with 
+danger to the public using it, the Commissioner shall send 
+a report to the Central Government who may thereupon 
+direct that—
+(i) the metro railway be closed for the public carriage 
+of passengers; or
+(ii) the use of the rolling stock be discontinued; or
+(iii) the metro railway or the rolling stock may be used 
+for the public carriage of passengers subject to such 
+conditions as it may consider necessary for the safety 
+of the public.
+21. Delegation of powers.—The Central Government 
+may, by notification, direct that any of its powers or 
+functions under this chapter, except power to make rule 
+under Section 22, shall, in relation to such matters and 
+subject to such conditions, if any, as may be specified in 
+the notification, be exercised or discharged also by the 
+Commissioner.”
+62. In essence, the scheme of the 2002 Act, provides that no metro 
+line will operate except with the previous sanction of the Central 
+502 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+Government.32 Before granting the sanction, the Central Government 
+has to obtain a report from the Commissioner that (inter alia) the 
+latter has carefully inspected the metro railway, the general structure 
+of civil works and that in their opinion, the metro railway can be 
+opened for passengers without any danger to the public.33 The 
+Central Government may sanction the opening of the line as such or 
+subject to conditions it considers necessary for public safety.34 If the 
+Commissioner is of the opinion that the use of the metro will “attend 
+danger to the public using it”, they may send a report to the Central 
+Government, which may in turn direct that the metro be closed or 
+may be open for public carriage only subject to certain conditions.35 
+The powers of the Central Government may be delegated to the 
+Commissioner.36
+63. The structure and safety of the project, as certified by the CMRS, 
+were thus relevant before the Tribunal, making the CMRS certificate 
+a vital piece of evidence in deciding the issue. The CMRS certificate 
+was relevant evidence about the safety of the structure. Considering 
+the statutory scheme of the 2002 Act, especially Section 15, the 
+Tribunal erred in deeming the sanction irrelevant to its central issue 
+– which was the validity of the termination, which, according to the 
+cure notice, was premised on safety. 
+64. Overall, the cure notice places great emphasis on the safety of the 
+passengers, which, they claimed stood compromised by defects, 
+justifying discontinuation of operations. This issue falls directly within 
+the domain of the Commissioner under the scheme of the 2002 Act. 
+65. Rather than considering the vital evidence of the CMRS certificate 
+towards safety and effective steps, the arbitral tribunal focussed on 
+the conditions imposed by the Commissioner on speed and regarding 
+inspections. While the Division Bench correctly noted that the 
+certificate was relevant for the issue of the validity of termination, this 
+Court held that safety was not in issue, even though DAMEPL insisted 
+on discontinuing operations citing safety concerns. We respectfully 
+32 Section 14, Metro Railways (Operations and Maintenance) Act 2002. 
+33 Section 15, ibid. 
+34 Section 15(3), ibid. 
+35 Section 18, ibid. 
+36 Section 21, ibid. 
+[2024] 4 S.C.R.  503
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+disagree with this Court’s re-assessment of the Division Bench’s 
+interpretation. The cure notice was relevant for the reasons stated 
+above. Moreover, the fact that DAMEPL premised it on safety could 
+not have been overlooked by the Tribunal. In doing so, it overlooked 
+vital evidence pertaining to an issue that goes to the root of the 
+matter. The cure notice was obviously on the record and merited 
+consideration for its contents bearing on vital elements of safety.
+66. The cure notice, which contains statements bearing on the safety 
+of the line and other material indicating that the line was running 
+uninterrupted are matters of record. While the cure notice contains 
+allegations about the line not being operational, there is evidence 
+on the record indicating that the line was in fact running. Even if we 
+were to accept that the finding of the arbitral tribunal that the defects 
+were not completely cured during the cure period is a factual finding 
+incapable of interference, it is clear from the record that DMRC took 
+steps towards curing defects which led to the eventual resumption 
+of operations. The award contains no explanation as to why the 
+steps which were taken by DMRC were not ‘effective steps’ within 
+the meaning of the termination clause. 
+67. In essence, therefore the award is unreasoned on the above important 
+aspects. It overlooks vital evidence in the form of the joint application 
+of the contesting parties to CMRS and the CMRS certificate. The 
+arbitral tribunal ignored the specific terms of the termination clause. It 
+reached a conclusion which is not possible for any reasonable body 
+of persons to arrive at. The arbitral tribunal erroneously rejected the 
+CMRS sanction as irrelevant. The award bypassed the material on 
+record and failed to reconcile inconsistencies between the factual 
+averments made in the cure notice, which formed the basis of 
+termination on the one hand and the evidence of the successful 
+running of the line on the other. The Division Bench correctly held 
+that the arbitral tribunal ignored vital evidence on the record, resulting 
+in perversity and patent illegality, warranting interference. The 
+conclusions of the Division Bench are, thus, in line with the settled 
+precedent including the decisions in Associate Builders (supra)  
+and Ssangyong (supra). 
+H. Conclusion
+68. The judgment of the two-judge Bench of this Court, which interfered 
+with the judgment of the Division Bench of the High Court, has resulted 
+504 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+in a miscarriage of justice. The Division Bench applied the correct test 
+in holding that the arbitral award suffered from the vice of perversity 
+and patent illegality. The findings of the Division Bench were borne 
+out from the record and were not based on a misappreciation of law 
+or fact. This Court failed, while entertaining the Special Leave Petition 
+under Article 136, to justify its interference with the well-considered 
+decision of the Division Bench of the High Court. The decision of 
+this Court fails to adduce any justification bearing on any flaws in 
+the manner of exercise of jurisdiction by the Division Bench under 
+Section 37 of the Arbitration Act. By setting aside the judgement of 
+the Division Bench, this Court restored a patently illegal award which 
+saddled a public utility with an exorbitant liability. This has caused 
+a grave miscarriage of justice, which warrants the exercise of the 
+power under Article 142 in a Curative petition, in terms of Rupa 
+Hurra (supra). 
+69. The Curative petitions must be and are accordingly allowed. The 
+parties are restored to the position in which they were on the 
+pronouncement of the judgement of the Division Bench. The execution 
+proceedings before the High Court for enforcing the arbitral award 
+must be discontinued and the amounts deposited by the petitioner 
+pursuant to the judgment of this Court shall be refunded. The part 
+of the awarded amount, if any, paid by the petitioner as a result of 
+coercive action is liable to be restored in favour of the petitioner. 
+The orders passed by the High Court in the course of the execution 
+proceedings for enforcing the arbitral award are set aside.
+70. Before concluding, we clarify that the exercise of the curative 
+jurisdiction of this Court should not be adopted as a matter of ordinary 
+course. The curative jurisdiction should not be used to open the 
+floodgates and create a fourth or fifth stage of court intervention in 
+an arbitral award, under this Court’s review jurisdiction or curative 
+jurisdiction, respectively.
+71. In the specific facts and circumstances of this case to which we 
+have adverted in the course of the discussion, we have come to the 
+conclusion that this Court erred in interfering with the decision of the 
+Division Bench of the High Court. The judgment of the Division Bench 
+in the appeal under Section 37 of the Arbitration and Conciliation Act 
+1996 was based on a correct application of the test under Section 34 
+of the Act. The judgment of the Division Bench provided more than 
+[2024] 4 S.C.R.  505
+Delhi Metro Rail Corporation Ltd. v.  
+Delhi Airport Metro Express Pvt. Ltd.
+adequate reasons to come to the conclusion that the arbitral award 
+suffered from perversity and patent illegality. There was no valid 
+basis for this Court to interfere under Article 136 of the Constitution. 
+The interference by this Court has resulted in restoring a patently 
+illegal award. This has caused a grave miscarriage of justice. We 
+have applied the standard of a ‘grave miscarriage of justice’ in 
+the exceptional circumstances of this case where the process of 
+arbitration has been perverted by the arbitral tribunal to provide an 
+undeserved windfall to DAMEPL. 
+72. The curative petitions are allowed in the above terms. 
+73. Pending applications, if any, stand disposed of. 
+Headnotes prepared by: Ankit Gyan Result of the case: 
+Curative petitions allowed.

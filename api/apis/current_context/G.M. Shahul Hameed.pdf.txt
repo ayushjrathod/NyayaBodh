@@ -1,0 +1,657 @@
+[2024] 7 S.C.R. 316 : 2024 INSC 493
+G.M. Shahul Hameed  
+v. 
+Jayanthi R. Hegde
+(Civil Appeal No. 1188 of 2015)
+09 July 2024
+[Dipankar Datta* and Pankaj Mithal, JJ.]
+Issue for Consideration
+Whether upon admission of an instrument in evidence and its 
+marking as an exhibit by a court (despite the instrument being 
+chargeable to duty but is insufficiently stamped), such a process 
+can be recalled by the court in exercise of inherent powers saved 
+by Section 151 of the Code of Civil Procedure, 1908 for the ends 
+of justice or to prevent abuse of the process of the court.
+Headnotes†
+Code of Civil Procedure, 1908 – s.151 – Karnataka Stamp Act, 
+1957 – ss.33-35, 58 – GPA insufficiently stamped, admitted 
+in evidence and marked as exhibit – No objection from the 
+appellant – Trial Court if can recall such process of admission 
+and marking of the instrument in exercise of its inherent power 
+saved by s.151 or the remedy available under the 1957 Act 
+was required to be pursued by the appellant to fasten the 
+respondent with the liability to pay the deficit duty and penalty:
+Held: The presiding officer of a court being authorised in law to 
+receive an instrument in evidence, is bound to give effect to the 
+mandate of ss.33 and 34 and retains the authority to impound 
+an instrument even in the absence of any objection from any 
+party to the proceedings – Irrespective of whether objection is 
+raised or not regarding admissibility of an instrument, owing to 
+its insufficient stamping, the question of admissibility has to be 
+decided according to law – The presiding officer of a court when 
+confronted with the question of admitting an instrument chargeable 
+with duty but which is either not stamped or is insufficiently 
+stamped ought to judicially determine it – Application of judicial 
+mind is a sine qua non having regard to the express language 
+of ss.33 and 34 – However, once a decision on the objection is 
+rendered- right or wrong, s.35 would kick in to bar any question 
+* Author
+[2024] 7 S.C.R.  317
+G.M. Shahul Hameed v. Jayanthi R. Hegde
+being raised as to admissibility of the instrument on the ground 
+that it is not duly stamped at any stage of the proceedings and 
+the party aggrieved by alleged improper admission has to work 
+out its remedy as provided by s.58 of the 1957 Act – On the date 
+the GPA was admitted in evidence and marked as an exhibit, 
+the Trial Court did not deliberate on its admissibility, much less 
+applied its judicial mind, resulting in an absence of judicial 
+determination – Trial Court not having ‘decided’ whether the GPA 
+was sufficiently stamped, s.35 of the 1957 Act cannot be called 
+in aid by the respondent – For s.35 to come into operation, the 
+instrument must have been “admitted in evidence” upon a judicial 
+determination – The words “judicial determination” have to be 
+read into s.35 – Once there is such a determination, whether the 
+determination is right or wrong cannot be examined except in 
+the manner ordained by s.35 – However, in a case of “no judicial 
+determination”, s.35 is not attracted – No error in the order dated 
+19.10.2010 passed by the Trial Court in exercise of its inherent 
+power saved by s.151, CPC to do justice as well as to prevent 
+abuse of the process of court and allowing the interlocutory 
+applications filed by the appellant and directing the respondent 
+to pay the deficit stamp duty with penalty – Impugned order of 
+the High Court set aside. [Paras 14, 18, 4, 22]
+Karnataka Stamp Act, 1957 – s.35 – When not attracted – 
+Discussed.
+Karnataka Stamp Act, 1957 – s.33 – Examination and 
+impounding of instruments – Duty of the court:
+Held: s.33 has been inserted in the statute with a definite purpose – 
+The revenue would stand the risk of suffering huge loss if the 
+courts fail to discharge the duty placed on it per provisions like 
+s.33 – The legislature has reposed responsibility on the courts 
+and trusted them to ensure that requisite stamp duty, along with 
+penalty, is duly paid if an unstamped or insufficiently stamped 
+instrument is placed before it for admission in support of the case 
+of a party – It is incumbent upon the courts to uphold the sanctity of 
+the legal framework governing stamp duty, as the same are crucial 
+for the authenticity and enforceability of instruments – Allowing 
+an instrument with insufficient stamp duty to pass unchallenged, 
+merely due to technicalities, would undermine the legislative intent 
+and the fiscal interests of the State – The courts ought to ensure 
+that compliance with all substantive and procedural requirements 
+318 [2024] 7 S.C.R.
+Digital Supreme Court Reports
+of a statute akin to the 1957 Act are adhered to by the interested 
+parties – This duty of the court is paramount, and any deviation 
+would set a detrimental precedent, eroding the integrity of the 
+legal system. [Para 21]
+Case Law Cited
+Javer Chand and Others v. Pukhraj Surana [1962] 2 SCR 333; 
+Ram Rattan v. Bajrang Lal [1978] 3 SCR 963 : (1978) 3 SCC 
+236 – referred to.
+List of Acts
+Code of Civil Procedure, 1908; Karnataka Stamp Act, 1957; Indian 
+Stamp Act, 1899; Constitution of India.
+List of Keywords
+Inherent powers; Inherent powers saved by Section 151 of the Code 
+of Civil Procedure, 1908; Stamp duty; Instrument chargeable with 
+duty; Instrument not stamped/insufficiently stamped; Admission of 
+instrument in evidence; Objection to the instrument’s insufficient 
+stamping; Objection regarding admissibility of instrument owing to its 
+insufficient stamping; Question of admitting instrument chargeable 
+with duty but not stamped/insufficiently stamped; General Power 
+of Attorney; GPA; GPA insufficiently stamped; GPA admitted in 
+evidence and marked as exhibit; Instrument marked as exhibit; 
+Recall of process of admission of instrument in evidence and 
+marking of the instrument; Impounding of instruments; Liability 
+to pay the deficit duty and penalty; Application of judicial mind; 
+Judicial determination; Prevent abuse of the process of the court.
+Case Arising From
+CIVIL APPELLATE JURISDICTION: Civil Appeal No. 1188 of 2015
+From the Judgment and Order dated 26.09.2011 of the High Court of 
+Karnataka at Bangalore in WP No. 11653 of 2011
+Appearances for Parties
+D.P. Chaturvedi, Tarun Kumar Thakur, Ms. Parvati Bhat, Vivek Ram, 
+Abhay Choudhary M, Ms. Anuradha Mutatkar, Advs. for the Appellant.
+Mrs. Rekha Pandey, Suyash Mohan Guru, Ms. Sharmistha Choudhury, 
+Raghav Pandey, Ms. Gauri Pandey, Advs. for the Respondent.
+[2024] 7 S.C.R.  319
+G.M. Shahul Hameed v. Jayanthi R. Hegde
+Judgment / Order of the Supreme Court
+Judgment
+Dipankar Datta, J.
+1. The substantial question arising for decision in this civil appeal is 
+whether upon admission of an instrument in evidence and its marking 
+as an exhibit by a court (despite the instrument being chargeable to 
+duty but is insufficiently stamped), such a process can be recalled 
+by the court in exercise of inherent powers saved by section 151 
+of the Code of Civil Procedure1 for the ends of justice or to prevent 
+abuse of the process of the court. 
+2. Assail in this civil appeal is to the judgment and order dated 26th 
+September, 20112 passed by a learned Single Judge of the High 
+Court of Karnataka at Bengaluru3 whereby His Lordship set aside 
+the order dated 19th October, 2010 passed by the Court of Additional 
+Senior Judge-III, Mangalore4 and allowed the petition5 preferred by 
+the respondent under Article 227 of the Constitution. 
+3. The facts, relevant for the disposal of the present appeal, are adverted 
+to in brief hereunder:
+a. First Sale Agreement and Sale Deed: On 3rd October, 2003, 
+a Sale Deed was executed regarding the suit property by one 
+B. Ramesh Hegde in favour of his wife, who is the respondent 
+here. This Sale Deed was executed on the strength of a 
+General Power of Attorney6 dated 16th September, 2003, which 
+was allegedly executed by one Praveen Shetty in favour of B. 
+Ramesh Hegde in respect of the suit property, authorizing him 
+with power to sell the suit property. 
+b. Second Sale Agreement and Sale Deed: An agreement to 
+sell the suit property was executed between the appellant and 
+Praveen Shetty on 11th September, 2003. The appellant paid the 
+1 CPC, hereafter
+2 impugned order, hereafter
+3 High Court, hereafter
+4 Trial Court, hereafter
+5 Writ Petition No. 11653 of 2011 (GM-CPC)
+6 GPA, hereafter
+320 [2024] 7 S.C.R.
+Digital Supreme Court Reports
+consideration, and a Sale Deed was executed on 8th October, 
+2003 between the appellant and Praveen Shetty.
+c. Civil Suit by the appellant: The appellant instituted a civil suit7 
+against the respondent, B. Ramesh Hegde, and Praveen Shetty, 
+seeking a declaration that the Sale Deed dated 3rd October, 
+2003 was null and void, and not binding on the appellant. 
+d. Civil Suit by the respondent: Conversely, the respondent also 
+instituted a civil suit8 against the appellant and Praveen Shetty, 
+seeking a declaration that the Sale Deed dated 8th October, 
+2003 was null and void, and not binding on the respondent. 
+e. Filing of GPA before the Trial Court: In the suit instituted by 
+the respondent, witness action commenced. B. Ramesh Hegde, 
+in whose favour the GPA was executed by the respondent, on 
+6th June, 2010 tendered the GPA in course of his examination-
+in-chief. The appellant’s counsel was engaged in another court; 
+hence, he was unable to appear. The junior counsel did not object 
+that the GPA was insufficiently stamped and, thus, inadmissible in 
+evidence. The Trial Court, in the absence of objection, admitted 
+the GPA in evidence and marked it as an exhibit whereafter the 
+matter stood adjourned for cross-examination. 
+f. Interlocutory Applications: On the next hearing date, 25th 
+June, 2010 to be precise, the appellant filed two interlocutory 
+applications9 in the suit filed by the respondent. In I.A. No. IX, 
+the appellant sought a review of the order dated 6th June, 2010, 
+and in I.A. No. X, it was prayed that the GPA be impounded 
+on the ground that it has been insufficiently stamped. The 
+appellant contended that since the GPA was executed in 
+favour of a third party with power to sell the property, article 
+41 of the Schedule to the Karnataka Stamp Act, 195710 was 
+applicable, necessitating payment of requisite stamp duty based 
+on the market value of the property. The GPA was prepared 
+only on a stamp paper worth Rs.100, rendering it insufficiently 
+stamped and in accordance with section 34 of the 1957 Act, 
+7 O.S. No. 301 of 2003
+8 O.S. No. 134 of 2005
+9 I.A.s, hereafter
+10 1957 Act, hereafter
+[2024] 7 S.C.R.  321
+G.M. Shahul Hameed v. Jayanthi R. Hegde
+an insufficiently stamped document had to be impounded and 
+a penalty of ten times the duty value paid.
+g. The respondent objected to the I.A.s asserting that the appellant 
+had to avail his remedy under section 58 of the 1957 Act and 
+that being available, the appellant could not seek a review. 
+Further, it was claimed that no proof had been furnished that the 
+appellant’s counsel was otherwise engaged at that time. Lastly, 
+it was contended that once a document had been admitted in 
+evidence, the stamp duty could not subsequently be questioned 
+on the ground that it has been insufficiently stamped, as per 
+section 35 of the 1957 Act. 
+4. Vide order dated 19th October, 2010, the Trial Court allowed the I.A.s 
+and directed the respondent to pay the deficit stamp duty, along with 
+the penalty, as required for a power of attorney under article 41(eb) 
+of the Schedule to the 1957 Act. 
+5. Dissatisfied with the aforesaid order of the Trial Court, the respondent 
+approached the High Court whereupon the petition was allowed by 
+the impugned order, inter alia , recording that:
+“2. It is evident from the material that the document has 
+been marked and admitted in evidence and exhibited. It 
+is the contention of the respondent under order 13 rule 4 
+there should be a specific statement to the effect that the 
+document has been so admitted and endorsement shall 
+be signed and initialed by the Judge. In the absence of 
+the said requirement, marking of document does not mean 
+admission of document in evidence. The argument of the 
+counsel for the respondent is untenable. In the normal 
+procedure when the document is produced, it is marked 
+and exhibit number has assigned and beneath the said 
+exhibit Judge puts his initial. This procedure fully complies 
+with the requirement under Order 13 Rule 4 of the Act. 
+Therefore, the contention that the document has not been 
+properly marked and it should be rejected in evidence 
+on the ground of insufficiently stamped is untenable. The 
+trial court will have no jurisdiction to reconsider the issue. 
+The remedy available for the respondent is only under 
+section 58 of the Stamp Act. Accordingly, the writ petition 
+is allowed.”
+322 [2024] 7 S.C.R.
+Digital Supreme Court Reports
+6. It is the legality of the impugned order that we are tasked to examine 
+while answering the question formulated at the beginning of this 
+judgment. 
+7. Mr. Chaturvedi, learned counsel for the appellant, while laying 
+a challenge to the impugned order argued that admission of an 
+insufficiently stamped instrument in a casual manner by mechanically 
+marking it as an exhibit, without any application of judicial mind, should 
+not preclude the court seized of the proceedings from reconsidering 
+whether such document is sufficiently stamped and could have at all 
+been admitted in evidence. Various provisions of the 1957 Act were 
+referred to by him for persuading us to hold that the view taken by 
+the High Court was grossly erroneous. Accordingly, it was prayed 
+by him that the impugned order be set aside and the civil appeal be 
+allowed with liberty to the respondent to take steps in accordance 
+with the order of the Trial Court. 
+8. Mr. Guru, learned counsel for the respondent, defended the impugned 
+order by asserting that it is correct both in law as well as on facts. 
+It was argued that setting aside of the Trial Court’s order by the 
+impugned order was indeed justified since the GPA having been 
+admitted in evidence, such admission could not have been reviewed 
+by the same court under any circumstance. Emphasis was placed on 
+the need for an objection to the document’s admissibility being raised 
+when it was first tendered for being admitted and then marked as 
+an exhibit. Citing section 35 of the 1957 Act, it was contended that 
+once an instrument is admitted in evidence, the admission cannot be 
+questioned by the trial court or any appellate or revisional court; and 
+that the only remedy that the 1957 Act provides is a revision under 
+section 58 thereof in the manner as provided. Thus, he submitted that 
+the civil appeal being devoid of any merit deserved outright dismissal.
+9. A short but interesting question has engaged our consideration. There 
+is no doubt that the GPA is insufficiently stamped. What we need 
+to consider on facts and in the circumstances is, which of the two 
+conflicting views taken by the Trial Court and the High Court is right.
+10. Despite the GPA having been admitted in evidence and marked as an 
+exhibit without objection from the side of the appellant, we propose 
+to hold for the reasons to follow that the Trial Court did have the 
+authority to revisit and recall the process of admission and marking 
+of the instrument, not in the sense of exercising a power of review 
+[2024] 7 S.C.R.  323
+G.M. Shahul Hameed v. Jayanthi R. Hegde
+under section 114 read with Order XLVII, CPC but in exercise of 
+its inherent power saved by section 151 thereof, and that the other 
+remedy made available by the 1957 Act was not required to be 
+pursued by the appellant to fasten the respondent with the liability 
+to pay the deficit duty and penalty. 
+11. We may refer to the statutory framework of the 1957 Act. Sections 
+33, 34, 35 and 58, to the extent relevant for a decision on this appeal, 
+read as follows:
+“33. Examination and impounding of instruments.- 
+(1) Every person having by law or consent of parties 
+authority to receive evidence, and every person in charge 
+of a public office, except an officer of police, before whom 
+any instrument, chargeable in his opinion, with duty, is 
+produced  or comes in the performance of his functions, 
+shall, if it appears to him that such instrument is not duly 
+stamped, impound the same. 
+(2) For that purpose every such person shall examine 
+every instrument so chargeable and so produced or coming 
+before him, in order to ascertain whether it is stamped with 
+a stamp of the value and description required by the law 
+in force in the State of Karnataka when such instrument 
+was executed or first executed: 
+Provided that,— 
+(a) *** 
+(b) ***
+(3) For the purposes of this section, in cases of doubt, the 
+Government may determine,— 
+(a) what offices shall be deemed to be public offices; and 
+(b) who shall be deemed to be persons in charge of public 
+offices.
+34. Instruments not duly stamped inadmissible in 
+evidence, etc .- No instrument chargeable with duty 
+shall be admitted in evidence for any purpose by any 
+person having by law or consent of parties authority to 
+receive evidence,  or shall be acted upon, registered or 
+324 [2024] 7 S.C.R.
+Digital Supreme Court Reports
+authenticated by any such person or by any public officer, 
+unless such instrument is duly stamped: 
+Provided that,— 
+(a) ***
+(b) *** 
+(c) *** 
+(d) ***
+35. Admission of instrument where not to be 
+questioned.  – Where an instrument has been admitted 
+in evidence such admission shall not, except as provided 
+in section 58, be called in question at any stage of the 
+same suit or proceeding on the ground that the instrument 
+has not been duly stamped.
+58. Revision of certain decisions of Courts regarding 
+the sufficiency of stamps. –
+(1) When any Court in the exercise of its Civil  or Revenue 
+jurisdiction or any Criminal Court in any proceeding 
+under Chapter XII or Chapter XXXVI of the Code of 
+Criminal Procedure, 1898, makes any order admitting 
+any instrument in evidence as duly stamped or as not 
+requiring a stamp, or upon payment of duty and a penalty 
+under Section 34, the Court to which appeals lie from, or 
+references are made by, such first mentioned Court may, 
+of its own motion or on the application of the Deputy 
+Commissioner, take such order into consideration.
+(2) If such Court, after such consideration, is of opinion 
+that such instrument should not have been admitted in 
+evidence  without the payment of duty and penalty under 
+Section 34, or without the payment of a higher duty and 
+penalty than those paid, it may record a declaration to that 
+effect, and determine the amount of duty with which such 
+instrument is chargeable, and may require any person 
+in whose possession or power such instrument then is, 
+to produce the same, and may impound the same when 
+produced.
+[2024] 7 S.C.R.  325
+G.M. Shahul Hameed v. Jayanthi R. Hegde
+(3) When any declaration has been recorded under sub-
+section (2), the Court recording the same shall send a 
+copy thereof to the Deputy Commissioner and, where the 
+instrument to which it relates has been impounded or is 
+otherwise in the possession of such Court, shall also send 
+him such instrument.
+(4) The Deputy Commissioner may thereupon, 
+notwithstanding anything contained in the order admitting 
+such instrument in evidence, or in any certificate granted 
+under Section 41, or in Section 42, prosecute any person 
+for any offence against the stamp law which the Deputy 
+Commissioner considers him to have committed in respect 
+of such instrument.
+Provided that, - 
+(a) no such prosecution shall be instituted where the 
+amount (including duty and penalty) which, according 
+to the determination of such Court, was payable in 
+respect of the instrument under Section 34, is paid 
+the Deputy Commissioner, unless he thinks that the 
+offence was committed with an intention of evading 
+payment of the proper duty;
+(b) except for the purpose of such prosecution, no 
+declaration made under this section shall affect the 
+validity of any order admitting any instrument in 
+evidence, or of any certificate granted under Section 
+41.”
+(emphasis ours)
+12. Read in isolation, a literal interpretation of section 35 of the 1957 
+Act seems to make the position in law clear that once an instrument 
+has been admitted in evidence, then its admissibility cannot be 
+contested at any stage of the proceedings on the ground of it not 
+being duly stamped. A fortiori, it would follow that any objection 
+pertaining to the instrument’s insufficient stamping must be raised 
+prior to its admission. 
+13. However, section 35 of the 1957 Act is not the only relevant section. 
+It is preceded by sections 33 and 34 and all such sections are part of 
+Chapter IV, tiled “Instruments Not Duly Stamped”. Certain obligations 
+326 [2024] 7 S.C.R.
+Digital Supreme Court Reports
+are cast by section 33 on persons/officials named therein. Should the 
+presiding officer of the court find the instrument to be chargeable with 
+duty but it is either not stamped or is insufficiently stamped, he is bound 
+by section 33 to impound the same. Section 34 places a fetter on 
+the court’s authority to admit an instrument which, though chargeable 
+with duty, is not duly stamped. The statutory mandate is that no such 
+instrument shall be admitted in evidence unless it is duly stamped. 
+14. The presiding officer of a court being authorised in law to receive 
+an instrument in evidence, is bound to give effect to the mandate 
+of sections 33 and 34 and retains the authority to impound an 
+instrument even in the absence of any objection from any party 
+to the proceedings. Such an absence of any objection would not 
+clothe the presiding officer of the court with power to mechanically 
+admit a document that is tendered for admission in evidence. The 
+same limitation would apply even in case of an objection regarding 
+admissibility of an instrument, owing to its insufficient stamping, 
+being raised before a court of law. Irrespective of whether objection 
+is raised or not, the question of admissibility has to be decided 
+according to law. The presiding officer of a court when confronted 
+with the question of admitting an instrument chargeable with duty 
+but which is either not stamped or is insufficiently stamped ought 
+to judicially determine it. Application of judicial mind is a sine qua 
+non having regard to the express language of sections 33 and 34 
+and interpretation of pari materia provisions in the Indian Stamp Act, 
+189911 by this Court. However, once a decision on the objection is 
+rendered – be it right or wrong – section 35 would kick in to bar any 
+question being raised as to admissibility of the instrument on the 
+ground that it is not duly stamped at any stage of the proceedings 
+and the party aggrieved by alleged improper admission has to work 
+out its remedy as provided by section 58 of the 1957 Act. 
+15. Profitable reference may be made to the decision of this Court in Javer 
+Chand and others v. Pukhraj Surana12. There, provisions of section 
+36 of the 1899 Act, which is pari materia section 35 of the 1957 Act, 
+came up for consideration. A Bench of four Hon’ble Judges of this 
+Court held that when a document’s admissibility is questioned due to 
+11 1899 Act, hereafter
+12 [1962] 2 SCR 333
+[2024] 7 S.C.R.  327
+G.M. Shahul Hameed v. Jayanthi R. Hegde
+improper stamping, it must be decided immediately when presented 
+as evidence. The relevant paragraph is extracted hereunder:
+“4. *** Where a question as to the admissibility of a document 
+is raised on the ground that it has not been stamped, or has 
+not been properly stamped, it has to be decided then and 
+there when the document is tendered in evidence. Once the 
+court, rightly or wrongly, decides to admit the document in 
+evidence, so far as the parties are concerned, the matter is 
+closed. Section 35 is in the nature of a penal provision and 
+has far-reaching effects. Parties to a litigation, where such a 
+controversy is raised, have to be circumspect and the party 
+challenging the admissibility of the document has to be alert 
+to see that the document is not admitted in evidence by the 
+court. The court has to judicially determine the matter as 
+soon as the document is tendered in evidence and before it 
+is marked as an exhibit in the case. The record in this case 
+discloses the fact that the hundis were marked as Exts. P-1 
+and P-2 and bore the endorsement ‘admitted in evidence’ 
+under the signature of the court. It is not, therefore, one 
+of those cases where a document has been inadvertently 
+admitted, without the court applying its mind to the question 
+of its admissibility. Once a document has been marked as 
+an exhibit in the case and the trial has proceeded all along 
+on the footing that the document was an exhibit in the case 
+and has been used by the parties in examination and cross-
+examination of their witnesses, Section 36 of the Stamp Act 
+comes into operation. Once a document has been admitted 
+in evidence, as aforesaid, it is not open either to the trial 
+court itself or to a court of appeal or revision to go behind 
+that order. Such an order is not one of those judicial orders 
+which are liable to be reviewed or revised by the same court 
+or a court of superior jurisdiction.”
+(emphasis ours)
+16. Once again, addressing a matter concerning section 36 of the 1899 
+Act, a Bench of three Hon’ble Judges of this Court in Ram Rattan 
+v. Bajrang Lal13 held as follows:
+13 [1978] 3 SCR 963  : (1978) 3 SCC 236
+328 [2024] 7 S.C.R.
+Digital Supreme Court Reports
+“6. When the document was tendered in evidence by the 
+plaintiff while in witness box, objection having been raised 
+by the defendants that the document was inadmissible 
+in evidence as it was not duly stamped and for want of 
+registration, it was obligatory upon the learned trial Judge 
+to apply his mind to the objection raised and to decide the 
+objects in accordance with law. Tendency sometimes is to 
+postpone the decision to avoid interruption in the process 
+of recording evidence and, therefore, a very convenient 
+device is resorted to, of marking the document in evidence 
+subject to objection. This, however would not mean that 
+the objection as to admissibility on the ground that the 
+instrument is not duly stamped is judicially decided; it is 
+merely postponed. In such a situation at a later stage 
+before the suit is finally disposed of it would none-the-
+less be obligatory upon the court to decide the objection. 
+If after applying mind to the rival contentions the trial 
+court admits a document in evidence, Section 36 of the 
+Stamp Act would come into play and such admission 
+cannot be called in question at any stage of the same 
+suit or proceeding on the ground that the instrument has 
+not been duly stamped. The court, and of necessity it 
+would be trial court before which the objection is taken 
+about admissibility of document on the ground that it is 
+not duly stamped, has to judicially determine the matter 
+as soon as the document is tendered in evidence and 
+before it is marked as an exhibit in the case and where 
+a document has been inadvertently admitted without the 
+court applying its mind as to the question of admissibility, 
+the instrument could not be said to have been admitted 
+in evidence with a view to attracting Section 36 (see 
+Javer Chand v. Pukhraj Surana) [AIR 1961 SC 1655] . 
+The endorsement made by the learned trial Judge that 
+‘Objected, allowed subject to objection’, clearly indicates 
+that when the objection was raised it was not judicially 
+determined and the document was merely tentatively 
+marked and in such a situation Section 36 would not be 
+attracted.”
+(emphasis ours)
+[2024] 7 S.C.R.  329
+G.M. Shahul Hameed v. Jayanthi R. Hegde
+17. The pivotal aspect emerging for consideration on the terms of 
+sections 33 and 34 of the 1957 Act, with which we are concerned, 
+is that whether the Trial Court did judicially determine the question 
+of admissibility. It is here that we need to ascertain the rationale 
+behind the Trial Court’s approach to go behind admission of the 
+GPA in evidence and marking thereof as an exhibit, leading to the 
+order under challenge before the High Court. Relevant portions of 
+the order of the Trial Court read thus: 
+“2. *** There are two suits before this court, one is the 
+present suit and another suit is OS No. 301/03. In the 
+present suit, the GPA holder of plaintiff filed an affidavit 
+by way of chief examination in the morning session 
+and the documents were marked. While marking the 
+documents he was held up in the court of Civil Judge (Jr. 
+Dn.), Mangalore and hence no objection regarding the 
+deficiency of stamp duty on GPA could be raised before 
+this court. Accordingly the matter has been adjourned for 
+cross examination of PW1. The alleged GPA is in favour 
+of third party with power to sell the property and hence 
+article 41 of the Karnataka Stamp Act 1957 is applicable 
+and stamp duty on the market value has to be paid on the 
+same. The GPA is executed on a stamp paper of value of 
+Rs.100/- only. As per Section 33 of the Karnataka Stamp 
+Act, 1957, the court shall impound the said GPA even 
+without the objections by the advocate for 1st defendant. 
+His absence at the time of chief examination of PW1 is 
+not intentional but as he was held up in another court.
+3. The 1st defendant has also filed IA No. IX under Sec. 114, 
+R/w. Sec. 151 of CPC to review the order of marking Ex.P2 
+which is insufficiently stamped and to hear the objections 
+regarding inadequacy of stamp duty on the similar grounds.
+7. The points that arise for consideration are:-
+1. Whether Ex.P2 GPA is insufficiently stamped and 
+plaintiff is liable to pay deficit duty and penalty?
+2. Whether the order permitting the plaintiff to mark 
+the document requires to be reviewed?
+8. The points are answered in affirmative for the following:
+330 [2024] 7 S.C.R.
+Digital Supreme Court Reports
+Reasons
+9. *** The clauses are very specific that the power of 
+attorney has been given powers to sell the properties 
+and the power of attorney has acted upon the GPA and 
+has execute the sale deed in favour of the plaintiff as per 
+Ex.P3. Under Article 41(e), when the power of attorney is 
+given for consideration and authorizing the attorney to sell 
+the immovable property, the duty payable is same duty 
+as a conveyance for a market value equal to the amount 
+of the consideration. As stated above, no consideration 
+has been mentioned in the GPA., but the GPA has been 
+given authorizing to sell the immovable property. The 
+GPA has been issued to a third party, … article 41(ab) is 
+applicable. The learned counsel for plaintiff objected for 
+considering these applications on the ground that document 
+is already marked with out any objections and hence the 
+question of reviewing the order considering the question of 
+stamp duty at this stage does not arise. As seen from the 
+order sheet, the plaintiff was examined on 6.6.2010 and 
+document was marked on same day. Immediately on the 
+next date of hearing the counsel has filed IA No. IX and 
+X to consider the aspect of payment of stamp duty and 
+penalty i.e., on the day on which the matter was posted 
+for cross examination of PW1. It is certain that the senior 
+counsel appearing for the plaintiff was not present at the 
+time of examination of PW1 in chief as the court remembers 
+that the junior counsel was present and probably being 
+unaware of the question of stamp duty has not raised 
+any objections. The court has marked the document as 
+an exhibit and has put the seal for having marked the 
+document as to who has produced the document and 
+admitted through which witness and marked for plaintiff. 
+No doubt, there is mention that the document is admitted 
+through PW1 and Ex.P2, but the court has not applied its 
+mind while marking the document as to whether document 
+is sufficiently stamped or insufficiently stamped.
+10. *** The circumstances  under which the application is 
+being filed and circumstances under which the document 
+came to be marked, clearly show that the document was 
+[2024] 7 S.C.R.  331
+G.M. Shahul Hameed v. Jayanthi R. Hegde
+marked without application of the mind of the court and 
+without objection of the other side and this court is of 
+the view that the admissibility of the document could be 
+considered at this stage. 
+ORDER
+The IA Nos. IX and X are allowed.”
+18. On the face of such an order, it does not leave any scope for doubt 
+that on the date the GPA was admitted in evidence and marked 
+as an exhibit, the Trial Court did not deliberate on its admissibility, 
+much less applied its judicial mind, resulting in an absence of judicial 
+determination. In the absence of a ‘decision’ on the question of 
+admissibility or, in other words, the Trial Court not having ‘decided’ 
+whether the GPA was sufficiently stamped, section 35 of the 1957 Act 
+cannot be called in aid by the respondent. For section 35 to come 
+into operation, the instrument must have been “admitted in evidence” 
+upon a judicial determination. The words “judicial determination” 
+have to be read into section 35. Once there is such a determination, 
+whether the determination is right or wrong cannot be examined 
+except in the manner ordained by section 35. However, in a case 
+of “no judicial determination”, section 35 is not attracted.
+19. In the light of the aforesaid reasoning of the Trial Court of admitted 
+failure on its part to apply judicial mind coupled with the absence of 
+the counsel for the appellant before it when the GPA was admitted 
+in evidence and marked exhibit, a factor which weighed with the Trial 
+Court, we have no hesitation to hold that for all purposes and intents 
+the Trial Court passed the order dated 19th October, 2010 in exercise 
+of its inherent power saved by section 151, CPC, to do justice as well 
+as to prevent abuse of the process of court, to which inadvertently 
+it became a party by not applying judicial mind as required in terms 
+of sections 33 and 34 of the 1857 Act. We appreciate the approach 
+of the Trial Court in its judicious exercise of inherent power.
+20. Reference to section 58 of the 1957 Act by learned counsel for the 
+respondent is without substance. The clear language of section 58 
+refers to a situation, where an order is passed admitting an instrument 
+in evidence as duly stamped or as one not requiring a stamp, for 
+its attraction. As evident from a bare reading of the order dated 
+19th October, 2010, the Trial Court did neither hold the GPA as duly 
+332 [2024] 7 S.C.R.
+Digital Supreme Court Reports
+stamped or as not requiring a stamp and, therefore, its applicability 
+was not attracted.
+21. We may not turn a blind eye to the fact that the revenue would stand 
+the risk of suffering huge loss if the courts fail to discharge the duty 
+placed on it per provisions like section 33 of the 1957 Act. Such 
+provision has been inserted in the statute with a definite purpose. The 
+legislature has reposed responsibility on the courts and trusted them to 
+ensure that requisite stamp duty, along with penalty, is duly paid if an 
+unstamped or insufficiently stamped instrument is placed before it for 
+admission in support of the case of a party. It is incumbent upon the 
+courts to uphold the sanctity of the legal framework governing stamp 
+duty, as the same are crucial for the authenticity and enforceability 
+of instruments. Allowing an instrument with insufficient stamp duty 
+to pass unchallenged, merely due to technicalities, would undermine 
+the legislative intent and the fiscal interests of the state. The courts 
+ought to ensure that compliance with all substantive and procedural 
+requirements of a statute akin to the 1957 Act are adhered to by 
+the interested parties. This duty of the court is paramount, and any 
+deviation would set a detrimental precedent, eroding the integrity 
+of the legal system. Thus, the court must vigilantly prevent any 
+circumvention of these legal obligations, ensuring due compliance 
+and strict adherence for upholding the rule of law.
+22. Having regard to the aforesaid discussion, we answer the substantial 
+question in the affirmative. Finding no error in the order of the Trial 
+Court dated 19th October, 2010, we set aside the impugned order of 
+the High Court dated 26th September, 2011, meaning thereby that 
+the order of the Trial Court is restored. Since proceedings of the civil 
+suit remained stalled because of pendency of this appeal, we expect 
+the Trial Court to proceed expeditiously and in accordance with law. 
+23. The appeal is, accordingly, allowed without any order for costs. 
+Result of the case: Appeal allowed.
+†Headnotes prepared by: Divya Pandey

@@ -1,0 +1,561 @@
+* Author[2024] 4 S.C.R. 576 : 2024 INSC 293
+The VVF Ltd. Employees Union  
+v. 
+M/S. VVF India Limited & Anr.
+(Civil Appeal Nos. 2744-2745 of 2023)
+09 April 2024
+[Aniruddha Bose* and Sanjay Kumar, JJ.]
+Issue for Consideration
+The two appeals arise out of a judgment delivered by a Single 
+Judge of the High Court of Bombay on 25.07.2019 directing, inter 
+alia, wage revisions pertaining to the workmen of employer-VVF 
+Ltd. working in two units at Sewree and Sion. Whether the High 
+Court had travelled beyond its jurisdiction in appreciating facts 
+and in that process substituted the finding of the Tribunal with its 
+own finding on facts.
+Headnotes
+Constitution of India – Writ – Scope of jurisdiction of High 
+Court – Wages – Revision – The demands of the Union would 
+appear from the charter of demand and they primarily relate 
+to prayers for revision in pay scale/wages/salaries along with 
+certain allowances such as leave facilities and gratuity – The 
+Tribunal, in its award passed, granted relief to the employees 
+– Writ petitions filed – The High Court entered into the fact-
+finding exercise while testing legality of an award – The High 
+Court allowed the workmen’s writ petition by setting aside the 
+award of the Tribunal so far as the first four demands as per 
+the charter are concerned and upheld the Tribunal’s verdict 
+regarding Demand No. 5-11 – Correctness:
+Held: Analysis of the various judgments of the Supreme Court 
+reflect the position of law that though the High Court ought not to 
+re-appreciate evidence and substitute its own finding for that of 
+the Tribunal, it would not be beyond the jurisdiction of the High 
+Court in its power of judicial review to altogether eschew such a 
+process – The High Court, in the impugned judgment, however, 
+re-appreciated the evidence led before the Tribunal in identifying 
+comparable concerns for applying the industry-cum-region test – In 
+particular, the employer has emphasised that the High Court ignored 
+the negative financial status of the company on the ground that 
+[2024] 4 S.C.R.  577
+The VVF Ltd. Employees Union v. M/S. VVF India Limited & Anr.
+the losses made by it was miniscule – The financial capacity of an 
+employer is an important factor which could not be ignored in fixing 
+wage structure – In the given facts where the employer seriously 
+contested the use of the concerned units as comparable ones, and 
+highlighted its difficult financial position, the proper course would 
+have been to remit the matter to the Industrial Tribunal rather than 
+entering into these factual question independently in exercise of 
+the writ jurisdiction – This exercise would have required leading 
+of evidence before the primary forum, the Industrial Tribunal in 
+this case. [Para 15]
+Case Law Cited
+Surya Dev Rai v. Ram Chander Rai and Others [2003] 
+Supp. 2 SCR 290 : (2003) 6 SCC 675; General 
+Management, Electrical Rengali Hydro Electric Project, 
+Orrisa and Others v. Giridhari Sahu and Others [2019] 
+12 SCR 293 : (2019) 10 SCC 695; M/S Unichem 
+Laboratories Ltd. v. Workmen [1972] 3 SCR 567 : (1972) 
+3 SCC 552, Shail (SMT) v. Manoj Kumar and Others 
+[2004] 3 SCR 649 : (2004) 4 SCC 785; IEL Supervisors’ 
+Association and Others v. Duncans Industries Ltd. and 
+Another (2018) 4 SCC 505; Gujarat Steel Tubes Ltd. 
+and Others v. Gujarat Steel Tubes Mazdoor Sabha and 
+Others [1980] 2 SCR 146 : (1980) 2 SCC 593; The Silk 
+and Art Silk Mills Association Ltd. v. Mill Mazdoor Sabha 
+[1973] 1 SCR 277 : (1972) 2 SCC 253; Shivraj Fine 
+Arts Litho Works v. State Industrial Court, Nagpur & Ors. 
+[1978] 3 SCR 411 : (1978) 2 SCC 601; A.K. Bindal v. 
+Union of India & Ors. [2003] 3 SCR 928 : (2003) 5 SCC 
+163; Mukand Ltd. v. Mukand Staff & Officers Association 
+[2004] 2 SCR 951 : (2004) 10 SCC 460 – referred to.
+Workmen v. New Egerton Woollen Mills (1969) 2 LLJ 
+782; French Motor Car Co. Ltd. v. Workmen (1962) 2 
+LLJ 744 – referred to.
+List of Acts
+Constitution of India.
+List of Keywords
+Wages; Revision; Writ; Jurisdiction of High Court; Re-appreciation 
+of facts; Legality of award
+578 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+Case Arising From
+CIVIL APPELLATE JURISDICTION: Civil Appeal Nos.2744-2745 of 
+2023
+From the Judgment and Order dated 22.06.2021 and 25.07.2019 of 
+the High Court of Judicature at Bombay in RPL No. 82 of 2019 and 
+WP No. 1920 of 2014 respectively
+With 
+Civil Appeal No. 2754 of 2023
+Appearances for Parties
+Jamshed P. Cama, Sanjay Singhvi, Sr. Advs., Anil Kumar Mishra-i, 
+Prashant Pavaskar, Supantha Sinha, Anand Amrit Raj, Bennet D’ 
+Costa, Ms. Jignasha Pandya, Nitin S. Tambwekar, Seshatalpa Sai 
+Bandaru,, Advs. for the appearing parties.
+Judgment / Order of the Supreme Court
+Judgment
+Aniruddha Bose, J.
+The two appeals (i.e. Civil Appeal Nos.2745 and 2754 of 2023) arise 
+out of a judgment delivered by a learned Single Judge of the High 
+Court of Bombay on 25.07.2019 directing, inter alia, wage revisions 
+pertaining to the workmen of VVF India Limited (“the employer”) 
+working in two units at Sewree and Sion. Civil Appeal No.2744 of 
+2023 has been instituted by the employees union (“the union”) against 
+a judgment of the High Court delivered on 22.06.2021 dismissing the 
+union’s petition for review of the judgment passed on 25.07.2019. 
+Argument of the union in the review petition was that their submissions 
+relating to certain allowances were not considered in the main 
+judgment. The employer is the appellant in Civil Appeal No.2754 of 
+2023 and the union is the appellant in Civil Appeal No.2744 of 2023 
+as also Civil Appeal No.2745 of 2023. 
+2. The present proceedings have their origin in a charter of demand 
+raised by the union on 04.03.2008. The demand was in respect 
+of altogether 146 workmen, out of which 80 were engaged at the 
+employer’s establishment at Sewree and 66 of them employed at 
+Sion, both being situated within Mumbai. We find from the judgment 
+delivered on 24.07.2019 (which we shall henceforth refer to as the 
+[2024] 4 S.C.R.  579
+The VVF Ltd. Employees Union v. M/S. VVF India Limited & Anr.
+judgment under appeal) that the original corporate entity VVF Ltd., 
+underwent a demerger process and the units of the company at Sion 
+and Taloja went to VVF India Ltd., the resulting company, during 
+pendency of the reference, arising from the charter of demand.
+3. The demands of the Union would appear from the charter of demand 
+and they primarily relate to prayers for revision in pay scale/wages/
+salaries along with certain allowances such as leave facilities and 
+gratuity. The charter of demand for the year 2008 to 2011 were under 
+the following heads:-
+“The Charter of Demand for the corresponding year 2008 
+to 2011 is as follows-
+1. Revision in the Pay Scale / Salary: The Old Pay 
+Scale / Salary grade should be replaced by the New 
+or Revised Pay Scale to the Categories of Workmen 
+and Staff, which is annexed hereto as Annexure I & II.
+2. Adjustment :
+a) The present basic of employees/staff as in 
+annexure I & II should brought up to the level 
+of minimum of wage-scales wherever they are 
+below.
+b) ‘Those whose present wages of basic do not 
+fit in any stages of their respective revised 
+wage-scales and fall in between two stages, 
+they should be stepped up to nearest highest 
+stages in the scales.
+c) On doing so (a) & (b) above every employees/
+staff should be granted additional increment 
+in their respective wage-scales as indicated 
+below :-
+i) Those who have put service of up to 5 
+years - 1 increment
+ii) Those who have put service of more than 5 
+years but less than 10 years - 2 increment
+iii) Those who have put service of more than 
+10 year but less than 15 years - 3 increment
+580 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+iv) Those who have put service of more than 15 
+years but less than 20 years - 4 increment
+v) those who have put service of more than 20 
+years but less than 25 years – 5 increment
+vi) Those who have put service of more than 
+25 years - 6 increment
+3. Fixed Dearness Allowance (FDA): The Fixed 
+Dearness Allowance should be revised from Rs. 
+225/- per month to Rs.2225/- per month, which shall 
+stand reduced oil pro-rata on loss of pay.
+4. Variable Dearness Allowance: Tbc Variable Dearness 
+Allowance should be revised and increased to 
+50% respective grade wise of the present Variable 
+Dearness Allowance.
+5. House Remuneration Allowance: The House 
+Remuneration Allowance to be increased to 20% of 
+the basic wages and Dearness Allowance or to Rs 
+2000/- per month, whichever is higher
+6. Shift Allowance: The Shift Allowances should be 
+increased in all categories irrespective of any shift 
+he worked, which is as follows–
+1st Shift Allowance - Rs.20/-
+2nd Shift Allowance - Rs.30/- 
+3rd Shift Allowance - Rs.50/-
+7. Travelling Conveyance Allowance: Tite Travelling 
+Conveyance allowances should be given to all 
+Employees amounting to Rs. 1000 per month.
+8. Medical Allowance: The Medical Allowance shall be 
+raised to Rs. 15,000 per annum to all categories of 
+Workmen, which falls out of the purview of ESI Act.
+9. Education Allowance: An Education Allowance should 
+be introduced to all the Workmen whose Children 
+are studying in School or College. The Education 
+Allowance should also be provided to those Workmen 
+[2024] 4 S.C.R.  581
+The VVF Ltd. Employees Union v. M/S. VVF India Limited & Anr.
+who are studying to an amount of Rs. 15,000 per 
+annum for their higher Studies.
+10. Leave Travel Allowance: The old Leave Travel 
+Allowance should be revised from 1,200/- per year 
+to Rs.6000/- per year.
+11. Leave Facilities:
+a) Sick Leave to be increased from 7 days per 
+year to 15 days per year.
+b) Casual Leave to be increased from 10 days per 
+year to 12 days per year.
+c) Privilege Leave to be increased from 15 days 
+per year to 33 days per year.
+d) Paternity Leave to be introduced to 7 days per 
+year. 
+12. Mediclaim Policy to the Family Members: The family 
+of the Employees who falls out of purview of ESI 
+Act shall be provided with a General Insurance 
+Mediclaim Policy to the family members amounting 
+to Rs.3 lacs only.
+13. Gratuity: The Gratuity of the Employees should be 
+increased to 30 days per year instead of 15 days 
+per year.
+14. Housing Loan facility: The. Employees who have 
+completed his 5 years of service or more should 
+be entitled to Housing Loan @ 5% per annum or a 
+rebate of @.5 % per annum on the loan availed in 
+any Bank or Society. 
+15. Personal Loan Facility: The Employees who have 
+completed his 2 years of service or more should 
+be entitled to Personal Loan @9% per annum or a 
+rebate of @ 5% per annum on the loan availed from 
+any Bank or Society.”
+4. The Tribunal, in its award passed on 29.03.2014, granted relief to 
+the employees represented by the union under the following heads 
+and in the following manner:- 
+582 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+"i) Reference is answered partly in affirmative.
+ii) The following demands raised by the Second Party 
+Workmen are granted as follows:-
+1) Demand No. 5:- House Rent(Remuneration) 
+Allowance- The First Party Company is directed 
+to increase the HRA to 20% of the basic wages 
+and dearness allowance or to Rs.2000/- per 
+month whichever is higher.
+2) Demand No.6:- Shift Allowance- The First Party 
+Company is directed to pay the shift allowance 
+to all the workers irrespective of any shift they 
+worked, as follows:-
+1st Shift Allowance - Rs.20/-
+2nd Shift Allowance - Rs.30/-
+3rd Shift Allowance - Rs.50/-
+This allowance will not be reckoned for provident 
+fund, HRA, Leave encashment, bonus, gratuity, 
+overtime, etc. or any other benefits.
+3) Demand No. 7:- Travelling Conveyance 
+Allowance- This demand is allowed partly. The 
+First Party Company is directed to increase this 
+allowance from Rs. 600 to Rs.800 per month. 
+This allowance will not be reckoned for provident 
+fund, HRA, Leave encashment, bonus, gratuity, 
+overtime, etc. or any other benefits.
+4) Demand No.8:- Medical Allowance This demand 
+is allowed partly. The First Party Company 
+is directed to pay the medical allowance 
+@ Rs.1000/- per month to all categories of 
+workmen, who fall out of the purview of the 
+ESI Act. This allowance will not be reckoned for 
+provident fund, HRA, Leave encashment, bonus, 
+gratuity, overtime, etc. or any other benefits.
+5) Demand No. 9:- Education Allowance- This 
+demand is allowed partly. The First Party 
+Company is directed to pay the education 
+[2024] 4 S.C.R.  583
+The VVF Ltd. Employees Union v. M/S. VVF India Limited & Anr.
+allowance @ Rs.1000/- per month to all the 
+workmen whose children are studying in school 
+or college or even doing higher studies. This 
+allowance will not be reckoned for provident 
+fund, HRA, Leave encashment, bonus, gratuity, 
+overtime, etc. or any other benefits.
+6) Demand No.10:- Leave Travel Allowance-
+The First Party Company is directed to grant 
+Leave Travel Allowances to all the employees 
+concerned in this Reference at par with that 
+given to Taloja factory workmen on the same 
+terms and conditions. This demand is allowed 
+partly. This allowance will not be reckoned 
+for provident fund, HRA, Leave encashment, 
+bonus, gratuity, overtime, etc. or any other 
+benefits.
+7) Demand No.11:- Mediclaim Policy to the Family 
+Member~:-This demand is partly allowed. The 
+First Party Company is directed to provide to the 
+family of the concerned workmen who fall out of 
+the purview of the ESI Act with the Mediclaim 
+Policy amounting to Rs.1 lac only, at par with 
+that being given to the Taloja factory workmen 
+on the same terms and conditions.
+iii) The following demands of the Second Party Workmen 
+are rejected:-
+1) Demand No.1 :- Revision in the Pay Scale/
+Salary.
+2) Demand No.2:- Adjustment.
+3) Demand No.3:- Fixed Dearness Allowance.
+4) Demand No.4:-Variable Dearness Allowance.
+iv) The First Party Company is directed to extend the 
+benefits arising out of the grant of the aforementioned 
+demands in clause (ii) herein to the workmen 
+concerned in this Reference w.e.f 13.11.2009.Arrears 
+of these allowances upto 31-03-2014 be paid the 
+584 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+workmen concerned within 60 days from the date of 
+publication of this award by the appropriate Authority.
+v) The First Party Company is at liberty to adjust the 
+interim amount paid to the concerned employees 
+from their arrears.
+vi) In the circumstances, no order as to cost.”
+5. Both the employer and the union challenged the said award by 
+instituting separate writ petitions before the High Court of Bombay 
+and these writ petitions were disposed of by a common judgment 
+by a learned Single Judge of the High Court, being the judgment 
+under appeal before us. The Union’s writ petition was registered 
+as Writ Petition No. 1920 of 2014 whereas the writ petition of the 
+company was registered as Writ Petition No.3152 of 2014. The High 
+Court allowed the workmen’s writ petition by setting aside the award 
+of the Tribunal so far as the first four demands as per the charter 
+are concerned and upheld the Tribunal’s verdict regarding Demand 
+No. 5-11. The particulars thereof would appear from the following 
+passages of the  judgment: -
+“25. The Petitioner union is demanding increase in basic 
+wages from 1 January 2010. The proposed revised pay 
+scale is as follows :
+GRADE
+USK 10 1 13 2 19 3 28 4 40 5 55
+SSK 20 2 26 3 35 5 50 7 71 9 98
+SK 30 3 39 5 54 7 75 10 105 14 147
+HSK 1000 100 1300 150 1750 225 24258 325 3400 450 4750
+l” CLASS 
+BOILER 
+ATTENDANT1100 110 1430 165 1925 250 2675 375 3800 525 5375
+WATCHMAN 500 50 650 75 875 115 1220 165 1715 250 2465
+PEON 400 40 520 60 700 90 970 130 1360 180 1900
+HEAD 
+WATCHMAN750 75 975 125 1350 200 1950 300 2850 425 4125
+DRIVER 750 75 975 125 1350 200 1950 300 2850 425 4125
+JR. 
+SUPERVISOR1200 120 1560 180 2100 270 2910 400 4110 550 5760
+SR. 
+SUPERVISOR2500 250 3250 350 4300 550 5950 825 8425 1175 11950
+OFFICER 
+SUPERVISOR3000 300 3900 450 5250 675 7275 1000 10275 1450 14625
+[2024] 4 S.C.R.  585
+The VVF Ltd. Employees Union v. M/S. VVF India Limited & Anr.
+The following adjustments are proposed so as to rationalize 
+the transition from the present basic wage structure to the 
+revised scale proposed as above:
+A. The present basic of employees I staff as in annexure 
+I & II should brought up to the level of minimum of 
+wage scales wherever they are below.
+B. Those whose present wages of basic do not fit in any 
+stages of their respective revised wage scales and 
+fall in between two stages, they should be stepped 
+up to earnest highest stages in the scales.
+C. On doing so (a) and (b) above every employee / 
+staff should be granted additional increment in their 
+respective wage scales as indicated below:-
+i) Those who have put service up to 5 years 
+increment-1
+ii) Those who have put service more than 
+5 years but less than 10 years increment-2
+iii) Those who have put service more than 
+10 years but less than 15 years increment-3
+(iv) Those who have put service more than 
+15 years but less than 20 years increment-4
+(v) Those who have put service more than 
+20 years but less than 25 years increment-5
+vi) Those who have put service more than 25 
+years increment-6”
+"29. To arrive at the proposed revision, the existing 
+fixed dearness allowance of Rs.225/- for daily 
+rated unskilled (USK), Semi skilled (SSK) and 
+skilled workmen (SK) as also monthly rated Highly 
+Skilled workmen (HSK), 1st class boiler attendants, 
+watchmen, head watchman, drivers, peons (i.e. all 
+employees other than supervisors and officers) can 
+be appropriately raised by Rs.1000/- per month so 
+as to make it Rs.1225/- per month. Fixed dearness 
+allowance for monthly rated junior supervisors, 
+supervisors and senior supervisors and officers 
+586 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+may not be increased. So far as variable dearness 
+allowance is concerned, no increase may be in order 
+till 2011. Increase, if any, deserves to be considered 
+from 2011 onwards, which demand, anyway, is the 
+subject matter of a separate reference (for the period 
+2011-2014).”
+So far as the employer’s writ petition is concerned the same was 
+dismissed. The High Court held that there was no serious anomaly 
+in the demands of the union allowed by the Tribunal. 
+6. The union, in its writ petition, argued that the Tribunal had failed to 
+consider the plea of the workmen for parity with similarly situated 
+units in the vicinity as well as its claim for overtime allowances. The 
+test applied by the High Court as regards comparison with the similar 
+units would appear from paragraph 26 of the impugned judgment, 
+which reads:-
+“26 In Justification, what was submitted was that this, 
+along with the applicable allowances (as revised), would 
+bring the Mumbai workmen on par with their counterparts 
+in the Taloja unit. To assess this submission, I called upon 
+both parties to submit their respective charts of Mumbai 
+and Taloja salaries for all classes of workers and the 
+impact of revision in pay scales proposed by the union. 
+According to the union, the revision proposed would bring 
+up the salaries of skilled grade workmen having 15 years 
+of service (taken as a representative case) to Rs.16,250/- 
+per month as against the salaries of Rs.16,248/- of their 
+Taloja counterparts (as of October 2010). (Comparative 
+chart of Godrej Industries, Deepak Fertilizers and Hikal 
+Ltd. shows their comparable salaries, as of October 2010, 
+of Rs.28,621/-, Rs.20,492/- and Rs.21,419/- respectively.) 
+The monthly and annual burdens on the Respondent 
+employer occasioned by the increase work out to between 
+Rs.6.58 lacs to Rs.14.01 lacs per month, and Rs.78.94 
+lacs to Rs.1.68 crores, for the particular wage fixation 
+period, namely, from 2008 to 2011.”
+7. The employer has assailed the judgment questioning the jurisdiction 
+of the Writ Court in entering into fact-finding exercise while testing 
+legality of an award. The employer’s case argued by Mr. Cama, 
+[2024] 4 S.C.R.  587
+The VVF Ltd. Employees Union v. M/S. VVF India Limited & Anr.
+learned Senior Advocate, sought to fault the approach of the High 
+Court mainly on this ground. He has also argued that the units 
+with which the High Court had made comparison to arrive at its 
+finding were not similarly situated, having regard to their industrial 
+output and financial position. He submits further that the High Court 
+in any event would not sit in appeal over the Tribunal’s award in 
+exercising its jurisdiction of judicial review, primarily applying the 
+scope of the writ of certiorari. He has relied on judgments of this 
+Court in the cases of Surya Dev Rai v. Ram Chander Rai and 
+Others [(2003) 6 SCC 675], General Management, Electrical 
+Rengali Hydro Electric Project, Orrisa and Others -vs- Giridhari 
+Sahu and Others [(2019) 10 SCC 695]. In the former judgment, 
+it has been held:-
+“12. In the exercise of certiorari jurisdiction, the High 
+Court proceeds on an assumption that a court which has 
+jurisdiction over a subject-matter has the jurisdiction to 
+decide wrongly as well as rightly. The High Court would 
+not, therefore, for the purpose of certiorari assign to itself 
+the role of an appellate court and step into reappreciating 
+or evaluating the evidence and substitute its own findings 
+in place of those arrived at by the inferior court.”
+Broadly the same principle has been laid down in the case of 
+Giridhari Sahu (supra). Mr. Cama has also submitted that in the 
+event the High Court found flaw in the reasoning of the Tribunal on 
+factual basis, instead of undertaking the exercise of revision of pay 
+scale and wages as also other facilities itself in substituting its view 
+in place of the Tribunal’s, the High Court ought to have remanded 
+the matter to the Tribunal itself.
+8. The union was represented by Mr. Sanjay Singhvi, learned 
+senior counsel. His submission is that it would be well within the 
+jurisdiction of the High Court to undertake some form of exercise 
+of appreciation of facts and on judgments he has relied on the 
+judgment of this Court in the cases of M/S Unichem Laboratories 
+Ltd. -vs- Workmen [(1972) 3 SCC 552], Workmen -vs- New 
+Egerton Woollen Mills [(1969) 2 LLJ 782], Shail (SMT) -vs- 
+Manoj Kumar and Others [(2004) 4 SCC 785], IEL Supervisors’ 
+Association and Others -vs- Duncans Industries Ltd.  and 
+Another [(2018) 4 SCC 505]. 
+588 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+9. Relying on this line of authorities, and also a judgment of this Court 
+in the case of Gujarat Steel Tubes Ltd. and Others -vs- Gujarat 
+Steel Tubes Mazdoor Sabha and Others [(1980) 2 SCC 593], he 
+has argued that the jurisdiction of the High Court under Article 226 
+of the Constitution of India is wide enough and can decide factual 
+issues instead of remanding a matter. In the latter authority, it was 
+held, inter-alia, that in appropriate cases, the High Court’s jurisdiction 
+could be coordinate to that of the Tribunal. 
+10. On behalf of both the parties, a large body of authorities has been 
+relied upon but in this judgment, we shall deal with those decisions 
+only which we find relevant for effective adjudication of the present 
+appeal. 
+11. As we have already indicated, the main question which has been 
+argued by the learned counsel appearing for the employer is on the 
+issue as to whether the High Court had travelled beyond its jurisdiction 
+in appreciating facts and in that process substituted the finding of 
+the Tribunal with its own finding on facts. To substantiate the point, 
+as we have already discussed, the cases of Giridhari (supra) and 
+Surya Dev Rai (supra) have been relied on by Mr. Cama.
+12. There are authorities, to which we have referred to earlier in this 
+judgment that lay down the scope of jurisdiction of the High Court. 
+In the cases of Unichem Laboratories Ltd. (supra), Shail (SMT) 
+(supra), IEL Supervisors’ Assn. (supra) as also the case of Gujarat 
+Steel Tubes Ltd.  (supra), it has been held that the High Court in 
+appropriate cases can go into facts while examining an award of a 
+Tribunal. 
+13. For revision of wages and other facilities, the standard criteria which 
+is followed by the industrial adjudicator is to apply industry-cum-
+region test, which in substance implies that the prevailing pay and 
+other allowances should be compared with equally placed or similarly 
+situated industrial units in the same region. To determine comparability 
+of units applying the industry-cum-region test, inter alia, the financial 
+capacity of the employer would be a strong factor. Reliance on this 
+point has been placed on the cases of French Motor Car Co. Ltd. 
+-vs- Workmen [(1962) 2 LLJ 744], The Silk and Art Silk Mills 
+Association Ltd. -vs- Mill Mazdoor Sabha [(1972) 2 SCC 253] 
+and Shivraj Fine Arts Litho Works -vs- State Industrial Court, 
+Nagpur & Ors. [(1978) 2 SCC 601].
+[2024] 4 S.C.R.  589
+The VVF Ltd. Employees Union v. M/S. VVF India Limited & Anr.
+14. Substantial argument of Mr. Cama was on selection of comparable 
+units. His submission is that the High erred in identifying the matching 
+units and also calling for fresh charts in course of hearing of the writ 
+petition with respect to Taloja unit of the original employer. It is the 
+stand of the employer that such evidence gathering exercise ought not 
+to have been undertaken by the High Court. It was also pointed out 
+on behalf of the employer that it was making losses barring in three 
+financial years between 2008-09 and 2021-22. Further submission 
+of Mr. Cama is that the workmen of the Taloja unit were not of the 
+same employer after the demerger had taken place and that they 
+were involved in a separate set of activities when compared to the 
+other units in question.
+15.  Analysis of the authorities relied on by the learned counsel for parties 
+reflect the position of law on this point to be that, though the High 
+Court ought not to reappreciate evidence and substitute its own finding 
+for that of the Tribunal, it would not be beyond the jurisdiction of the 
+High Court in its power of judicial review to altogether eschew such 
+a process. The High Court, in the impugned judgment, however, 
+reappreciated the evidence led before the Tribunal in identifying 
+comparable concerns for applying the industry-cum-region test. In 
+particular, the employer has emphasised that the High Court ignored 
+the negative financial status of the company on the ground that the 
+losses made by it was miniscule. In this regard, the judgments of 
+this Court in the case of A.K. Bindal -vs- Union of India & Ors. 
+[(2003) 5 SCC 163] Mukand Ltd. -vs- Mukand Staff & Officers 
+Association [(2004) 10 SCC 460] have been relied upon. Both 
+these authorities lay down the financial capacity of an employer is an 
+important factor which could not be ignored in fixing wage structure. 
+In the given facts where the employer seriously contested the use of 
+the concerned units as comparable ones, and highlighted its difficult 
+financial position, the proper course would have been to remit the 
+matter to the Industrial Tribunal rather than entering into these 
+factual question independently in exercise of the writ jurisdiction. 
+This exercise would have required leading of evidence before the 
+primary forum, the Industrial Tribunal in this case.
+16. On behalf of the employer, it was also specifically argued that various 
+allowances like house rent, shift allowance, travelling, medical, 
+education and leave travel were granted without any evidence. The 
+employer’s witness no.2 had given his deposition in detail, particularly 
+590 [2024] 4 S.C.R.
+Digital Supreme Court Reports
+on financial position of the company. From the judgment impugned, 
+we do not find proper analysis of the employer’s evidence in that 
+regard. So far as the union’s appeal is concerned, their point is 
+confined to treatment of overtime wages in computing allowances 
+admissible to them. That question also ought to be re-examined.
+17. We, accordingly, set aside the judgment of the High Court delivered on 
+25.07.2019 as also the Tribunal’s award. Let the Tribunal re-examine 
+the cases of the respective parties afresh. We are conscious of the 
+fact that these proceedings arise from a charter of demand made 
+in 2008. We direct the Tribunal to conclude the reference within a 
+period of six months. The Civil Appeal No.2744 of 2023 against the 
+review order dated 22.06.2021 also stands disposed of. 
+18. Thus, all the three appeals stand disposed of in the above terms.
+19. There shall be no order as to costs.
+20. Pending application(s), if any, shall stand disposed of.
+Headnotes prepared by: Ankit Gyan Result of the case: 
+Appeals disposed of.

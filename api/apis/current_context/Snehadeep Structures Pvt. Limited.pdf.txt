@@ -1,0 +1,291 @@
+[2024] 3 S.C.R. 454 : 2024 INSC 201
+Snehadeep Structures Pvt. Limited 
+v. 
+Maharashtra Small Scale Industries Development 
+Corporation Ltd.
+(Civil Appeal No. 3856 of 2024)
+05 March 2024
+[Sanjiv Khanna and Dipankar Datta, JJ.]
+Issue for Consideration
+High Court whether justified in setting aside the arbitral 
+award and holding that Maharashtra Small Scale Industries 
+Development Corporation Ltd. (MSSIDCL) cannot be said to be 
+a buyer within the meaning of Interest on Delayed Payments 
+to Small Scale and Ancillary Industrial Undertakings Act, 1993 
+and therefore, the appellant (SSPL) was not entitled to claim 
+interest under the 1993 Act against MSSIDCL; whether the 
+proviso to s.3, 1993 Act would be applicable to the agreement 
+in question entered into between the parties on 30.03.1995, 
+albeit the proviso was enacted and enforced with effect from 
+10.08.1998.
+Headnotes
+Interest on Delayed Payments to Small Scale and Ancillary 
+Industrial Undertakings Act, 1993 – s.2(b), (c), (f); proviso 
+to s.3; s.4 – “buyer”; “supplier” – Liability of buyer to make 
+payment – Date from which and rate at which interest is 
+payable:
+Held: On a reading of s.3 of the 1993 Act, as it stood before the 
+enactment of the proviso, the buyer and the supplier could agree 
+upon the date of payment – In case of absence of stipulation with 
+regard to the date of payment, the “appointed day” in terms of 
+s.2(b) of the 1993 Act, would be the date, on which the payment 
+is due – This is also clear from reading s.4, which states the 
+date from which interest is payable – As per s.4, the buyer is 
+liable to pay interest if he fails to pay the amount to the supplier 
+as required by s.3 – After enactment of the proviso to s.3, the 
+contractual rights of the parties to agree to the date of payment, 
+have been restricted in terms of the said proviso – Thus, if the 
+contractual date of payment exceeds 120 days from the day of 
+[2024] 3 S.C.R.  455
+Snehadeep Structures Pvt. Limited v. Maharashtra Small Scale 
+Industries Development Corporation Ltd.
+acceptance or the day of deemed acceptance, interest would 
+be payable for the period beyond 120 days from the day of 
+acceptance or the date of deemed acceptance – In the present 
+case, the supply/purchase order dated 30.03.1995 issued by 
+MSSIDCL to SSPL, postulated and the parties had agreed that 
+MSSIDCL would be liable to pay SSPL only after the goods 
+were delivered and accepted by the consignee-Maharashtra 
+State Electricity Board (MSEB) and on the payment being 
+received by MSSIDCL from the MSEB – No reason to interfere 
+with the conclusion in the impugned judgment passed by the 
+High Court, setting aside the arbitral award – Further, by way 
+of Act No.23 of 1998, which came in effect from 10.08.1998, 
+amending clause 2(f), MSSIDCL is to be treated or deemed to 
+be a supplier to MSEB – However, this will not deviate from the 
+fact that MSSIDCL was the buyer under the supply/purchase 
+order dated 30.03.1995 issued by MSSIDCL to SSPL – Equally, 
+the G.O. 2(1)/A/93- SSI Bd. and Policy dated 05.05.1993 issued 
+by the Ministry of Industry, Department of SSI, Agro and Rural 
+Industries, Office of the Development Commissioner (Small Scale 
+Industries), had an effect of treating MSSIDCL as a supplier for 
+the purpose of claiming interest from the buyer, that is MSEB, 
+with whom they have entered into a contract for the purpose of 
+the 1993 Act – The liability to pay and the privity of contract in 
+terms of the supply/purchase order dated 30.03.1995 is between 
+MSSIDCL and SSPL – The contractual relationship, rights and 
+obligations inter se MSSIDCL and SSPL do not undergo any 
+change. [Paras 6, 8-10, 13, 14]
+List of Acts
+Interest on Delayed Payments to Small Scale and Ancillary Industrial 
+Undertakings Act, 1993; Arbitration and Conciliation Act, 1996.
+List of Keywords
+“Buyer”; “Supplier”; Interest; Date of payment; Appointed date, 
+Acceptance date; Deemed date of acceptance; Small scale Industries.
+Case Arising From
+CIVIL APPELLATE JURISDICTION : Civil Appeal No.3856 of 2024
+From the Judgment and Order dated 26.03.2018 of the High Court 
+of Judicature at Bombay in AN No. 203 of 2017
+456 [2024] 3 S.C.R.
+Digital Supreme Court Reports
+Appearances for Parties
+Ranjit Kumar, Siddharth Bhatnagar, Sr. Advs., Ms. Tahira Karanjawala, 
+Arjun Sharma, Shreyas Maheshwari, Ms. Sukanya Das, Aditya Sidhra, 
+M/s. Karanjawala & Co., Advs. for the Appellant.
+Dr. S. Muralidhar, Sr. Adv., Zubin Morris, Nirav Shah, Udit Gupta, 
+Ms. Prachi Gupta, Ms. Pragya Gupta, Ms. Pallak Bhagat, M/s. Udit 
+Kishan And Associates, Advs. for the Respondent.
+Judgment / Order of the Supreme Court
+Judgment
+Leave granted. 
+2. We have heard learned Senior Advocate appearing for the appellant 
+– Snehadeep Structures Pvt. Limited1 and the Respondent - 
+Maharashtra Small Scale Industries Development Corporation Ltd.2 
+3. During the course of the hearing, our attention was drawn to Sections 
+3, 4 and 5 of the Interest on Delayed Payments to Small Scale 
+and Ancillary Industrial Undertakings Act, 19933. For the sake of 
+convenience, the said Sections are reproduced below: -
+“3. Liability of buyer to make payment.- Where any supplier 
+supplies any goods or renders any services to any buyer, 
+the buyer shall make payment therefor on or before the 
+date agreed upon between him and the supplier in writing 
+or, where there is no agreement in this behalf, before the 
+appointed day: 
+Provided that in no case the period agreed upon between 
+the supplier and the buyer in writing shall exceed one 
+hundred and twenty days from the day of acceptance or 
+the day of deemed acceptance.
+4. Date from which and rate at which interest is payable.- 
+Where any buyer fails to make payment of the amount to 
+the supplier, as required under section 3, the buyer shall, 
+1 For short, “SSPL”.
+2 For short, “MSSIDCL”.
+3 For short, “1993 Act”.
+[2024] 3 S.C.R.  457
+Snehadeep Structures Pvt. Limited v. Maharashtra Small Scale 
+Industries Development Corporation Ltd.
+notwithstanding anything contained in any agreement 
+between the buyer and the supplier or in any law for the 
+time being in force, be liable to pay interest to the supplier 
+on that amount from the appointed day or, as the case may 
+be, from the date immediately following the date agreed 
+upon, at one-and-half time of Prime Lending Rate charged 
+by the State Bank of India.
+Explanation.- For the purposes of this section, “Prime 
+Lending Rate” means the Prime Lending Rate of the State 
+Bank of India which is available to the best borrowers of 
+the bank.
+5. Liability of buyer to pay compound interest.- 
+Notwithstanding anything contained in any agreement 
+between a supplier and a buyer or in any law for the time 
+being in force, the buyer shall be liable to pay compound 
+interest (with monthly interest) at the rate mentioned in 
+section 4 on the amount due to the supplier.”
+4. We would also reproduce the definition clauses (b), (c) and (f) to 
+Section 2, which are applicable, unless the context otherwise requires. 
+The same read thus: -
+(b) “appointed day” means the day following immediately 
+after the expiry of the period of thirty days from the day 
+of acceptance or the day of deemed acceptance of any 
+goods or any services by a buyer from a supplier;
+Explanation. -For the purposes of this clause,-
+(i) “the day of acceptance” means,-
+(a) the day of the actual delivery of goods or the rendering 
+of services; or
+(b) where any objection is made in writing by the buyer 
+regarding, acceptance of goods or services within 
+thirty days from the day of the delivery, of goods or 
+the rendering of services, the day on which such 
+objection is removed by the supplier;
+(ii) “the day of deemed acceptance” means, where no objection 
+is made in writing by the buyer regarding acceptance of 
+458 [2024] 3 S.C.R.
+Digital Supreme Court Reports
+goods or services within thirty days from the day of the 
+delivery of goods or the rendering of services, the day of 
+the actual delivery of goods or the rendering of services;
+(c) “buyer” means whoever buys any goods or receives 
+any services from a supplier for consideration;
+xxx    xxx    xxx
+(f) “supplier” means an ancillary industrial undertaking or 
+a small scale industrial undertaking holding a permanent 
+registration certificate issued by the Directorate of Industries 
+of a State or Union territory and includes,-
+(i) the National Small Industries Corporation, being a company, 
+registered under the Companies Act, 1956 (1 of 1956);
+(ii) the Small Industries Development Corporation of a State 
+or a Union territory, by whatever name called, being a 
+company registered under the Companies Act, 1956 (1 
+of 1956).”
+5. The proviso to Section 3, and the amendment to Section 2(f) to 
+include the addition of National Small Industries Corporation and 
+the Small Industries Development Corporation of a State or a Union 
+Territory to the definition of “supplier”, were incorporated by Act No. 
+23 of 1998 with effect from 10.08.1998. 
+6. On a reading of Section 3 of the 1993 Act, as it stood before the 
+enactment of the proviso, the buyer and the supplier could agree 
+upon the date of payment. In case of absence of stipulation with 
+regard to the date of payment, the “appointed day” in terms of Section 
+2(b) of the 1993 Act, would be the date, on which the payment is 
+due. This is also clear from reading Section 4, which states the 
+date from which interest is payable. As per Section 4, the buyer is 
+liable to pay interest if he fails to pay the amount to the supplier as 
+required by Section 3. Non-obstante part of Section 4 only deals 
+with the stipulation in a contract whereby liability to pay interest is 
+barred/prohibited. It does not, in any way, override the contractual 
+clause with regard to the date of payment. In other words, in case the 
+contract states that interest will not be payable even in the case of 
+belated payment, then Section 4 of the Act will come into operation, 
+overriding the negative contractual clause.
+[2024] 3 S.C.R.  459
+Snehadeep Structures Pvt. Limited v. Maharashtra Small Scale 
+Industries Development Corporation Ltd.
+7. The effect of the proviso to Section 3, made applicable with effect 
+from 10.08.1998, is that the supplier and the buyer may agree by 
+contract on the date of payment, but in no case can the date of 
+payment exceed 120 days from the day of acceptance or the day of 
+deemed acceptance. The terms ‘the appointed date’, ‘the acceptance 
+date’ and ‘the deemed date of acceptance’ have been defined vide 
+clause (b) to Section 2 of the 1993 Act.
+8. After enactment of the proviso to Section 3, the contractual rights 
+of the parties to agree to the date of payment, have been restricted 
+in terms of the said proviso. In other words, if the contractual date 
+of payment exceeds 120 days from the day of acceptance or the 
+day of deemed acceptance, interest would be payable for the period 
+beyond 120 days from the day of acceptance or the date of deemed 
+acceptance.
+9. When we turn to the facts of the present case, the supply/purchase 
+order dated 30.03.1995 issued by MSSIDCL to SSPL, had stated 
+as under: -
+“25. The price of the goods delivered and accepted by 
+the consignee and when received from the consignee 
+will be paid to the supplier by the Corporation subject to 
+deductions of advances, if any, paid by the Corporation 
+and the service changes [sic] and other moneys payable 
+to the Corporation by the supplier. No advance payment 
+will be made for any supply of the goods unless otherwise 
+agreed by the Corporation.”
+10. The contract had, therefore, postulated and the parties had agreed 
+that MSSIDCL would be liable to pay SSPL only after the goods are 
+delivered and accepted by the consignee, namely, Maharashtra State 
+Electricity Board4 and on the payment being received by MSSIDCL 
+from the MSEB.
+11. If the proviso to Section 3 applies, this contractual clause will get 
+modified in terms of the proviso to Section 3, which has fixed the 
+upper time limit for payment to 120 days from the day of acceptance 
+or the day of deemed acceptance. However, the question would 
+4 For short, “MSEB”.
+460 [2024] 3 S.C.R.
+Digital Supreme Court Reports
+arise as to whether the said proviso  would be applicable to the 
+agreement in question, which was entered into between the parties 
+on 30.03.1995, albeit the proviso was enacted and enforced with 
+effect from 10.08.1998.
+12. Even if, for the sake of argument, it is to be accepted that the proviso  
+to Section 3 would be applicable in respect of supplies or payments 
+due or payable after 10.08.1998, the issue with regard to calculation 
+and computation of interest requires examination and determination of 
+the day of acceptance or the day of deemed acceptance, as interest 
+would be payable only after a period of 120 days from such date.
+13. In these circumstances and in view of the aforesaid position, we do 
+not find any good ground and reason to interfere with the conclusion 
+in the impugned judgment passed by the Division Bench of the High 
+Court, setting aside the arbitral award dated 30.06.2003. We would, 
+however, record that the award having been set aside, the provisions 
+of Section 43(4) of the Arbitration and Conciliation Act, 1996 would 
+come into operation and would accordingly apply.
+14. We clarify that MSEB need not be a party to the proceedings, if 
+any, which may be initiated by SSPL or MSSIDCL. However, any 
+adjudication for payment of interest under Sections 3 to 5 of 1993 
+Act, including the question relating to application of the proviso , 
+would require ascertainment of the appointed date, the date of 
+acceptance or the deemed date of acceptance. To this limited 
+extent, ascertainment of facts with reference to the consignee – 
+MSEB, to whom the goods were supplied by SSPL, is required. By 
+way of Act No.23 of 1998, which came in effect from 10.08.1998, 
+amending clause 2(f), MSSIDCL is to be treated or deemed to be 
+a supplier to MSEB. However, this will not deviate from the fact 
+that MSSIDCL was the buyer under the supply/purchase order 
+dated 30.03.1995 issued by MSSIDCL to SSPL. Equally, the G.O. 
+2(1)/A/93-SSI Bd. and Policy dated 05.05.1993 issued by the Ministry 
+of Industry, Department of SSI, Agro and Rural Industries, Office of 
+the Development Commissioner (Small Scale Industries), has an 
+effect of treating MSSIDCL as a supplier for the purpose of claiming 
+interest from the buyer, that is MSEB, with whom they have entered 
+into a contract for the purpose of the 1993 Act. The liability to pay 
+and the privity of contract in terms of the supply/purchase order 
+dated 30.03.1995 is between MSSIDCL and SSPL. The contractual 
+[2024] 3 S.C.R.  461
+Snehadeep Structures Pvt. Limited v. Maharashtra Small Scale 
+Industries Development Corporation Ltd.
+relationship, rights and obligations inter se MSSIDCL and SSPL do 
+not undergo any change.
+15. On the question of liability under Section 5 as well, there is a dispute 
+as it is accepted that the principal amount has been paid. A question 
+would arise whether under Section 5, interest as compounded is to be 
+treated as a principal amount. This aspect has not been considered 
+in the award passed by the sole arbitrator, which has awarded 
+compound interest on the interest element with monthly rest at 1.5 
+times the Prime Lending Rate charged by the State Bank of India.
+16. We are informed that certain payments were made by MSSIDCL 
+and a substantial amount of over Rs.1.30 crores has been paid 
+to/withdrawn by SSPL. It will be open to MSSIDCL to move an 
+application under Section 144 of the Code of Civil Procedure, 1908 
+for restitution or execution, as it may be advised. MSSIDCL would 
+be entitled to enforce the security in case SSPL does not pay or 
+refund the said amount.
+17. The appeal is dismissed in the above terms. However, there shall 
+be no order as to costs.
+Pending application(s), if any, shall stand disposed of.
+Headnotes prepared by: Divya Pandey  Result of the case: 
+Appeal dismissed.

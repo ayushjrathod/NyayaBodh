@@ -1,0 +1,367 @@
+* Author[2024] 3 S.C.R. 994 : 2024 INSC 255
+Bloomberg Television Production Services  
+India Private Limited & Ors.  
+v. 
+Zee Entertainment Enterprises Limited
+(Civil Appeal No. 4602 of 2024)
+22 March 2024
+[Dr. Dhananjaya Y Chandrachud,* CJI, J B Pardiwala and 
+Manoj Misra, JJ.]
+Issue for Consideration
+Matter pertains to the order of the High Court upholding the interim 
+order passed by the trial judge directing the appellants-media 
+platform to take down an article published on their online platform 
+against the respondent as also restrained them from posting, 
+circulating or publishing the article in respect of the respondent on 
+any online or offline platform till the next date of hearing.
+Headnotes
+Defamation – Defamation suits against media platform and/or 
+journalists – Interim relief/interim injunctions – Interim order 
+by the trial judge directing the appellants-media platform, its 
+editor, and the journalists to take down an article published 
+on their online platform against the respondent as also 
+restrained them from posting, circulating or publishing the 
+article in respect of the respondent on any online or offline 
+platform till the next date of hearing – Upheld by the High 
+Court – Correctness:
+Held: Order of the trial judge does not discuss, even cursorily, 
+the prima facie strength of the plaintiff’s case, the balance of 
+convenience or the irreparable hardship that is caused – Trial 
+judge needed to have analysed why such an ex parte injunction 
+was essential – Such order amounts to unreasoned censorship 
+and cannot be accepted – Grant of an ex parte interim injunction 
+by way of an unreasoned order, definitely necessitates interference 
+by the High Court – Impact of the injunction on the constitutionally 
+protected right of free speech further warranted intervention – High 
+Court ought to have prima facie assessed whether the test for the 
+grant of an injunction was duly established after an evaluation of 
+facts – Error committed by the trial judge perpetuated by the Single 
+[2024] 3 S.C.R.  995
+Bloomberg Television Production Services India Private Limited & Ors.  
+v. Zee Entertainment Enterprises Limited
+Judge of the High Court – Merely recording that a prima facie case 
+exists, that the balance of convenience is in favour of the grant of 
+injunction and that an irreparable injury would be caused, would 
+not amount to an application of mind to the facts of the case – In 
+the absence thereof, orders of the trial judge and the Single Judge 
+of the High Court set aside. [Paras 11-13]
+Defamation – Defamation suits against media platform and/
+or journalists – Interim relief/interim injunctions – Grant of – 
+Application of three fold test:
+Held: Three-fold test is of establishing a prima facie case, balance 
+of convenience and irreparable loss or harm, for the grant of 
+interim relief – This test is equally applicable to the grant of interim 
+injunctions in defamation suits – Three-fold test must not be applied 
+mechanically, to the detriment of the other party and in the case 
+of injunctions against journalistic pieces, often to the detriment of 
+the public – While granting interim relief, the court must provide 
+detailed reasons and analyze how the test is satisfied and how the 
+precedents cited apply to the facts of the case – Also balancing 
+the fundamental right to free speech with the right to reputation 
+and privacy must be borne in mind – Constitutional mandate of 
+protecting journalistic expression cannot be understated, and courts 
+must tread cautiously while granting pre-trial interim injunctions – 
+Courts should not grant ex-parte injunctions except in exceptional 
+cases where the defence advanced by the respondent would 
+undoubtedly fail at trial – In all other cases, injunctions against the 
+publication of material should be granted only after a full-fledged 
+trial is conducted or in exceptional cases, after the respondent is 
+given a chance to make their submissions. [Paras 5, 7, 9]
+Suits – ‘SLAPP Suits’– Concept of :
+Held: Term ‘SLAPP’ stands for ‘Strategic Litigation against Public 
+Participation’ – It is an umbrella term used to refer to litigation 
+predominantly initiated by entities that wield immense economic 
+power against members of the media or civil society, to prevent 
+the public from knowing about or participating in important affairs 
+in the public interest – Grant of an interim injunction, before the 
+trial commences, often acts as a ‘death sentence’ to the material 
+sought to be published, well before the allegations have been 
+proven – While granting ad-interim injunctions in defamation suits, 
+the potential of using prolonged litigation to prevent free speech and 
+public participation must also be kept in mind by courts. [Para 10]
+996 [2024] 3 S.C.R.
+Digital Supreme Court Reports
+Case Law Cited
+Delhi Development Authority v. Skipper Construction 
+Co. (P) Ltd [1996] Suppl. 2 SCR 295 : (1996) 4 SCC 
+622; Morgan Stanley Mutual Fund v. Kartick Das [1994] 
+Suppl. 1 SCR 136 : (1994) 4 SCC 225; R. Rajagopal 
+v. State of Tamil Nadu [1994] Suppl. 4 SCR 353 : 
+(1994) 6 SCC 632;  Ramdev Food Products Pvt. Ltd. v. 
+Arvindbhai Rambhai Patel [2006] Suppl. 5 SCR 521 : 
+(2006) 8 SCC 726; Shyam Sel & Power Ltd. v. Shyam 
+Steel Industries Ltd. [2022] 3 SCR 1173 : (2023) 1 SCC 
+634 – referred to.
+Bonnard v. Perryman (1891) 95 All ER 965; Holley v. 
+Smyth (1998) 1 All ER 853; Fraser v. Evans (1969) 1 
+Q.B. 349 – referred to.
+Books and Periodicals Cited
+Donson, F.J.L. 2000. Legal Intimidation: A SLAPP in 
+the Face of Democracy. London, New York : Free 
+Association Books – referred to.
+List of Acts
+Code of Civil Procedure, 1908.
+List of Keywords
+Media platform; Online platform; Defamation; Defamation suits; 
+Interim relief/interim injunctions; Prima facie case; Balance of 
+convenience; Irreparable hardship; Ex parte injunction; Ad-
+interim injunction;  Unreasoned censorship; Discretionary power; 
+Unreasoned order; Defamation proceedings against media platform; 
+Injunction; Right of free speech; Right to reputation and privacy; 
+Protection of journalistic expression; Pre-trial interim injunctions; 
+Bonnard standard; Right to freedom of speech of the author; 
+Public’s right to know; ‘SLAPP Suits’; ‘Strategic Litigation against 
+Public Participation’; Prolonged trials.
+Case Arising From
+CIVIL APPELLATE JURISDICTION : Civil Appeal No. 4602 of 
+2024
+From the Judgment and Order dated 14.03.2024 of the High Court 
+of Delhi at New Delhi in FAO No.79 of 2024
+[2024] 3 S.C.R.  997
+Bloomberg Television Production Services India Private Limited & Ors.  
+v. Zee Entertainment Enterprises Limited
+Appearances for Parties
+Mukul Rohatgi, Neeraj Kishan Kaul, Dr. Menaka Guruswamy, Sr. 
+Advs., Rohit Kochhar, Shiv Sapra, Samiron Borkataky, Ms. Ranjeet 
+Rohatgi, Rajat Gava, Ikshvaaku Marwah, Vishal Singh, Sanskriti 
+Shrimali, Keshav Sehgal, Dhruv Sharma,Raghav Agarwal, Utkarsh 
+Pratap, Lavish Bhambhani, Harshvardhan Thakur, Ms. Suvangana 
+Agrawal, Advs. for the Appellants.
+Mahesh Agarwal, Ms. Madhavi Agarwal, Shashwat Singh, E.C. 
+Agrawala, Advs. for the Respondent.
+Judgment / Order of the Supreme Court
+Judgment
+Dr Dhananjaya Y Chandrachud, CJI
+1. Leave granted.
+2. On 01 March 2024, an ex-parte ad interim order was passed by the 
+ADJ 05 of the South Saket Courts, New Delhi1 directing the appellants 
+(a media platform, one of its editors, and the concerned journalists) to 
+take down an article dated 21 February 2024 published on their online 
+platform within a week. The appellants were also restrained from posting, 
+circulating or publishing the article in respect of the respondent-plaintiff 
+on any online or offline platform till the next date of hearing. 
+3. The order of the trial Judge indicates that the discussion, after 
+recording the submission of the respondent, commences at paragraph 
+7. The only reasoning which is found in the order of the trial Judge 
+is in paragraphs 8-9, which read as follows:
+“8. I have noticed that in Dr. Abhishek Manu Singhvi  
+(Supra), Chandra Kochar (Supra), Swami Ramdev  
+(Supra), ex-parte ad interim injunction was passed, 
+considering that the contents of the material in question 
+was per se defamatory.
+9. In my view, the plaintiff has made out a prima facie 
+case for passing ad interim ex-parte orders of injunction, 
+balance of convenience is also in favour of plaintiff and 
+1 “trial Judge”
+998 [2024] 3 S.C.R.
+Digital Supreme Court Reports
+against the defendant and irreparable loss and injury 
+may be caused to the plaintiff, if the injunction as prayed 
+for is not granted. In view thereof, defendant no.1 and 
+defendant no.2 are directed to take down the article dated 
+21.02.2024 (page 84 to 86 of the plaintiff’s document) 
+from online platform within one week of receipt of this 
+order. The defendants are further restrained from posting, 
+circulating or publishing the aforesaid article in respect of 
+the plaintiff on any online or offline platform till the next 
+date of hearing.”
+4. The order of the trial Judge has been upheld by a Single Judge of 
+the High Court of Delhi by order dated 14 March 2024.2 The Single 
+Judge of the High Court seems to have had doubts about the 
+maintainability of the appeal, but that point need not be laboured any 
+further having regard to the provisions of Order XLIII of the Code of 
+Civil Procedure 1908.
+5. The three-fold test of establishing (i) a prima facie case, (ii) balance 
+of convenience and (iii) irreparable loss or harm, for the grant of 
+interim relief, is well-established in the jurisprudence of this Court. 
+This test is equally applicable to the grant of interim injunctions in 
+defamation suits. However, this three-fold test must not be applied 
+mechanically,3 to the detriment of the other party and in the case of 
+injunctions against journalistic pieces, often to the detriment of the 
+public. While granting interim relief, the court must provide detailed 
+reasons and analyze how the three-fold test is satisfied. A cursory 
+reproduction of the submissions and precedents before the court is 
+not sufficient. The court must explain how the test is satisfied and 
+how the precedents cited apply to the facts of the case. 
+6. In addition to this oft-repeated test, there are also additional factors, 
+which must weigh with courts while granting an ex-parte ad interim 
+injunction. Some of these factors were elucidated by a three-judge 
+bench of this Court in Morgan Stanley Mutual Fund v. Kartick  
+Das,4 in the following terms: 
+2 “Impugned Order”
+3 Delhi Development Authority v. Skipper Construction Co. (P) Ltd., [1996] Suppl. 2 SCR 295 : (1996) 4 
+SCC 622, para 38. 
+4 [1994] Suppl. 1 SCR 136  : (1994) 4 SCC 225.
+[2024] 3 S.C.R.  999
+Bloomberg Television Production Services India Private Limited & Ors.  
+v. Zee Entertainment Enterprises Limited
+“36. As a principle, ex parte injunction could be granted 
+only under exceptional circumstances. The factors which 
+should weigh with the court in the grant of ex parte 
+injunction are—
+(a) whether irreparable or serious mischief will ensue 
+to the plaintiff;
+(b) whether the refusal of ex parte injunction would 
+involve greater injustice than the grant of it would 
+involve;
+(c) the court will also consider the time at which the 
+plaintiff first had notice of the act complained so that 
+the making of improper order against a party in his 
+absence is prevented;
+(d) the court will consider whether the plaintiff had 
+acquiesced for sometime and in such circumstances 
+it will not grant ex parte injunction;
+(e) the court would expect a party applying for ex parte 
+injunction to show utmost good faith in making the 
+application.
+(f) even if granted, the ex parte injunction would be for 
+a limited period of time.
+(g) General principles like prima facie case, balance 
+of convenience and irreparable loss would also be 
+considered by the court.”
+7. Significantly, in suits concerning defamation by media platforms and/or 
+journalists, an additional consideration of balancing the fundamental 
+right to free speech with the right to reputation and privacy must be 
+borne in mind.5 The constitutional mandate of protecting journalistic 
+expression cannot be understated, and courts must tread cautiously 
+while granting pre-trial interim injunctions. The standard to be followed 
+may be borrowed from the decision in Bonnard v . Perryman.6 This 
+standard, christened the ‘Bonnard standard’, laid down by the Court 
+5 R. Rajagopal v. State of Tamil Nadu, [1994] Suppl. 4 SCR 353  : (1994) 6 SCC 632.
+6 (1891) 95 All ER 965.
+1000  [2024] 3 S.C.R.
+Digital Supreme Court Reports
+of Appeal (England and Wales), has acquired the status of a common 
+law principle for the grant of interim injunctions in defamation suits.7 
+The Court of Appeal in Bonnard (supra) held as follows: 
+“…But it is obvious that the subject-matter of an action for 
+defamation is so special as to require exceptional caution 
+in exercising  the jurisdiction to interfere by injunction before 
+the trial of an action to prevent an anticipated wrong . 
+The right of free speech is one which it is for the public 
+interest that individuals should possess, and, indeed, 
+that they should exercise without impediment, so long as 
+no wrongful act is done; and, unless an alleged libel is 
+untrue, there is no wrong committed; but, on the contrary, 
+often a very wholesome act is performed in the publication 
+and repetition of an alleged libel. Until it is clear that an 
+alleged libel is untrue, it is not clear that any right at all 
+has been infringed; and the importance of leaving free 
+speech unfettered is a strong reason in cases of libel for 
+dealing most cautiously and warily with the granting of 
+interim injunctions.” 
+(emphasis supplied)
+8. In Fraser v. Evans, 8 the Court of Appeal followed the Bonnard 
+principle and held as follows: 
+“… in so far as the article will be defamatory of Mr. Fraser, 
+it is clear he cannot get an injunction. The Court will not 
+restrain the publication of an article, even though it is 
+defamatory, when the defendant says he intends to justify it 
+or to make fair comment on a matter of public interest. That 
+has been established for many years ever since (Bonnard 
+v. Ferryman 1891 2 Ch. 269). ‘The reason sometimes given 
+is that the defences of justification and fair comment are 
+for the jury, which is the constitutional tribunal, and not 
+for a Judge. But a better reason is the importance in the 
+public interest that the truth should out. …”
+(emphasis supplied)
+7 Holley vs. Smyth, (1998) 1 All ER 853.
+8 [1969] 1 Q.B. 349.
+[2024] 3 S.C.R.  1001
+Bloomberg Television Production Services India Private Limited & Ors.  
+v. Zee Entertainment Enterprises Limited
+9. In essence, the grant of a pre-trial injunction against the publication 
+of an article may have severe ramifications on the right to freedom 
+of speech of the author and the public’s right to know. An injunction, 
+particularly ex-parte, should not be granted without establishing that 
+the content sought to be restricted is ‘malicious’ or ‘palpably false’. 
+Granting interim injunctions, before the trial commences, in a cavalier 
+manner results in the stifling of public debate. In other words, courts 
+should not grant ex-parte injunctions except in exceptional cases 
+where the defence advanced by the respondent would undoubtedly 
+fail at trial. In all other cases, injunctions against the publication of 
+material should be granted only after a full-fledged trial is conducted 
+or in exceptional cases, after the respondent is given a chance to 
+make their submissions. 
+10. Increasingly, across various jurisdictions, the concept of ‘SLAPP 
+Suits’ has been recognized either by statute or by courts. The term 
+‘SLAPP’ stands for ‘Strategic Litigation against Public Participation’ 
+and is an umbrella term used to refer to litigation predominantly 
+initiated by entities that wield immense economic power against 
+members of the media or civil society, to prevent the public from 
+knowing about or participating in important affairs in the public 
+interest.9 We must be cognizant of the realities of prolonged trials. 
+The grant of an interim injunction, before the trial commences, often 
+acts as a ‘death sentence’ to the material sought to be published, well 
+before the allegations have been proven. While granting ad-interim 
+injunctions in defamation suits, the potential of using prolonged 
+litigation to prevent free speech and public participation must also 
+be kept in mind by courts. 
+11. The order of the trial Judge does not discuss, even cursorily, the 
+prima facie strength of the plaintiff’s case, nor does it deal with the 
+balance of convenience or the irreparable hardship that is caused. 
+The trial Judge needed to have analysed why such an ex parte  
+injunction was essential, after setting out the factual basis and the 
+contentions of the respondent made before the trial Judge. The trial 
+Judge merely states, in paras 7-8, that the court has “gone through 
+the record available as on date” and noticed certain precedents 
+9 Donson, F.J.L. 2000. Legal Intimidation: A SLAPP in the Face of Democracy. London, New York: Free 
+Association Books.
+1002  [2024] 3 S.C.R.
+Digital Supreme Court Reports
+where an ad-interim injunction was granted. Without even cursorily 
+dwelling on the merits of the plaint, the ad-interim injunction granted 
+by the trial Judge amounts to unreasoned censorship which cannot 
+be countenanced. 
+12. Undoubtedly, the grant of an interim injunction is an exercise of 
+discretionary power and the appellate court (in this case, the High 
+Court) will usually not interfere with the grant of interim relief. However, 
+in a line of precedent, this Court has held that appellate courts must 
+interfere with the grant of interim relief if the discretion has been 
+exercised “arbitrarily, capriciously, perversely, or where the court has 
+ignored settled principles of law regulating the grant or refusal of 
+interlocutory injunctions.”10 The grant of an ex parte interim injunction 
+by way of an unreasoned order, definitely falls within the above 
+formulation, necessitating interference by the High Court. This being 
+a case of an injunction granted in defamation proceedings against 
+a media platform, the impact of the injunction on the constitutionally 
+protected right of free speech further warranted intervention. 
+13. In view of the above, the High Court ought to have, in our view, 
+also at least prima facie assessed whether the test for the grant of 
+an injunction was duly established after an evaluation of facts. The 
+same error which has been committed by the trial Judge has been 
+perpetuated by the Single Judge of the High Court. Merely recording 
+that a prima facie case exists, that the balance of convenience is 
+in favour of the grant of injunction and that an irreparable injury 
+would be caused, would not amount to an application of mind to 
+the facts of the case. The three-fold test cannot merely be recorded 
+as a mantra without looking into the facts on the basis of which an 
+injunction has been sought. In the absence of such a consideration 
+either by the trial Judge or by the High Court, we have no option but 
+to set aside both the orders of the trial Judge dated 1 March 2024 
+and of the Single Judge of the High Court dated 14 March 2024. 
+We do so accordingly.
+14. Since the proceedings are now listed before the trial Judge on 26 
+March 2024, we direct that it would be open to the respondents to 
+10 Ramdev Food Products Pvt. Ltd. v. Arvindbhai Rambhai Patel, [2006] Suppl. 5 SCR 521 : (2006) 8 SCC 
+726, para 128; Shyam Sel & Power Ltd. v. Shyam Steel Industries Ltd., [2022] 3 SCR 1173 : (2023) 1 
+SCC 634, para 37.
+[2024] 3 S.C.R.  1003
+Bloomberg Television Production Services India Private Limited & Ors.  
+v. Zee Entertainment Enterprises Limited
+renew their application for injunction, on which the trial Judge shall 
+pass fresh orders after hearing the parties and bearing in mind 
+the observations which are contained in the above segment of the 
+judgment and order. All the rights and contentions of the parties are 
+kept open in that regard. In the event that the appellants seek to 
+contest the application for injunction, they shall file their reply before 
+the trial Judge before the next date of listing. 
+15. It is clarified that the above segment of the judgment and order 
+may not be construed as a comment on the merits of the present 
+case. The purpose of the above segment is to provide the broad 
+parameters to be kept in mind while hearing the application for an 
+interim injunction.
+16. The appeal is accordingly disposed of in the above terms. 
+17. Pending applications, if any, stand disposed of.
+Headnotes prepared by: Nidhi Jain Result of the case: 
+Appeal disposed of.
