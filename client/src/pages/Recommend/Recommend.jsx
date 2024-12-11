@@ -1,32 +1,39 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardBody, Skeleton } from "@nextui-org/react";
+import { useParams } from "react-router-dom";
 
-const Recommend = ({ uuid }) => {
+const Recommend = () => {
   // Initialize as empty array
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {uuid} = useParams();
 
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/recommend/${uuid}`);
-        // Ensure response.data is array or use empty array
-        setRecommendations(Array.isArray(response.data) ? response.data : []);
+        const response = await axios.get(`http://localhost:8000/recommend/${uuid}`);
+        // Check if the response contains the expected structure
+        if (response.data && response.data.recommended_cases) {
+          setRecommendations(response.data.recommended_cases);
+          console.log(recommendations)
+        } else {
+          setRecommendations([]);
+        }
       } catch (error) {
         console.error("Error fetching recommendations:", error);
         setError("Failed to load recommendations");
-        // Reset to empty array on error
         setRecommendations([]);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchRecommendations();
-  }, [uuid]);
+  }, []);  // Ensure uuid is in the dependency array
+  
 
   // Render section with safe array check
   return (
@@ -45,8 +52,22 @@ const Recommend = ({ uuid }) => {
         recommendations.map((rec, index) => (
           <Card key={index}>
             <CardBody>
-              <h3>{rec.case_name}</h3>
-              <p>{rec.summary}</p>
+              <h3>{rec.CASE_NUMBER}</h3>
+              <p>{rec.COURT}</p>
+              <p>{rec.DATE}</p>
+              <p>{rec.GPE}</p>
+              <p>{rec.JUDGE}</p>
+              <p>{rec.LAWYER}</p>
+              <p>{rec.ORG}</p>
+              <p>{rec.OTHER_PERSON}</p>
+              <p>{rec.PETITIONER}</p>
+              <p>{rec.PRECEDENT}</p>
+              <p>{rec.PROVISION}</p>
+              <p>{rec.RESPONDENT}</p>
+              <p>{rec.STATUTE}</p>
+              <p>{rec.WITNESS}</p>
+              <p>File Name: {rec.file_name}</p>
+              <p>Similarity: {rec.similarity}</p>
             </CardBody>
           </Card>
         ))
@@ -55,6 +76,6 @@ const Recommend = ({ uuid }) => {
       )}
     </div>
   );
-};
+}
 
 export default Recommend;

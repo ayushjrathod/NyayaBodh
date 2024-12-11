@@ -145,7 +145,7 @@ class AIChatbot:
             "top_indices": top_indices.tolist(),
             "retrieved_chunks": chunks_to_save
         }
-        with open("current_chunks.json", "w") as f:
+        with open("current_json", "w") as f:
             json.dump(data_to_save, f, indent=4)
         retrieved_chunks = " ".join(doc_context['chunks'][index] for index in top_indices)
         

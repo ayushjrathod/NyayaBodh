@@ -85,6 +85,7 @@ const Results = () => {
         if (searchType === "semantic") {
           setResultsData({ SemanticResultData: data.SemanticResultData });
         } else if (searchType === "entity") {
+          console.log(data)
           setResultsData({ EntityResultData: data });
         }
       })

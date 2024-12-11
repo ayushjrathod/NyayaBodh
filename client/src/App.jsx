@@ -118,8 +118,8 @@ const App = () => {
             <Route index element={<Chatbot />} />
           </Route>
           <Route
-            path="/recommend/:id"
-            element={
+            path="/recommend/:uuid"
+            element={ 
               <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <Layout />
               </ProtectedRoute>
