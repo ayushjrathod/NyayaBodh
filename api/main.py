@@ -19,6 +19,7 @@ from jose import JWTError
 from passlib.context import CryptContext
 from prisma import Prisma
 from prisma.errors import ClientNotConnectedError
+from prisma.models import User
 from pydantic import BaseModel
 from services import (authenticate_user, create_tokens, create_user,
                       get_current_user, refresh_access_token)
@@ -396,21 +397,27 @@ from typing import List
 from services import get_current_admin
 
 
+@app.delete("/api/admin/users/{user_id}")
+async def delete_user_endpoint(user_id: int):
+    try:
+        await prisma.user.delete(
+            where={'id': user_id}
+        )
+        return {"message": f"User {user_id} deleted successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"User {user_id} not found")
+
+
+ 
 @app.get("/api/admin/users", response_model=List[UserOut])
-async def get_all_users(current_user: User = Depends(get_current_admin)):
+async def get_all_users():
     users = await prisma.user.find_many()
+    print(users)
     return users
 
 class RoleUpdate(BaseModel):
     role: str
 
-@app.put("/api/admin/users/{user_id}/role")
-async def update_user_role(user_id: int, role_data: RoleUpdate, current_user: User = Depends(get_current_admin)):
-    updated_user = await prisma.user.update(
-        where={'id': user_id},
-        data={'role': role_data.role}
-    )
-    return updated_user
 
 @app.post("/api/auth/resend-otp")
 async def resend_otp(request: Request):
@@ -439,10 +446,6 @@ async def resend_otp(request: Request):
 async def get_profile(current_user=Depends(get_current_user)):
     return current_user
 
-@app.put("/api/user/profile")
-async def update_profile(profile_data: dict, current_user=Depends(get_current_user)):
-    updated_user = await update_user_profile(current_user.id, profile_data)
-    return updated_user
 
 @app.post("/api/auth/refresh")
 async def refresh_token(
@@ -547,3 +550,38 @@ async def db_connection_check(request: Request, call_next):
             status_code=503,
             content={"detail": "Database connection error"}
         )
+
+
+from typing import Optional
+
+from pydantic import BaseModel
+
+
+class UserUpdate(BaseModel):
+    email: Optional[str] = None
+    fullname: Optional[str] = None
+    password: Optional[str] = None
+    role: Optional[str] = None
+
+@app.put("/api/admin/users/{user_id}")
+async def update_user_endpoint(
+    user_id: int, 
+    user_data: UserUpdate, 
+):
+    try:
+        update_data = user_data.dict(exclude_unset=True)
+        if 'password' in update_data:
+            update_data['password'] = pwd_context.hash(update_data['password'])
+            
+        updated_user = await prisma.user.update(
+            where={'id': user_id},
+            data=update_data
+        )
+        return {
+            "id": updated_user.id,
+            "email": updated_user.email,
+            "fullname": updated_user.fullname,
+            "role": updated_user.role
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

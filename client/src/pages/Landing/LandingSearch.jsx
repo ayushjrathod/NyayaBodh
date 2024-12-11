@@ -1,5 +1,5 @@
 import { Button, Card, Select, SelectItem, Switch, Tab, Tabs, Textarea } from "@nextui-org/react";
-import { FileText, Globe, MoonIcon, Send, SunIcon, Upload, X } from "lucide-react";
+import { Globe, MoonIcon, Send, SunIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -273,7 +273,7 @@ const LandingSearch = () => {
               </Card>
             </Tab>
             {/* Upload Document Tab */}
-            <Tab key="upload" title="Upload Document">
+            {/* <Tab key="upload" title="Upload Document">
               <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
                   <div
@@ -330,7 +330,7 @@ const LandingSearch = () => {
                   </div>
                 </div>
               </Card>
-            </Tab>
+            </Tab> */}
           </Tabs>
         </div>
       </div>

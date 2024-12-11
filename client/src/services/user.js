@@ -12,20 +12,26 @@ export const registerUser = async (userData) => {
     });
     return response.data;
   } catch (error) {
-    console.error("User registration failed:", error);
+    console.error("Registration error:", error);
     throw error;
   }
 };
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await axios.post(`${API_URL}/api/auth/login`, credentials);
-    const { access_token, user } = response.data;
-    localStorage.setItem("access_token", access_token);
-    localStorage.setItem("user_role", user.role);
-    return response.data;
+    const response = await axios.post(`${API_URL}/api/auth/login`, {
+      email: credentials.email,
+      password: credentials.password,
+    });
+
+    if (response.data.access_token) {
+      localStorage.setItem("access_token", response.data.access_token);
+      localStorage.setItem("user_role", response.data.user.role);
+      return response.data;
+    }
+    throw new Error("Invalid response from server");
   } catch (error) {
-    console.error("User login failed:", error);
+    console.error("Login error:", error);
     throw error;
   }
 };

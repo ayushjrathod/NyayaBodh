@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Card, CardBody, Input, Link, Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
+import { Button, Card, CardBody, Input, Link, Tab, Tabs } from "@nextui-org/react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
@@ -160,7 +160,7 @@ export default function Login() {
               </div>
             </Tab>
 
-            {/* Register Form */}
+            {/* Register Form
             <Tab key="sign-up" title="Sign up">
               <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="flex flex-col gap-4">
                 <Input
@@ -247,7 +247,7 @@ export default function Login() {
                   </Button>
                 </div>
               </form>
-            </Tab>
+            </Tab> */}
           </Tabs>
         </CardBody>
       </Card>

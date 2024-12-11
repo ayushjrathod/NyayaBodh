@@ -1,50 +1,197 @@
-// src/components/AdminDashboard.jsx
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers, updateUserRole } from "../../store/slices/adminSlice";
+"use client";
 
-const AdminDashboard = () => {
+import {
+  Button,
+  Input,
+  Modal,
+  Select,
+  SelectItem,
+  Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from "@nextui-org/react";
+import { Edit2, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createUser, deleteUser, fetchAllUsers, updateUser } from "../../store/slices/adminSlice";
+
+export default function AdminDashboard() {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.admin);
+  const { users, status } = useSelector((state) => state.admin);
+  const [editUser, setEditUser] = useState(null);
+  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    fullname: "",
+    password: "",
+    role: "USER",
+  });
 
   useEffect(() => {
     dispatch(fetchAllUsers());
   }, [dispatch]);
 
-  const handleRoleChange = (userId, newRole) => {
-    dispatch(updateUserRole({ userId, role: newRole }));
+  const handleEdit = (user) => {
+    setEditUser(user);
+    setFormData({
+      email: user.email,
+      fullname: user.fullname,
+      role: user.role,
+    });
+  };
+
+  const handleUpdate = async (userId, userData) => {
+    try {
+      await dispatch(
+        updateUser({
+          userId,
+          userData: {
+            email: userData.email,
+            fullname: userData.fullname,
+            role: userData.role,
+            // Only include password if it's being updated
+            ...(userData.password && { password: userData.password }),
+          },
+        })
+      ).unwrap();
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  };
+
+  const handleCreate = async () => {
+    await dispatch(createUser(formData));
+    setCreateModalOpen(false);
+    setFormData({ email: "", fullname: "", password: "", role: "USER" });
+  };
+
+  const handleDelete = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      await dispatch(deleteUser(userId));
+    }
   };
 
   return (
     <div>
-      <h1>Admin Dashboard</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Change Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>
-                <select value={user.role} onChange={(e) => handleRoleChange(user.id, e.target.value)}>
-                  <option value="USER">User</option>
-                  <option value="ADMIN">Admin</option>
-                </select>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Button color="primary" onPress={() => setCreateModalOpen(true)}>
+        Add New User
+      </Button>
+
+      {status === "loading" ? (
+        <Spinner />
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableColumn>Email</TableColumn>
+            <TableColumn>Full Name</TableColumn>
+            <TableColumn>Role</TableColumn>
+            <TableColumn>Actions</TableColumn>
+          </TableHeader>
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.fullname}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>
+                  <Button onClick={() => handleEdit(user)}>
+                    <Edit2 />
+                  </Button>
+                  <Button onClick={() => handleDelete(user.id)}>
+                    <Trash2 />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+
+      {/* Edit Modal */}
+      {editUser && (
+        <Modal isOpen onClose={() => setEditUser(null)}>
+          <Input
+            label="Email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+          <Input
+            label="Full Name"
+            value={formData.fullname}
+            onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+          />
+          <Select
+            label="Role"
+            value={formData.role}
+            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+          >
+            <SelectItem key="ADMIN" value="ADMIN">
+              Admin
+            </SelectItem>
+            <SelectItem key="LAWYER" value="LAWYER">
+              Lawyer
+            </SelectItem>
+            <SelectItem key="JUDGE" value="JUDGE">
+              Judge
+            </SelectItem>
+            <SelectItem key="CLERK" value="CLERK">
+              Clerk
+            </SelectItem>
+            <SelectItem key="USER" value="USER">
+              User
+            </SelectItem>
+          </Select>
+          <Button onClick={() => handleUpdate(editUser.id, formData)}>Update</Button>
+        </Modal>
+      )}
+
+      {/* Create Modal */}
+      {isCreateModalOpen && (
+        <Modal isOpen onClose={() => setCreateModalOpen(false)}>
+          <Input
+            label="Email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+          <Input
+            label="Full Name"
+            value={formData.fullname}
+            onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+          />
+          <Input
+            type="password"
+            label="Password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          />
+          <Select
+            label="Role"
+            value={formData.role}
+            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+          >
+            <SelectItem key="ADMIN" value="ADMIN">
+              Admin
+            </SelectItem>
+            <SelectItem key="LAWYER" value="LAWYER">
+              Lawyer
+            </SelectItem>
+            <SelectItem key="JUDGE" value="JUDGE">
+              Judge
+            </SelectItem>
+            <SelectItem key="CLERK" value="CLERK">
+              Clerk
+            </SelectItem>
+            <SelectItem key="USER" value="USER">
+              User
+            </SelectItem>
+          </Select>
+          <Button onClick={handleCreate}>Create</Button>
+        </Modal>
+      )}
     </div>
   );
-};
-
-export default AdminDashboard;
+}
