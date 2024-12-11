@@ -19,13 +19,13 @@ import Contact from "./pages/Contact/Contact";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import SelectionPage from "./pages/DocGen/SelectionPage";
 import LandingSearch from "./pages/Landing/LandingSearch";
+import LandingSearchSemantic from "./pages/Landing/LandingSearchSemantic";
 import LawLookupPage from "./pages/LawLookup/LawLookup";
 import PdfSummary from "./pages/PdfSummary/PdfSummary";
 import Recommend from "./pages/Recommend/Recommend";
 import Results from "./pages/Result/Results";
 import SeprateResults from "./pages/SeprateResults/SeprateResults";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
-import SiteChatbot from "./sitewidechatbot/Chatbot";
 
 const App = () => {
   const isLoading = false;
@@ -83,10 +83,20 @@ const App = () => {
             element={
               <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
                 <LandingSearch />
-                <SiteChatbot />
+                {/* <SiteChatbot /> */}
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/semantic"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<LandingSearchSemantic />} />
+          </Route>
           <Route
             path="/results"
             element={

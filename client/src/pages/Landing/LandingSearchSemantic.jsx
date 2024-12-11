@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
 
-const LandingSearch = () => {
+const LandingSearchSemantic = () => {
   const [query, setQuery] = useState("");
   const [selectedSearch, setSelectedSearch] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -82,7 +82,7 @@ const LandingSearch = () => {
     navigate("/results", {
       state: {
         query,
-        selectedSearch: "entity",
+        selectedSearch: "semantic",
       },
     });
   };
@@ -181,12 +181,12 @@ const LandingSearch = () => {
       <div className="relative z-10 flex items-center justify-center flex-col h-full">
         <div className="w-full max-w-4xl h-[80vh] flex flex-col">
           <h2
-            className={`font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${
+            className={` p-6 font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${
               isDarkMode ? "from-neutral-100 to-neutral-500" : "from-black to-neutral-500"
             } text-2xl md:text-4xl lg:text-7xl py-2 md:py-10 font-semibold tracking-tight`}
           >
-            AI-Powered <br />
-            Research Assistant
+            Explain Scenario <br />
+            To get Results
           </h2>
 
           <Tabs className="z-50" aria-label="Search Options">
@@ -381,4 +381,4 @@ const LandingSearch = () => {
   );
 };
 
-export default LandingSearch;
+export default LandingSearchSemantic;

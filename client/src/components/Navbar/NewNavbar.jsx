@@ -11,12 +11,12 @@ import {
   Switch,
 } from "@nextui-org/react";
 import { MoonIcon, SunIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
 import { logout } from "../../store/slices/userSlice";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { useTranslation } from "react-i18next";
 
 function NewNavBar() {
   const { t } = useTranslation();
@@ -35,11 +35,10 @@ function NewNavBar() {
     navigate("/");
   };
 
-
-
   const navItems = [
     { name: t("home"), path: "/" },
     { name: t("recommend"), path: "/recommend/1" },
+    { name: t("Explain Scenario"), path: "/semantic" },
     { name: t("law_lookup"), path: "/lawlookup" },
     { name: t("contact_us"), path: "/contact" },
     ...(user.role === "CLERK" ? [{ name: "DocGen", path: "/docgen" }] : []),
@@ -76,7 +75,7 @@ function NewNavBar() {
             onChange={handleToggle}
           />
         </NavbarItem>
-        <NavbarItem >
+        <NavbarItem>
           <LanguageSwitcher />
         </NavbarItem>
         {user.isLoggedIn && (

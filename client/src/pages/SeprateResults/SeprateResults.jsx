@@ -1,38 +1,48 @@
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Split from "react-split";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
-import { Sparkles } from "lucide-react";
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { WordFadeIn } from "../../components/ui/WordFadeIn";
 
 const SeprateResults = () => {
   const location = useLocation();
   const { searchType } = location.state;
-  let id, title, date, judges, entities;
-  if (searchType == "semantic") {
-    ({ id, title, date, judges } = location.state || {
-      id: "",
-      title: "",
-      date: "",
-      judges: "",
-    });
+
+  let id, title, date, judges, entities, summary;
+  if (searchType === "semantic") {
+    ({ id, title, date, judges, summary } = location.state || {});
   } else {
-    ({ id, title, entities } = location.state || { id: "", title: "", entities: "" });
+    ({ id, title, entities, summary } = location.state || {});
   }
-  const [summary, setSummary] = useState("");
+
+  const [pdfFile, setPdfFile] = useState(null);
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
-  const generateSummary = () => {
-    setSummary(
-      "This is a dummy summary of the case. It provides a brief overview of the key points and decisions made in the judgment."
-    );
-  };
+  useEffect(() => {
+    const fetchPdf = async () => {
+      try {
+        const response = await fetch(`YOUR_API_ENDPOINT/getfile?id=${id}`);
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          setPdfFile(url);
+        } else {
+          console.error("Failed to fetch PDF file");
+        }
+      } catch (error) {
+        console.error("Error fetching PDF file:", error);
+      }
+    };
+    if (id) {
+      fetchPdf();
+    }
+  }, [id]);
 
   return (
     <div className="min-h-screen font-Inter bg-background text-foreground">
@@ -58,22 +68,14 @@ const SeprateResults = () => {
         >
           <div className="overflow-auto pr-2">
             <Card className="mb-6">
-              <CardHeader className="flex justify-between items-center">
+              <CardHeader>
                 <h2 className="text-xl font-semibold">Summary</h2>
-                <Button
-                  color="primary"
-                  endContent={<Sparkles strokeWidth={1.5} />}
-                  isDisabled={summary.length > 0}
-                  onClick={generateSummary}
-                >
-                  Generate Summary
-                </Button>
               </CardHeader>
               <CardBody>
                 {summary ? (
                   <WordFadeIn words={summary} />
                 ) : (
-                  <p className="text-gray-500 font-normal">Click "Generate Summary" to view the case summary.</p>
+                  <p className="text-gray-500 font-normal">No summary available.</p>
                 )}
               </CardBody>
             </Card>
@@ -109,13 +111,13 @@ const SeprateResults = () => {
           </div>
 
           <div className="overflow-hidden pl-2">
-            <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
               <div style={{ height: "100%" }}>
-                <Viewer
-                  theme={"dark"}
-                  fileUrl="https://pdfobject.com/pdf/sample.pdf"
-                  plugins={[defaultLayoutPluginInstance]}
-                />
+                {pdfFile ? (
+                  <Viewer theme="dark" fileUrl={pdfFile} plugins={[defaultLayoutPluginInstance]} />
+                ) : (
+                  <p>Loading PDF...</p>
+                )}
               </div>
             </Worker>
           </div>
