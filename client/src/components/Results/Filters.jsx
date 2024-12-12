@@ -1,12 +1,10 @@
 import { Accordion, AccordionItem, Card, CardBody, Checkbox } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 const Filters = ({ onFilterChange, results, searchType }) => {
   const [judges, setJudges] = useState([]);
   const [parties, setParties] = useState([]);
   const [years, setYears] = useState([]);
-  const { t } = useTranslation();
 
   const [selectedFilters, setSelectedFilters] = useState({
     date: [],
@@ -58,7 +56,7 @@ const Filters = ({ onFilterChange, results, searchType }) => {
     <Card className="sticky top-[5rem]">
       <CardBody>
         <aside className="p-4">
-          <h2 className="text-xl font-bold mb-4" > {t("filters")}</h2 >
+          <h2 className="text-xl font-bold mb-4" > Filters</h2 >
           <Accordion>
             <AccordionItem key="date" aria-label="Date" title="Date">
               <div className="flex flex-col gap-2">

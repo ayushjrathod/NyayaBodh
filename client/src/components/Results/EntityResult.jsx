@@ -90,7 +90,7 @@ const EntityResult = ({ resultsData }) => {
                   variant="light"
                   startContent={<FileText size={18} />}
                 >
-                  Recommend Citations
+                  Recommend
                 </Button>
                 <Button
                   onClick={() => handleChatWithPdfClick(result.uuid)}

@@ -189,8 +189,8 @@ const LandingSearchSemantic = () => {
             To get Results
           </h2>
 
-          <Tabs className="z-50" aria-label="Search Options">
-            <Tab key="text" title="Text Input">
+          {/* <Tabs className="z-50" aria-label="Search Options">
+            <Tab key="text" title="Text Input"> */}
               <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
                   {/* <div className={`grid grid-cols-2 gap-2 mb-2 w-3/5 `}>
@@ -314,8 +314,8 @@ const LandingSearchSemantic = () => {
                   </div>
                 </div>
               </Card>
-            </Tab>
-            {/* Upload Document Tab */}
+            {/* </Tab>
+         
             <Tab key="upload" title="Upload Document">
               <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
@@ -374,7 +374,7 @@ const LandingSearchSemantic = () => {
                 </div>
               </Card>
             </Tab>
-          </Tabs>
+          </Tabs> */}
         </div>
       </div>
     </div>

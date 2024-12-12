@@ -47,3 +47,7 @@
   left: 0;
   visibility: hidden !important;
 }
+
+.goog-te-combo:first-of-type{
+  display: none !important;
+}

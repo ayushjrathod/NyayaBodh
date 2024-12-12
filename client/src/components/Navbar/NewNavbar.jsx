@@ -17,6 +17,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
 import { logout } from "../../store/slices/userSlice";
 import LanguageSwitcher from "./LanguageSwitcher";
+import GoogleTranslate from "./GoogleTranslator";
+import ScreenReader from "../ScreenReader/ScreenReader";
 
 function NewNavBar() {
   const { t } = useTranslation();
@@ -34,13 +36,12 @@ function NewNavBar() {
     dispatch(logout());
     navigate("/");
   };
-
   const navItems = [
-    { name: t("home"), path: "/" },
-    { name: t("recommend"), path: "/recommend/1" },
-    { name: t("Explain Scenario"), path: "/semantic" },
-    { name: t("law_lookup"), path: "/lawlookup" },
-    { name: t("contact_us"), path: "/contact" },
+    { name: "Home", path: "/" },
+    // { name: "Recommend", path: "/recommend/1" },
+    {name:"Explain Scenario",path:"/semantic"},
+    { name: "Law Lookup", path: "/lawlookup" },
+    { name: "Contact Us", path: "/contact" },
     ...(user.role === "CLERK" ? [{ name: "DocGen", path: "/docgen" }] : []),
   ];
 
@@ -48,7 +49,7 @@ function NewNavBar() {
     <Navbar isBordered>
       <NavbarBrand>
         <img alt="Logo" src="../src/assets/logoNB.png" className="h-8 w-8 mr-2" />
-        <p className="font-bold text-inherit">OutOfBounds</p>
+        <p className="font-bold text-inheritnotranslate">NYAAYBODH</p>
       </NavbarBrand>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -76,7 +77,10 @@ function NewNavBar() {
           />
         </NavbarItem>
         <NavbarItem>
-          <LanguageSwitcher />
+          <GoogleTranslate/>
+        </NavbarItem>
+        <NavbarItem>
+          <ScreenReader />
         </NavbarItem>
         {user.isLoggedIn && (
           <Dropdown
@@ -88,11 +92,11 @@ function NewNavBar() {
           >
             <DropdownTrigger>
               <Avatar
+              showFallback
                 isBordered
                 as="button"
                 className="transition-transform"
                 color="primary"
-                name={user.name}
                 size="sm"
                 src={user.picture}
               />

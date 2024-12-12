@@ -189,8 +189,8 @@ const LandingSearch = () => {
             Research Assistant
           </h2>
 
-          <Tabs className="z-50" aria-label="Search Options">
-            <Tab key="text" title="Text Input">
+          {/* <Tabs className="z-50" aria-label="Search Options">
+            <Tab key="text" title="Text Input"> */}
               <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
                   {/* <div className={`grid grid-cols-2 gap-2 mb-2 w-3/5 `}>
@@ -314,9 +314,9 @@ const LandingSearch = () => {
                   </div>
                 </div>
               </Card>
-            </Tab>
+            {/* </Tab> */}
             {/* Upload Document Tab */}
-            <Tab key="upload" title="Upload Document">
+            {/* <Tab key="upload" title="Upload Document">
               <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
                   <div
@@ -373,8 +373,8 @@ const LandingSearch = () => {
                   </div>
                 </div>
               </Card>
-            </Tab>
-          </Tabs>
+            </Tab> */}
+          {/* </Tabs> */}
         </div>
       </div>
     </div>

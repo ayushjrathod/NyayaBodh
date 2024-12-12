@@ -118,7 +118,7 @@ const SeprateResults = () => {
   return (
     <div className="min-h-screen font-Inter bg-background text-foreground">
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6">
+        <h1 className="text-xl font-bold mb-6">
           {searchType === "semantic" ? 
             `${metadata?.PETITIONER || 'Unknown'} v. ${metadata?.RESPONDENT || 'Unknown'}` : 
             `${petitioner || 'Unknown'} v. ${respondent || 'Unknown'}`}
@@ -171,13 +171,13 @@ const SeprateResults = () => {
               <CardBody>
                 {searchType === "semantic" ? (
                   <dl className="grid grid-cols-2 gap-4">
-                    <dt className="font-semibold">Case Number:</dt>
-                    <dd>{metadata.CASE_NUMBER}</dd>
+                    {/* <dt className="font-semibold">Case Number:</dt>
+                    <dd>{metadata.CASE_NUMBER}</dd> */}
 
-                    <dt className="font-semibold">Court:</dt>
-                    <dd>{metadata.COURT}</dd>
+                    {/* <dt className="font-semibold">Court:</dt>
+                    <dd>{metadata.COURT}</dd> */}
 
-                    <dt className="font-semibold">Date of Judgment:</dt>
+                    <dt className="font-semibold">Dates of Judgment:</dt>
                     <dd>{metadata.DATE}</dd>
 
                     <dt className="font-semibold">Judges:</dt>
