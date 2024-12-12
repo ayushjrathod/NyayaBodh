@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -10,13 +11,14 @@ import {
   NavbarItem,
   Switch,
 } from "@nextui-org/react";
-import { MoonIcon, SunIcon } from "lucide-react";
+import { MoonIcon, Speech, SunIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
 import { logout } from "../../store/slices/userSlice";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ScreenReader from "../ScreenReader/ScreenReader";
 
 function NewNavBar() {
   const { t } = useTranslation();
@@ -76,8 +78,34 @@ function NewNavBar() {
           />
         </NavbarItem>
         <NavbarItem>
+
           <LanguageSwitcher />
         </NavbarItem>
+        <NavbarItem>
+          <ScreenReader />
+        </NavbarItem>
+        {/* <NavbarItem>
+          <Dropdown
+            placement="bottom-end"
+            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
+            classNames={{
+              content: "border-small border-divider bg-background",
+            }}
+          >
+            <DropdownTrigger >
+              <Button isIconOnly aria-label="Speech" variant="flat" color="primary" >
+
+                <Speech />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
+                <ScreenReader />
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+        </NavbarItem> */}
         {user.isLoggedIn && (
           <Dropdown
             placement="bottom-end"
