@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, CardBody, Skeleton } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Chip, Divider, Skeleton } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
+
+
 
 const Recommend = () => {
   // Initialize as empty array
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const {uuid} = useParams();
+  const { uuid } = useParams();
 
   useEffect(() => {
     const fetchRecommendations = async () => {
@@ -18,6 +20,7 @@ const Recommend = () => {
         // Check if the response contains the expected structure
         if (response.data && response.data.recommended_cases) {
           setRecommendations(response.data.recommended_cases);
+
           console.log(recommendations)
         } else {
           setRecommendations([]);
@@ -30,10 +33,10 @@ const Recommend = () => {
         setLoading(false);
       }
     };
-  
+
     fetchRecommendations();
   }, []);  // Ensure uuid is in the dependency array
-  
+
 
   // Render section with safe array check
   return (
@@ -50,32 +53,53 @@ const Recommend = () => {
         <div className="text-red-500">{error}</div>
       ) : Array.isArray(recommendations) && recommendations.length > 0 ? (
         recommendations.map((rec, index) => (
-          <Card key={index}>
-            <CardBody>
-              <h3>{rec.CASE_NUMBER}</h3>
-              <p>{rec.COURT}</p>
-              <p>{rec.DATE}</p>
-              <p>{rec.GPE}</p>
-              <p>{rec.JUDGE}</p>
-              <p>{rec.LAWYER}</p>
-              <p>{rec.ORG}</p>
-              <p>{rec.OTHER_PERSON}</p>
-              <p>{rec.PETITIONER}</p>
-              <p>{rec.PRECEDENT}</p>
-              <p>{rec.PROVISION}</p>
-              <p>{rec.RESPONDENT}</p>
-              <p>{rec.STATUTE}</p>
-              <p>{rec.WITNESS}</p>
-              <p>File Name: {rec.file_name}</p>
-              <p>Similarity: {rec.similarity}</p>
+          <Card className="w-full max-w-md">
+            <CardHeader className="flex flex-col items-start px-4 pt-4 pb-0">
+              <h3 className="text-lg font-bold">{rec.CASE_NUMBER}</h3>
+              <p className="text-small text-default-500">{rec.COURT} - {rec.DATE}</p>
+            </CardHeader>
+            <Divider className="my-2" />
+            <CardBody className="px-4 py-2">
+              <div className="grid grid-cols-2 gap-2">
+                <InfoItem label="Judge" value={rec.JUDGE} />
+                <InfoItem label="GPE" value={rec.GPE} />
+                <InfoItem label="Petitioner" value={rec.PETITIONER} />
+                <InfoItem label="Respondent" value={rec.RESPONDENT} />
+                <InfoItem label="Lawyer" value={rec.LAWYER} />
+                <InfoItem label="Organization" value={rec.ORG} />
+                <InfoItem label="Other Person" value={rec.OTHER_PERSON} />
+                <InfoItem label="Witness" value={rec.WITNESS} />
+              </div>
+              <Divider className="my-2" />
+              <div className="mt-2">
+                <InfoItem label="Statute" value={rec.STATUTE} />
+                <InfoItem label="Provision" value={rec.PROVISION} />
+                <InfoItem label="Precedent" value={rec.PRECEDENT} />
+              </div>
+              <Divider className="my-2" />
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-small">File: {rec.file_name}</p>
+                <Chip color="primary" variant="flat">Similarity: {rec.similarity.toFixed(2)}</Chip>
+              </div>
             </CardBody>
           </Card>
+
         ))
       ) : (
         <div>No recommendations found</div>
       )}
     </div>
+
   );
 }
 
+const InfoItem = ({ label, value }) => {
+  if (!value) return null;
+  return (
+    <div>
+      <p className="text-small font-semibold">{label}:</p>
+      <p className="text-small text-default-500">{value}</p>
+    </div>
+  );
+};
 export default Recommend;
