@@ -1,4 +1,4 @@
-import { Card, CardBody, Divider,CardFooter,Button, } from "@nextui-org/react";
+import { Card, CardBody, Divider, CardFooter, Button, } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { FileText, MessageSquare } from "lucide-react";
 
@@ -39,7 +39,7 @@ const EntityResult = ({ resultsData }) => {
   return (
     <main className="p-4">
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">
-        Entity Search Results
+        Total {resultsData?.length} results found for your entity search.
       </h1>
       <div className="space-y-4">
         {resultsData?.EntityResultData?.map((result) => {
@@ -78,7 +78,7 @@ const EntityResult = ({ resultsData }) => {
                 ) : (
                   <p className="text-md mt-2 line-clamp-3 text-default-600 italic">
                     {summaryContent || "No background information available."}
-                    
+
                   </p>
                 )}
               </CardBody>

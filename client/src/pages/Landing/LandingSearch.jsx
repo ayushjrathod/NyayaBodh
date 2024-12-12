@@ -11,11 +11,13 @@ import {
   Tabs,
   Textarea,
 } from "@nextui-org/react";
-import { FileText, MoonIcon, Send, SunIcon, Upload, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { FileText, Mic, MicOff, MoonIcon, Send, SunIcon, Upload, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../../store/slices/themeSlice";
+import React from "react";
+import { useSpeechToText } from "../../components/SpeechToText/useSpeechToText";
 
 const LandingSearch = () => {
   const [query, setQuery] = useState("");
@@ -24,6 +26,7 @@ const LandingSearch = () => {
   const [selectedParam, setSelectedParam] = useState("");
   const [selectedSpace, setSelectedSpace] = useState("");
   const user = useSelector((state) => state.user);
+  const { isListening, transcript, toggleListening, setTranscript } = useSpeechToText()
 
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -77,6 +80,13 @@ const LandingSearch = () => {
       handleSendMessage();
     }
   };
+  useEffect(() => {
+    setQuery(transcript);
+  }, [transcript]);
+
+  const handleVoiceToggle = () => {
+    toggleListening();
+  };
 
   const handleSendMessage = () => {
     navigate("/results", {
@@ -129,11 +139,10 @@ const LandingSearch = () => {
     <div className="relative h-screen w-full bg-background overflow-hidden font-Poppins">
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
       <div
-        className={`absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full ${
-          isDarkMode
-            ? "bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"
-            : "bg-[radial-gradient(circle_400px_at_50%_300px,#d5c5ff,#ffffff80)]"
-        } `}
+        className={`absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full ${isDarkMode
+          ? "bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"
+          : "bg-[radial-gradient(circle_400px_at_50%_300px,#d5c5ff,#ffffff80)]"
+          } `}
       ></div>
 
       <div className="absolute top-4 right-4 flex gap-2 z-50">
@@ -181,9 +190,8 @@ const LandingSearch = () => {
       <div className="relative z-10 flex items-center justify-center flex-col h-full">
         <div className="w-full max-w-4xl h-[80vh] flex flex-col">
           <h2
-            className={`font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${
-              isDarkMode ? "from-neutral-100 to-neutral-500" : "from-black to-neutral-500"
-            } text-2xl md:text-4xl lg:text-7xl py-2 md:py-10 font-semibold tracking-tight`}
+            className={`font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${isDarkMode ? "from-neutral-100 to-neutral-500" : "from-black to-neutral-500"
+              } text-2xl md:text-4xl lg:text-7xl py-2 md:py-10 font-semibold tracking-tight`}
           >
             AI-Powered <br />
             Research Assistant
@@ -191,9 +199,9 @@ const LandingSearch = () => {
 
           {/* <Tabs className="z-50" aria-label="Search Options">
             <Tab key="text" title="Text Input"> */}
-              <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
-                <div className="p-4">
-                  {/* <div className={`grid grid-cols-2 gap-2 mb-2 w-3/5 `}>
+          <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
+            <div className="p-4">
+              {/* <div className={`grid grid-cols-2 gap-2 mb-2 w-3/5 `}>
                     <Select
                       label="Search Type"
                       selectedKeys={selectedSearch ? [selectedSearch] : []}
@@ -286,37 +294,46 @@ const LandingSearch = () => {
                     )}
                   </div> */}
 
-                  <div className="flex items-center space-x-2">
-                    <Textarea
-                      autoFocus
-                      ref={textareaRef}
-                      value={query}
-                      onChange={handleInputChange}
-                      onKeyDown={handleKeyDown}
-                      placeholder="Write your query..."
-                      className="flex-grow bg-transparent border-none text-white resize-none overflow-hidden p-2 outline-none"
-                      minRows={1}
-                      classNames={{
-                        input: "bg-transparent text-white",
-                        inputWrapper: "bg-transparent",
-                      }}
-                    />
+              <div className="flex items-center space-x-2">
+                <Textarea
+                  autoFocus
+                  ref={textareaRef}
+                  value={query}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Write your query..."
+                  className="flex-grow bg-transparent border-none text-white resize-none overflow-hidden p-2 outline-none"
+                  minRows={1}
+                  classNames={{
+                    input: "bg-transparent text-white",
+                    inputWrapper: "bg-transparent",
+                  }}
+                />
+                <Button
+                  isIconOnly
+                  radius="full"
+                  color={isListening ? "danger" : "primary"}
+                  variant="solid"
+                  onClick={handleVoiceToggle}
+                >
+                  {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
+                </Button>
 
-                    <Button
-                      isIconOnly
-                      color="primary"
-                      variant={query.trim() ? "solid" : "light"}
-                      onClick={handleSendMessage}
-                      isDisabled={!query.trim()}
-                    >
-                      <Send className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            {/* </Tab> */}
-            {/* Upload Document Tab */}
-            {/* <Tab key="upload" title="Upload Document">
+                <Button
+                  isIconOnly
+                  color="primary"
+                  variant={query.trim() ? "solid" : "light"}
+                  onClick={handleSendMessage}
+                  isDisabled={!query.trim()}
+                >
+                  <Send className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </Card>
+          {/* </Tab> */}
+          {/* Upload Document Tab */}
+          {/* <Tab key="upload" title="Upload Document">
               <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
                 <div className="p-4">
                   <div

@@ -14,8 +14,10 @@ const Results = () => {
     selectedSearch: "",
   };
 
+
   const searchType = selectedSearch.toLowerCase().split(" ")[0] || "entity";
   const [newQuery, setNewQuery] = useState(query);
+
   const inputRef = useRef();
 
   const [resultsData, setResultsData] = useState({});

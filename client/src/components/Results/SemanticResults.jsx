@@ -45,7 +45,7 @@ const SemanticResults = ({ resultsData }) => {
   return (
     <>
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">
-        Semantic Search Results
+        Total {resultsData?.length} results found for your semantic search.
       </h1>
       <div className="space-y-4">
         {resultsData.map((result) => (
