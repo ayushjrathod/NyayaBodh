@@ -15,43 +15,28 @@ const Filters = ({ onFilterChange, results, searchType }) => {
   });
 
   useEffect(() => {
-    if (searchType === "semantic") {
-      const uniqueJudges = new Set();
-      const uniqueParties = new Set();
-      const uniqueYears = new Set();
+    const uniqueJudges = new Set();
+    const uniqueParties = new Set();
+    const uniqueYears = new Set();
 
-      results.forEach((result) => {
-        const metadata = result.metadata;
-        const judgeMatch = metadata.match(/\[(.*?)\]$/);
-        if (judgeMatch) {
-          judgeMatch[1].split(" and ").forEach((judge) => uniqueJudges.add(judge.trim()));
-        }
+    results.forEach((result) => {
+      if (result.JUDGE) {
+        result.JUDGE.split(",").forEach((judge) => uniqueJudges.add(judge.trim()));
+      }
 
-        const partyMatch = metadata.match(/^(.+?)\nv\.\n(.+?)$/m);
-        if (partyMatch) {
-          uniqueParties.add(partyMatch[1].trim());
-          uniqueParties.add(partyMatch[2].split("\n")[0].trim());
-        }
+      if (result.PETITIONER) uniqueParties.add(result.PETITIONER.trim());
+      if (result.RESPONDENT) uniqueParties.add(result.RESPONDENT.trim());
 
-        const yearMatch = metadata.match(/\[(\d{4})\]/);
-        if (yearMatch) {
-          uniqueYears.add(yearMatch[1]);
-        }
-      });
+      if (result.DATE) {
+        const yearMatch = result.DATE.match(/\d{4}/);
+        if (yearMatch) uniqueYears.add(yearMatch[0]);
+      }
+    });
 
-      setJudges(Array.from(uniqueJudges));
-      setParties(Array.from(uniqueParties));
-      setYears(Array.from(uniqueYears).sort((a, b) => b - a));
-    } else {
-      const uniqueJudges = new Set(results.map((item) => item.judge));
-      const uniqueParties = new Set(results.flatMap((item) => item.entities.split(", ")));
-      const uniqueYears = new Set(results.map((item) => new Date(item.date).getFullYear().toString()));
-
-      setJudges(Array.from(uniqueJudges));
-      setParties(Array.from(uniqueParties));
-      setYears(Array.from(uniqueYears).sort((a, b) => b - a));
-    }
-  }, [results, searchType]);
+    setJudges(Array.from(uniqueJudges));
+    setParties(Array.from(uniqueParties));
+    setYears(Array.from(uniqueYears).sort((a, b) => b - a));
+  }, [results]);
 
   const handleFilterChange = (type, value) => {
     setSelectedFilters((prev) => {

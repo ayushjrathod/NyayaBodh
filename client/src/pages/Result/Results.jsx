@@ -44,28 +44,28 @@ const Results = () => {
     let filtered =
       searchType === "semantic" ? resultsData.SemanticResultData || [] : resultsData.EntityResultData || [];
 
-    if (searchType === "semantic") {
-      // Apply semantic search filters
-      filtered = filtered.filter((item) => {
-        const metadata = item.metadata;
-        const passes = {
-          date: !activeFilters.date.length || activeFilters.date.some((year) => metadata.includes(year)),
-          party: !activeFilters.party.length || activeFilters.party.some((party) => metadata.includes(party)),
-          judge: !activeFilters.judge.length || activeFilters.judge.some((judge) => metadata.includes(judge)),
-        };
-        return passes.date && passes.party && passes.judge;
-      });
-    } else {
-      // Apply entity search filters
-      filtered = filtered.filter((item) => {
-        const passes = {
-          date: !activeFilters.date.length || activeFilters.date.includes(item.date),
-          party: !activeFilters.party.length || activeFilters.party.some((party) => item.entities.includes(party)),
-          judge: !activeFilters.judge.length || activeFilters.judge.includes(item.judge),
-        };
-        return passes.date && passes.party && passes.judge;
-      });
-    }
+    filtered = filtered.filter((item) => {
+      if (searchType === "semantic") {
+        return (
+          (!activeFilters.date.length ||
+            activeFilters.date.some((year) => item.DATE?.includes(year))) &&
+          (!activeFilters.party.length ||
+            activeFilters.party.some(
+              (party) =>
+                item.PETITIONER?.includes(party) ||
+                item.RESPONDENT?.includes(party)
+            )) &&
+          (!activeFilters.judge.length ||
+            activeFilters.judge.some((judge) => item.JUDGE?.includes(judge)))
+        );
+      } else {
+        return (
+          (!activeFilters.date.length || activeFilters.date.includes(new Date(item.date).getFullYear().toString())) &&
+          (!activeFilters.party.length || activeFilters.party.some((party) => item.entities.includes(party))) &&
+          (!activeFilters.judge.length || activeFilters.judge.includes(item.judge))
+        );
+      }
+    });
 
     setFilteredResults(filtered);
   }, [activeFilters, resultsData, searchType]);
@@ -152,7 +152,7 @@ const Results = () => {
           <div className="">
             {searchType === "semantic" ? (
               <SemanticResult
-                resultsData={filteredResults.length > 0 ? { SemanticResultData: filteredResults } : resultsData}
+                resultsData={filteredResults.length > 0 ? filteredResults : resultsData.SemanticResultData || []}
               />
             ) : (
               <EntityResult

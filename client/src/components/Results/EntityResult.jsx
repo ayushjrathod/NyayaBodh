@@ -6,13 +6,17 @@ import { FileText, MessageSquare } from "lucide-react";
 const EntityResult = ({ resultsData }) => {
   const navigate = useNavigate();
 
-  const handleTitleClick = (id, title, entities) => {
-    navigate(`/result/${id}`, {
+  const handleTitleClick = (result) => {
+    navigate(`/result/${result.uuid}`, {
       state: {
-        SearchType: "entity",
-        id,
-        title,
-        entities,
+        searchType: "entity",
+        metadata: result.metadata || {},  // Add metadata
+        id: result.uuid,  // Add id
+        title: `${result.petitioner} v. ${result.respondent}`,
+        petitioner: result.petitioner,
+        respondent: result.respondent,
+        entities: result.entities,
+        summary: result.summary,
       },
     });
   };
@@ -59,7 +63,7 @@ const EntityResult = ({ resultsData }) => {
             <Card key={result.uuid} className="w-full">
               <CardBody>
                 <button
-                  onClick={() => handleTitleClick(result.uuid, result.case_name, result.entities)}
+                  onClick={() => handleTitleClick(result)}
                   className="text-lg text-start font-semibold hover:underline hover:decoration-1 cursor-pointer hover:text-blue-600"
                 >
                   {`${petitionerName} v. ${respondentName}`}

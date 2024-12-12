@@ -1,7 +1,6 @@
 import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import AgreementOfSaleForm from "./components/DocGen/AOS/AOS";
 import DeedOfSaleOfFlat from "./components/DocGen/DOSF/DOSF";
 import LandSaleDeedForm from "./components/DocGen/DOSL/DOSL";
@@ -70,202 +69,60 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          ></Route>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
-                <LandingSearch />
-                {/* <SiteChatbot /> */}
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/semantic"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/" element={<LandingSearch />} />
+          <Route path="/semantic" element={<Layout />}>
             <Route index element={<LandingSearchSemantic />} />
           </Route>
-          <Route
-            path="/results"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/results" element={<Layout />}>
             <Route index element={<Results />} />
           </Route>
-          <Route
-            path="/chat/:id"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/chat/:id" element={<Layout />}>
             <Route index element={<Chatbot />} />
           </Route>
-          <Route
-            path="/recommend/:uuid"
-            element={ 
-              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/recommend/:uuid" element={<Layout />}>
             <Route index element={<Recommend />} />
           </Route>
-          <Route
-            path="/contact"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/contact" element={<Layout />}>
             <Route index element={<Contact />} />
           </Route>
-          <Route
-            path="/lawlookup"
-            element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/lawlookup" element={<Layout />}>
             <Route index element={<LawLookupPage />} />
           </Route>
-          <Route
-            path="/result/:id"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/result/:uuid" element={<Layout />}>
             <Route index element={<SeprateResults />} />
           </Route>
-          <Route
-            path="/summary/pdf"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "JUDGE", "CLERK", "LAWYER", "USER"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/summary/pdf" element={<Layout />}>
             <Route index element={<PdfSummary />} />
           </Route>
-
-          <Route
-            path="/docgen"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen" element={<Layout />}>
             <Route index element={<SelectionPage />} />
           </Route>
-          <Route
-            path="/docgen/NDA"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/NDA" element={<Layout />}>
             <Route index element={<NDAForm />} />
           </Route>
-          <Route
-            path="/docgen/POA"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/POA" element={<Layout />}>
             <Route index element={<POA />} />
           </Route>
-          <Route
-            path="/docgen/LLA"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/LLA" element={<Layout />}>
             <Route index element={<LicenseAgreementForm />} />
           </Route>
-          <Route
-            path="/docgen/ENDNCA"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/ENDNCA" element={<Layout />}>
             <Route index element={<EmployeeNDAForm />} />
           </Route>
-          <Route
-            path="/docgen/DOSF"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/DOSF" element={<Layout />}>
             <Route index element={<DeedOfSaleOfFlat />} />
           </Route>
-          <Route
-            path="/docgen/DOSL"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/DOSL" element={<Layout />}>
             <Route index element={<LandSaleDeedForm />} />
           </Route>
-          <Route
-            path="/docgen/DOW"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/DOW" element={<Layout />}>
             <Route index element={<WillDeedForm />} />
           </Route>
-          <Route
-            path="/docgen/GenAIClause"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/GenAIClause" element={<Layout />}>
             <Route index element={<GenAIClause />} />
           </Route>
-          <Route
-            path="/docgen/AOS"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN", "CLERK"]}>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/docgen/AOS" element={<Layout />}>
             <Route index element={<AgreementOfSaleForm />} />
           </Route>
         </Routes>
