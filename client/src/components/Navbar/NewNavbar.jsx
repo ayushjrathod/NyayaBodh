@@ -11,19 +11,22 @@ import {
   Switch,
 } from "@nextui-org/react";
 import { MoonIcon, SunIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { setLanguage } from "../../store/slices/languageSlice";
 import { toggleTheme } from "../../store/slices/themeSlice";
 import { logout } from "../../store/slices/userSlice";
-import LanguageSwitcher from "./Translator";
+import LanguageSwitcher from "./LanguageSwitcher";
+import GoogleTranslate from "./GoogleTranslator";
+import ScreenReader from "../ScreenReader/ScreenReader";
 
 function NewNavBar() {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-  const language = useSelector((state) => state.language.language);
 
   const handleToggle = () => {
     dispatch(toggleTheme());
@@ -33,16 +36,12 @@ function NewNavBar() {
     dispatch(logout());
     navigate("/");
   };
-
-  const toggleLanguage = (lang) => {
-    dispatch(setLanguage(lang));
-  };
-
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "Recommend", path: "/recommend/1" },
+    // { name: "Recommend", path: "/recommend/1" },
+    {name:"Explain Scenario",path:"/semantic"},
     { name: "Law Lookup", path: "/lawlookup" },
-    { name: "Contact us", path: "/contact" },
+    { name: "Contact Us", path: "/contact" },
     ...(user.role === "CLERK" ? [{ name: "DocGen", path: "/docgen" }] : []),
   ];
 
@@ -50,7 +49,7 @@ function NewNavBar() {
     <Navbar isBordered>
       <NavbarBrand>
         <img alt="Logo" src="../src/assets/logoNB.png" className="h-8 w-8 mr-2" />
-        <p className="font-bold text-inherit">OutOfBounds</p>
+        <p className="font-bold text-inheritnotranslate">NYAAYBODH</p>
       </NavbarBrand>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -78,23 +77,26 @@ function NewNavBar() {
           />
         </NavbarItem>
         <NavbarItem>
-          <LanguageSwitcher />
+          <GoogleTranslate/>
+        </NavbarItem>
+        <NavbarItem>
+          <ScreenReader />
         </NavbarItem>
         {user.isLoggedIn && (
           <Dropdown
-            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
             placement="bottom-end"
+            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
             classNames={{
               content: "border-small border-divider bg-background",
             }}
           >
             <DropdownTrigger>
               <Avatar
+              showFallback
                 isBordered
                 as="button"
                 className="transition-transform"
                 color="primary"
-                name={user.name}
                 size="sm"
                 src={user.picture}
               />

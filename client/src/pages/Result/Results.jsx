@@ -2,8 +2,6 @@ import { Button, Input } from "@nextui-org/react";
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import EntityResultData from "../../../public/EntityResult.json"; //comment this while using api
-import SemanticResultData from "../../../public/SemanticResult.json"; //comment this while using api
 import EntityResult from "../../components/Results/EntityResult";
 import Filters from "../../components/Results/Filters";
 import SemanticResult from "../../components/Results/SemanticResults";
@@ -11,22 +9,18 @@ import SemanticResult from "../../components/Results/SemanticResults";
 const Results = () => {
   const location = useLocation();
 
-  const { query, selectedSearch, selectedSpace, selectedParam } = location.state || {
+  const { query, selectedSearch } = location.state || {
     query: "",
     selectedSearch: "",
-    selectedSpace: "",
-    selectedParam: "",
-    SelectedFile: "",
   };
 
-  const searchType = selectedSearch.toLowerCase().split(" ")[0] || "semantic";
+
+  const searchType = selectedSearch.toLowerCase().split(" ")[0] || "entity";
   const [newQuery, setNewQuery] = useState(query);
+
   const inputRef = useRef();
-  const [space, setSpace] = useState(selectedSpace);
 
-  //const [resultsData, setResultsData] = useState([]);  //uncomment this while using api
-  const [resultsData, setResultsData] = useState(searchType === "semantic" ? SemanticResultData : EntityResultData); //comment this while using api
-
+  const [resultsData, setResultsData] = useState({});
   const [filteredResults, setFilteredResults] = useState([]);
   const [activeFilters, setActiveFilters] = useState({
     date: [],
@@ -49,35 +43,36 @@ const Results = () => {
 
   // Apply filters to results
   useEffect(() => {
-    let filtered = resultsData[searchType === "semantic" ? "SemanticResultData" : "EntityResultData"] || []; //comment this while using api
+    let filtered =
+      searchType === "semantic" ? resultsData.SemanticResultData || [] : resultsData.EntityResultData || [];
 
-    if (searchType === "semantic") {
-      // Apply semantic search filters
-      filtered = filtered.filter((item) => {
-        const metadata = item.metadata;
-        const passes = {
-          date: !activeFilters.date.length || activeFilters.date.some((year) => metadata.includes(year)),
-          party: !activeFilters.party.length || activeFilters.party.some((party) => metadata.includes(party)),
-          judge: !activeFilters.judge.length || activeFilters.judge.some((judge) => metadata.includes(judge)),
-        };
-        return passes.date && passes.party && passes.judge;
-      });
-    } else {
-      // Apply entity search filters
-      filtered = filtered.filter((item) => {
-        const passes = {
-          date: !activeFilters.date.length || activeFilters.date.includes(item.date),
-          party: !activeFilters.party.length || activeFilters.party.some((party) => item.entities.includes(party)),
-          judge: !activeFilters.judge.length || activeFilters.judge.includes(item.judge),
-        };
-        return passes.date && passes.party && passes.judge;
-      });
-    }
+    filtered = filtered.filter((item) => {
+      if (searchType === "semantic") {
+        return (
+          (!activeFilters.date.length ||
+            activeFilters.date.some((year) => item.DATE?.includes(year))) &&
+          (!activeFilters.party.length ||
+            activeFilters.party.some(
+              (party) =>
+                item.PETITIONER?.includes(party) ||
+                item.RESPONDENT?.includes(party)
+            )) &&
+          (!activeFilters.judge.length ||
+            activeFilters.judge.some((judge) => item.JUDGE?.includes(judge)))
+        );
+      } else {
+        return (
+          (!activeFilters.date.length || activeFilters.date.includes(new Date(item.date).getFullYear().toString())) &&
+          (!activeFilters.party.length || activeFilters.party.some((party) => item.entities.includes(party))) &&
+          (!activeFilters.judge.length || activeFilters.judge.includes(item.judge))
+        );
+      }
+    });
 
     setFilteredResults(filtered);
   }, [activeFilters, resultsData, searchType]);
 
-  //fetching results from api
+  // Fetching results from API
   const fetchResults = (query) => {
     fetch(`http://localhost:8000/search/${searchType}`, {
       method: "POST",
@@ -85,29 +80,30 @@ const Results = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body:
-        searchType === "semantic"
-          ? JSON.stringify({ query, param: selectedParam })
-          : JSON.stringify({ query: `${space} ${query}` }),
+      body: JSON.stringify({ query }), // Stringify the body
     })
       .then((response) => response.json())
       .then((data) => {
-        setResultsData(data);
+        if (searchType === "semantic") {
+          setResultsData({ SemanticResultData: data.SemanticResultData });
+        } else if (searchType === "entity") {
+          console.log(data)
+          setResultsData({ EntityResultData: data });
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
 
-  //uncomment while using api
-  //fetching results on page load
-  // useEffect(() => {
-  //   if (query) {
-  //     fetchResults(query);
-  //   }
-  // }, []);
+  // Fetching results on page load
+  useEffect(() => {
+    if (query) {
+      fetchResults(query);
+    }
+  }, []);
 
-  //on submitting new query
+  // On submitting new query
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newQuery) {
@@ -147,7 +143,9 @@ const Results = () => {
           <div className=" mt-4">
             <Filters
               onFilterChange={handleFilterChange}
-              results={resultsData[searchType === "semantic" ? "SemanticResultData" : "EntityResultData"] || []}
+              results={
+                searchType === "semantic" ? resultsData.SemanticResultData || [] : resultsData.EntityResultData || []
+              }
               searchType={searchType}
             />
           </div>
@@ -155,9 +153,13 @@ const Results = () => {
           {/* Results */}
           <div className="">
             {searchType === "semantic" ? (
-              <SemanticResult resultsData={{ SemanticResultData: filteredResults }} />
+              <SemanticResult
+                resultsData={filteredResults.length > 0 ? filteredResults : resultsData.SemanticResultData || []}
+              />
             ) : (
-              <EntityResult resultsData={{ EntityResultData: filteredResults }} />
+              <EntityResult
+                resultsData={filteredResults.length > 0 ? { EntityResultData: filteredResults } : resultsData}
+              />
             )}
           </div>
         </div>

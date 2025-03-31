@@ -71,7 +71,7 @@ const LawLookupPage = () => {
     <div className="min-h-screen font-inter container mx-auto p-4">
       <h1 className="text-4xl font-bold mb-8 text-center">Law Lookup</h1>
 
-      <div className="flex gap-4 mb-8">
+      <div className="flex gap-4 mb-8 text-start">
         <Input
           placeholder="Search for laws, acts, or codes..."
           value={searchTerm}
@@ -103,7 +103,7 @@ const LawLookupPage = () => {
             onPress={() => openLawDetails(law)}
           >
             <h3 className="text-lg font-semibold mb-2">{law.title}</h3>
-            <p className="text-sm text-gray-600 mb-2">{law.description}</p>
+            <p className="text-sm text-foreground/25 mb-2 text-start">{law.description}</p>
             <Chip color="primary" variant="flat">
               {law.type}
             </Chip>

@@ -1,51 +1,96 @@
-import { Card, CardBody, Divider } from "@nextui-org/react";
+import { Card, CardBody, Divider, CardFooter, Button, } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
+import { FileText, MessageSquare } from "lucide-react";
+
 
 const EntityResult = ({ resultsData }) => {
   const navigate = useNavigate();
 
-  const handleTitleClick = (id, title, entities) => {
-    navigate(`/result/${id}`, {
+  const handleTitleClick = (result) => {
+    navigate(`/result/${result.uuid}`, {
       state: {
-        SearchType: "entity",
-        id,
-        title,
-        entities,
+        searchType: "entity",
+        metadata: result.metadata || {},  // Add metadata
+        id: result.uuid,  // Add id
+        title: `${result.petitioner} v. ${result.respondent}`,
+        petitioner: result.petitioner,
+        respondent: result.respondent,
+        entities: result.entities,
+        summary: result.summary,
       },
     });
   };
-  const handleChatWithPdfClick = (pdfchatid) => {
-    navigate(`/chat/${pdfchatid}`);
+
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
+    }
+    return text;
   };
-  const handleRecommendCitationsClick = (id) => {
-    navigate(`/recommend/${id}`);
+
+  const handleChatWithPdfClick = (uuid) => {
+    navigate(`/chat/${uuid}`);
+  };
+  const handleRecommendCitationsClick = (uuid) => {
+    navigate(`/recommend/${uuid}`);
   };
 
   return (
     <main className="p-4">
-      <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">Entity Search Results</h1>
+      <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">
+        Total {resultsData?.length} results found for your entity search.
+      </h1>
       <div className="space-y-4">
         {resultsData?.EntityResultData?.map((result) => {
+          // Extract petitioner and respondent names before the first comma
+          const petitionerName = result.petitioner.split(",")[0].trim();
+          const respondentName = result.respondent.split(",")[0].trim();
+
+          // Debug: Log the summary content
+          // console.log("Summary content:", result.summary);
+
+          // Extract background section
+          const summaryContent = result.summary || "";
+          const backgroundSection = summaryContent.match(/Background:\s*(.*?)\s*Tasks:/is)?.[1]?.trim();
+
+          // Truncate background section if it exists
+          const truncatedBackground = backgroundSection
+            ? truncateText(backgroundSection, 250)
+            : null;
+
           return (
             <Card key={result.uuid} className="w-full">
               <CardBody>
                 <button
-                  onClick={() => handleTitleClick(result.uuid, result.case_name, result.entities)}
-                  className="text-lg font-semibold hover:underline hover:decoration-1 cursor-pointer hover:text-blue-600"
+                  onClick={() => handleTitleClick(result)}
+                  className="text-lg text-start font-semibold hover:underline hover:decoration-1 cursor-pointer hover:text-blue-600"
                 >
-                  {result.case_name}
+                  {`${petitionerName} v. ${respondentName}`}
                 </button>
-                <p className="text-xl font-semibold text-default-500">Entites: {result.entities}</p>
+                <p className="text-xl font-semibold text-default-500">
+                  Entities: {result.entities}
+                </p>
+                {truncatedBackground ? (
+                  <p className="text-md  mt-2 text-default-600">
+                    {truncatedBackground}
+                  </p>
+                ) : (
+                  <p className="text-md mt-2 line-clamp-3 text-default-600 italic">
+                    {summaryContent || "No background information available."}
+
+                  </p>
+                )}
               </CardBody>
               <Divider />
-              {/* <CardFooter className="justify-between">
+              <CardFooter className="justify-between">
                 <Button
                   onClick={() => handleRecommendCitationsClick(result.uuid)}
                   color="primary"
                   variant="light"
                   startContent={<FileText size={18} />}
                 >
-                  Recommend Citations
+                  Recommend
                 </Button>
                 <Button
                   onClick={() => handleChatWithPdfClick(result.uuid)}
@@ -55,7 +100,7 @@ const EntityResult = ({ resultsData }) => {
                 >
                   Chat with PDF
                 </Button>
-              </CardFooter> */}
+              </CardFooter>
             </Card>
           );
         })}
