@@ -17,12 +17,13 @@ ner_data_path = "./resources/ner_data.csv"
 pdf_directory = "./resources/03-09-24"
 context_directory = "./current_context"
 
+
 # Initialize FastAPI
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins; consider restricting in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -82,73 +83,16 @@ async def recommend_cases(uuid: str):
             status_code=500, 
             content={"error": str(e)}
         )
-# #ai bot
-# @app.post("/ask/")
-# async def ask_question(request: Request):
-#     data = await request.json()
-#     uuid = data.get("uuid")
-#     question = data.get("question")
 
-#     # Load the NER data to get the file name
-#     ner_data = pd.read_csv(ner_data_path)
-#     file_row = ner_data[ner_data["uuid"] == uuid]
-
-#     if file_row.empty:
-#         return {"error": "Invalid UUID"}
-
-#     file_name = file_row.iloc[0]["file_name"]
-#     text_file_path = os.path.join(context_directory, f"{file_name}.txt")
-
-#     if not os.path.exists(text_file_path):
-#         pdf_file_path = os.path.join(pdf_directory, file_name)
-#         reader = PdfReader(pdf_file_path)
-#         text = "\n".join(page.extract_text() for page in reader.pages)
-#         with open(text_file_path, "w", encoding="utf-8") as text_file:
-#             text_file.write(text)
-#         chatbot.chunked_texts, chatbot.embeddings, chatbot.chunks = chatbot.semantic_chunking(text)
-
-#     return StreamingResponse(chatbot.generate_response(question), media_type="text/plain")
-
-
-
-# # entity based search
-# @app.post("/search/entity", response_model=List[SearchResult])
-# async def search_entity(request: SearchRequest):
-#     """
-#     Search for entities in the specified column of the CSV using fuzzy matching.
-#     """
-#     # Validate the param
-#     param = request.param.lower()
-#     if param not in VALID_PARAMS:
-#         raise HTTPException(status_code=400, detail=f"Invalid param. Valid params: {', '.join(VALID_PARAMS.keys())}")
-
-#     # Get the corresponding column from the DataFrame
-#     column_name = VALID_PARAMS[param]
-#     if column_name not in df.columns:
-#         raise HTTPException(status_code=500, detail=f"Column '{column_name}' not found in the CSV.")
-
-#     # Extract data for fuzzy matching
-#     column_data = df[column_name].fillna("").tolist()
-
-#     # Perform fuzzy matching
-#     results = process.extractBests(request.query, column_data, scorer=fuzz.partial_ratio, limit=10)
-
-#     # Create the response
-#     response = []
-#     for match, score in results:
-#         if score >= 80:  # Optional: Set a score threshold
-#             # Find the index of the match in the original dataframe
-#             index = df[column_name].eq(match).idxmax()
-#             response.append(SearchResult(
-#                 uuid=df.loc[index, "uuid"],
-#                 case_name=df.loc[index, "file_name"],
-#                 entities=df.loc[index, column_name]  # Send the full cell content
-#             ))
-
-#     if not response:
-#         raise HTTPException(status_code=404, detail="No matching results found.")
-    
-#     return response
+# Update this helper function
+def safe_get_value(df_value, default_for_none=""):
+    """
+    Handle NaN values from pandas DataFrame before passing to Pydantic models
+    Returns empty string for None values by default which works for string fields
+    """
+    if pd.isna(df_value):
+        return default_for_none
+    return df_value
 
 @app.post("/search/entity", response_model=List[SearchResult_NER])
 async def search_entity(request: SearchRequest_NER):
@@ -181,10 +125,10 @@ async def search_entity(request: SearchRequest_NER):
                     unique_uuids.add(current_uuid)
                     response.append(SearchResult_NER(
                         uuid=current_uuid,
-                        petitioner=df.loc[index, "PETITIONER"],
-                        respondent=df.loc[index, "RESPONDENT"],
-                        entities=df.loc[index, column_name],
-                        summary=df.loc[index, "summary"]
+                        petitioner=safe_get_value(df.loc[index, "PETITIONER"]),
+                        respondent=safe_get_value(df.loc[index, "RESPONDENT"]),
+                        entities=safe_get_value(df.loc[index, column_name]),
+                        summary=safe_get_value(df.loc[index, "summary"])
                     ))
     
     if not response:
@@ -242,7 +186,7 @@ csv_file_path = './resources/ner_data.csv'  # Updated to use ner_data.csv
 df = pd.read_csv(csv_file_path)
 
 # Load the sentence transformer model
-model = SentenceTransformer("Alibaba-NLP/gte-base-en-v1.5", trust_remote_code=True)
+model = SentenceTransformer("Alibaba-NLP/gte-base-en-v1.5", trust_remote_code=True, device='cpu')
 
 # Initialize Faiss index for summarys
 dim = 768  # Adjusted dimension according to the new model
@@ -363,27 +307,6 @@ async def search_endpoint(request: SearchRequestSEM):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
-# @app.post("/search/semantic")
-# async def search_endpoint(request: SearchRequestSEM):
-#     query = request.query
-#     print(query)
-#     uuids, summarys, scores = search(query)
-
-#     semantic_result_data = []
-#     for uuid, summary, score in zip(uuids, summarys, scores):
-#         # Find the corresponding row in the DataFrame
-#         row = df[df['uuid'] == uuid].iloc[0]
-        
-#         result = {
-#             "uuid": uuid,
-#             "summary": summary,
-#             "metadata": row.get('metadata', ''),  # Use get() to handle missing 'metadata'
-#             "filename": row.get('Filename', '')  # Optional: include filename if needed
-#         }
-#         semantic_result_data.append(result)
-    
-#     return {"SemanticResultData": semantic_result_data}
-
 @app.post("/search-acts")
 async def search_acts(request: ActSearchRequestSEM):
     act_name = request.act_name.strip()
@@ -433,6 +356,6 @@ async def get_file(uuid: str):
     # Return the file
     return FileResponse(file_path)
 
-# if _name_ == "_main_":
-#     import uvicorn
-#     uvicorn.run(app, host="localhost", port=8000)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="localhost", port=8000)
