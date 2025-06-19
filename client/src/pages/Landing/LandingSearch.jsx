@@ -7,57 +7,37 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Switch,
-  Tab,
-  Tabs,
   Textarea,
 } from "@nextui-org/react";
-import { FileText, Mic, MicOff, MoonIcon, Send, SunIcon, Upload, X } from "lucide-react";
+import { Mic, MicOff, MoonIcon, Send, SunIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { toggleTheme } from "../../store/slices/themeSlice";
-import React from "react";
 import { useSpeechToText } from "../../components/SpeechToText/useSpeechToText";
+import { toggleTheme } from "../../store/slices/themeSlice";
 
 const LandingSearch = () => {
   const [query, setQuery] = useState("");
-  const [selectedSearch, setSelectedSearch] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedParam, setSelectedParam] = useState("");
-  const [selectedSpace, setSelectedSpace] = useState("");
   const user = useSelector((state) => state.user);
-  const { isListening, transcript, toggleListening, setTranscript } = useSpeechToText()
+  const { isListening, transcript, toggleListening, isSupported } = useSpeechToText();
 
   const textareaRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const dropZoneRef = useRef(null);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-
   const handleToggle = () => {
     dispatch(toggleTheme());
   };
 
+  const handleLogout = () => {
+    // Add logout logic here
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
   const handleInputChange = (e) => {
     setQuery(e.target.value);
-  };
-
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type === "application/pdf") {
-      setSelectedFile(file); // Pass the entire File object
-    } else {
-      alert("Please upload a PDF file.");
-    }
-  };
-
-  const handleRemoveFile = () => {
-    setSelectedFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   };
 
   const handleKeyDown = (e) => {
@@ -80,11 +60,15 @@ const LandingSearch = () => {
       handleSendMessage();
     }
   };
+
   useEffect(() => {
     setQuery(transcript);
   }, [transcript]);
-
   const handleVoiceToggle = () => {
+    if (!isSupported) {
+      alert("Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.");
+      return;
+    }
     toggleListening();
   };
 
@@ -96,302 +80,250 @@ const LandingSearch = () => {
       },
     });
   };
-
-  const handlePdfSend = () => {
-    navigate("/summary/pdf", {
-      state: {
-        selectedFile,
-      },
-    });
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (dropZoneRef.current) {
-      dropZoneRef.current.classList.add("border-primary");
-    }
-  };
-
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (dropZoneRef.current) {
-      dropZoneRef.current.classList.remove("border-primary");
-    }
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (dropZoneRef.current) {
-      dropZoneRef.current.classList.remove("border-primary");
-    }
-    const file = e.dataTransfer.files[0];
-    if (file && file.type === "application/pdf") {
-      setSelectedFile(file); // Pass the entire File object
-    } else {
-      alert("Please upload a PDF file.");
-    }
-  };
-
   return (
-    <div className="relative h-screen w-full bg-background overflow-hidden font-Poppins">
-      <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+    <div className="relative h-screen w-full bg-background overflow-hidden font-poppins">
+      {/* Enhanced Grid Pattern Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f1a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:20px_20px] opacity-60"></div>
+
+      {/* Enhanced Radial Gradient */}
       <div
-        className={`absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full ${isDarkMode
-          ? "bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"
-          : "bg-[radial-gradient(circle_400px_at_50%_300px,#d5c5ff,#ffffff80)]"
-          } `}
+        className={`absolute left-1/2 top-0 h-[800px] w-[800px] -translate-x-1/2 rounded-full ${
+          isDarkMode
+            ? "bg-[radial-gradient(circle_600px_at_50%_200px,#fbfbfb15,transparent_70%)]"
+            : "bg-[radial-gradient(circle_600px_at_50%_200px,#d5c5ff25,transparent_70%)]"
+        } blur-3xl`}
       ></div>
 
-      <div className="absolute top-4 right-4 flex gap-2 z-50">
-        <Switch
-          defaultSelected={isDarkMode}
-          size="lg"
-          color="primary"
-          startContent={<SunIcon />}
-          endContent={<MoonIcon />}
-          onChange={handleToggle}
-        />
+      {/* Enhanced Top Navigation */}
+      <div className="absolute top-4 right-4 flex items-center gap-3 z-50 animate-fade-in-scale">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-full glass-morphism">
+          <Switch
+            defaultSelected={isDarkMode}
+            size="lg"
+            color="primary"
+            startContent={<SunIcon className="text-yellow-500" />}
+            endContent={<MoonIcon className="text-purple-400" />}
+            onChange={handleToggle}
+            classNames={{
+              wrapper: "group-data-[selected=true]:bg-primary",
+            }}
+          />
+        </div>
+
         <Dropdown
-          className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
+          className={`z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background`}
           placement="bottom-end"
           classNames={{
-            content: "border-small border-divider bg-background",
+            content: "glass-morphism shadow-xl",
           }}
         >
           <DropdownTrigger>
             <Avatar
               isBordered
               as="button"
-              className="transition-transform"
+              className="transition-all duration-200 interactive-hover ring-2 ring-primary/20 hover:ring-primary/40 focus-enhanced"
               color="primary"
               name={user.name}
-              size="sm"
+              size="md"
               src={user.picture}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="signinas" className="h-14 gap-2 cursor-default">
-              <p className="font-semibold">{"Signed in as"}</p>
-              <p className="font-semibold">{user.email}</p>
+            <DropdownItem key="signinas" className="h-14 gap-2 cursor-default opacity-60">
+              <div className="flex flex-col">
+                <p className="text-xs text-default-500">Signed in as</p>
+                <p className="font-semibold text-sm">{user.email}</p>
+              </div>
             </DropdownItem>
-            <DropdownItem key="profile" as={NavLink} to="/profile">
-              {"Profile"}
+            <DropdownItem key="profile" as={NavLink} to="/profile" className="gap-2">
+              <span className="text-sm">Profile</span>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={() => handleLogout()}>
-              {"Log Out"}
+            <DropdownItem key="logout" color="danger" onClick={() => handleLogout()} className="gap-2">
+              <span className="text-sm">Log Out</span>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>
 
-      <div className="relative z-10 flex items-center justify-center flex-col h-full">
-        <div className="w-full max-w-4xl h-[80vh] flex flex-col">
-          <h2
-            className={`font-Poppins bg-clip-text text-transparent text-center bg-gradient-to-b ${isDarkMode ? "from-neutral-100 to-neutral-500" : "from-black to-neutral-500"
-              } text-2xl md:text-4xl lg:text-7xl py-2 md:py-10 font-semibold tracking-tight`}
+      {/* Enhanced Main Content */}
+      <div className="relative z-10 flex items-center justify-center flex-col h-full px-4">
+        <div className="w-full max-w-4xl flex flex-col items-center animate-fade-in-up">
+          {/* Enhanced Hero Title */}
+          <div className="text-center mb-8 md:mb-12">
+            <p
+              className={`font-poppins hierarchy-1 bg-clip-text text-transparent text-center bg-gradient-to-b ${
+                isDarkMode
+                  ? "from-neutral-50 via-neutral-100 to-neutral-400"
+                  : "from-neutral-900 via-neutral-700 to-neutral-500"
+              } lg:text-4xl xl:text-6xl tracking-tight leading-tight`}
+            >
+              AI-Powered
+              <br />
+              <span className="text-gradient">Research Assistant</span>
+            </p>
+            <p
+              className={`mt-4 md:mt-6 text-lg md:text-xl ${
+                isDarkMode ? "text-neutral-400" : "text-neutral-600"
+              } max-w-2xl mx-auto leading-relaxed`}
+            >
+              Discover legal insights with advanced AI-powered search and analysis{" "}
+            </p>
+          </div>
+
+          {/* Enhanced Search Card */}
+          <Card
+            className={`w-full max-w-3xl card-enhanced shadow-2xl transition-all duration-300 ${
+              isDarkMode ? "glass-morphism shadow-black/20" : "glass-morphism shadow-neutral-900/10"
+            }`}
           >
-            AI-Powered <br />
-            Research Assistant
-          </h2>
-
-          {/* <Tabs className="z-50" aria-label="Search Options">
-            <Tab key="text" title="Text Input"> */}
-          <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
-            <div className="p-4">
-              {/* <div className={`grid grid-cols-2 gap-2 mb-2 w-3/5 `}>
-                    <Select
-                      label="Search Type"
-                      selectedKeys={selectedSearch ? [selectedSearch] : []}
-                      onSelectionChange={(keys) => {
-                        const selected = Array.from(keys)[0];
-                        setSelectedSearch(selected);
-                        setSelectedParam("");
-                        setSelectedSpace("");
-                      }}
-                      startContent={<Globe className="w-4 h-4 text-default-400" />}
-                      classNames={{
-                        trigger: "bg-transparent ",
-                        value: "text-small text-white",
-                        popoverContent: ` ${isDarkMode && "dark"} bg-background text-foreground`,
-                      }}
-                    >
-                      <SelectItem key="Semantic Search" value="Semantic Search">
-                        Semantic Search
-                      </SelectItem>
-                      <SelectItem key="Entity Search" value="Entity Search">
-                        Entity Search
-                      </SelectItem>
-                    </Select>
-
-                    {selectedSearch === "Entity Search" && (
-                      <Select
-                        label="Select Entity"
-                        selectedKeys={selectedParam ? [selectedParam] : []}
-                        onSelectionChange={(keys) => {
-                          const selected = Array.from(keys)[0];
-                          setSelectedParam(selected);
-                        }}
-                        classNames={{
-                          trigger: "bg-transparent",
-                          value: "text-small text-white",
-                          popoverContent: ` ${isDarkMode && "dark"} bg-background text-foreground`,
-                        }}
-                      >
-                        <SelectItem key="lawyer" value="lawyer">
-                          Search for lawyer names
-                        </SelectItem>
-                        <SelectItem key="judge" value="judge">
-                          Search for judge names
-                        </SelectItem>
-                        <SelectItem key="gpe" value="gpe">
-                          Search for geographical entities
-                        </SelectItem>
-                        <SelectItem key="court" value="court">
-                          Search for the court name
-                        </SelectItem>
-                        <SelectItem key="org" value="org">
-                          Search for organization names
-                        </SelectItem>
-                        <SelectItem key="petitioner" value="petitioner">
-                          Search for the petitioner name
-                        </SelectItem>
-                        <SelectItem key="respondent" value="respondent">
-                          Search for the respondent name
-                        </SelectItem>
-                        <SelectItem key="statute" value="statute">
-                          Search for statutes or laws
-                        </SelectItem>
-                      </Select>
-                    )}
-
-                    {selectedSearch === "Semantic Search" && (
-                      <Select
-                        label="Select Space"
-                        selectedKeys={selectedSpace ? [selectedSpace] : []}
-                        onSelectionChange={(keys) => {
-                          const selected = Array.from(keys)[0];
-                          setSelectedSpace(selected);
-                        }}
-                        classNames={{
-                          trigger: "bg-transparent",
-                          value: "text-small text-white",
-                          popoverContent: ` ${isDarkMode && "dark"} bg-background text-foreground`,
-                        }}
-                      >
-                        <SelectItem key="all" value="all">
-                          Space:General
-                        </SelectItem>
-                        <SelectItem key="judgements" value="judgements">
-                          Space:Issues
-                        </SelectItem>
-                        <SelectItem key="orders" value="orders">
-                          Space:Laws
-                        </SelectItem>
-                      </Select>
-                    )}
-                  </div> */}
-
-              <div className="flex items-center space-x-2">
-                <Textarea
-                  autoFocus
-                  ref={textareaRef}
-                  value={query}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Write your query..."
-                  className="flex-grow bg-transparent border-none text-white resize-none overflow-hidden p-2 outline-none"
-                  minRows={1}
-                  classNames={{
-                    input: "bg-transparent text-white",
-                    inputWrapper: "bg-transparent",
-                  }}
-                />
+            <div className="p-6 md:p-8">
+              {/* Search Input Container */}
+              <div className="flex items-end gap-3">
+                <div className="flex-1">
+                  <label
+                    className={`block text-sm font-medium mb-3 ${isDarkMode ? "text-neutral-300" : "text-neutral-700"}`}
+                  >
+                    What would you like to research?
+                  </label>{" "}
+                  <Textarea
+                    autoFocus
+                    ref={textareaRef}
+                    value={query}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Enter your legal query, case details, or ask a question..."
+                    className="flex-grow resize-none form-enhanced"
+                    minRows={1}
+                    maxRows={4}
+                    variant="bordered"
+                    classNames={{
+                      input: `${
+                        isDarkMode
+                          ? "text-white placeholder:text-neutral-400"
+                          : "text-neutral-900 placeholder:text-neutral-500"
+                      } text-base leading-relaxed`,
+                      inputWrapper: `border-2 transition-all duration-200 ${
+                        isDarkMode
+                          ? "border-neutral-600 hover:border-neutral-500 focus-within:border-primary-400"
+                          : "border-neutral-300 hover:border-neutral-400 focus-within:border-primary-500"
+                      } bg-transparent backdrop-blur-sm focus-enhanced`,
+                    }}
+                  />
+                </div>{" "}
+                {/* Voice Input Button */}{" "}
                 <Button
                   isIconOnly
                   radius="full"
+                  size="lg"
                   color={isListening ? "danger" : "primary"}
-                  variant="solid"
+                  variant={isListening ? "solid" : "bordered"}
                   onClick={handleVoiceToggle}
+                  isDisabled={!isSupported}
+                  className={`mb-0 btn-hover-lift transition-all duration-200 ${
+                    isListening
+                      ? "animate-pulse shadow-lg shadow-danger-500/25"
+                      : "hover:shadow-lg hover:shadow-primary-500/25"
+                  } focus-enhanced ${!isSupported ? "opacity-50 cursor-not-allowed" : ""}`}
+                  aria-label={isListening ? "Stop listening" : "Start voice input"}
+                  title={!isSupported ? "Speech recognition not supported in this browser" : undefined}
                 >
-                  {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
+                  {isListening ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
                 </Button>
-
+                {/* Send Button */}
                 <Button
                   isIconOnly
+                  radius="full"
+                  size="lg"
                   color="primary"
-                  variant={query.trim() ? "solid" : "light"}
+                  variant={query.trim() ? "solid" : "bordered"}
                   onClick={handleSendMessage}
                   isDisabled={!query.trim()}
+                  className={`mb-0 btn-hover-lift transition-all duration-200 ${
+                    query.trim() ? "hover:shadow-lg hover:shadow-primary-500/25" : "opacity-50 cursor-not-allowed"
+                  } focus-enhanced`}
+                  aria-label="Search"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-5 h-5" />
                 </Button>
               </div>
+              {/* Search Features */}
+              <div className="mt-6 flex flex-wrap gap-2">
+                <span
+                  className={`text-xs px-3 py-1 rounded-full ${
+                    isDarkMode
+                      ? "bg-neutral-800/50 text-neutral-400 border border-neutral-700"
+                      : "bg-neutral-100 text-neutral-600 border border-neutral-200"
+                  }`}
+                >
+                  🔍 Entity Search
+                </span>
+                <span
+                  className={`text-xs px-3 py-1 rounded-full ${
+                    isDarkMode
+                      ? "bg-neutral-800/50 text-neutral-400 border border-neutral-700"
+                      : "bg-neutral-100 text-neutral-600 border border-neutral-200"
+                  }`}
+                >
+                  🧠 AI-Powered Analysis
+                </span>
+                <span
+                  className={`text-xs px-3 py-1 rounded-full ${
+                    isDarkMode
+                      ? "bg-neutral-800/50 text-neutral-400 border border-neutral-700"
+                      : "bg-neutral-100 text-neutral-600 border border-neutral-200"
+                  }`}
+                >
+                  🎤 Voice Input
+                </span>
+              </div>
+              {/* Quick Examples */}
+              <div className="mt-4">
+                <p className={`text-xs mb-2 ${isDarkMode ? "text-neutral-400" : "text-neutral-500"}`}>
+                  Try asking about:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {["contract law precedents", "property dispute cases", "criminal law statutes"].map(
+                    (example, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setQuery(example)}
+                        className={`text-xs px-2 py-1 rounded transition-all duration-200 ${
+                          isDarkMode
+                            ? "text-primary-400 hover:bg-primary-400/10 hover:text-primary-300"
+                            : "text-primary-600 hover:bg-primary-50 hover:text-primary-700"
+                        }`}
+                      >
+                        {example}
+                      </button>
+                    )
+                  )}
+                </div>
+              </div>{" "}
             </div>
           </Card>
-          {/* </Tab> */}
-          {/* Upload Document Tab */}
-          {/* <Tab key="upload" title="Upload Document">
-              <Card className={`w-full border  ${isDarkMode && "backdrop-blur-[1px] bg-slate-300/5  border-gray-800"}`}>
-                <div className="p-4">
-                  <div
-                    ref={dropZoneRef}
-                    className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer transition-colors duration-300 ease-in-out"
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    onClick={() => fileInputRef.current && fileInputRef.current.click()}
-                  >
-                    <input
-                      type="file"
-                      accept=".pdf"
-                      className="hidden"
-                      onChange={handleFileSelect}
-                      ref={fileInputRef}
-                    />
-                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-1 text-sm text-gray-600">Click to upload or drag and drop</p>
-                    <p className="text-xs text-gray-500">PDF only (up to 10MB)</p>
-                  </div>
 
-                  {selectedFile && (
-                    <div className="mt-4 flex items-center bg-slate-700/30 p-2 rounded-lg">
-                      <FileText className="w-6 h-6 mr-2 text-white" />
-                      <div className="flex-grow">
-                        <p className="text-white text-sm">{selectedFile.name}</p>
-                        <p className="text-xs text-gray-400">{(selectedFile.size / 1024).toFixed(2)} KB</p>
-                      </div>
-                      <Button isIconOnly variant="light" size="sm" onClick={handleRemoveFile}>
-                        <X className="w-4 h-4 text-white" />
-                      </Button>
-                    </div>
-                  )}
-
-                  <div className="mt-4 flex justify-end">
-                    <Button
-                      color="primary"
-                      variant={selectedFile ? "solid" : "light"}
-                      onClick={handlePdfSend}
-                      isDisabled={!selectedFile}
-                    >
-                      Send
-                    </Button>
-                  </div>
-
-                  <div className="mt-4 text-sm text-gray-500">
-                    <p>Instructions:</p>
-                    <ul className="list-disc pl-5">
-                      <li>Upload a PDF document (max 10MB)</li>
-                      <li>The AI will analyze the document and provide insights</li>
-                      <li>You can ask questions about the uploaded document</li>
-                    </ul>
-                  </div>
-                </div>
-              </Card>
-            </Tab> */}
-          {/* </Tabs> */}
+          {/* Enhanced Footer */}
+          <div className="mt-8 text-center">
+            <p className={`text-sm ${isDarkMode ? "text-neutral-500" : "text-neutral-400"}`}>
+              Press{" "}
+              <kbd
+                className={`px-2 py-1 rounded text-xs ${
+                  isDarkMode ? "bg-neutral-800 text-neutral-300" : "bg-neutral-100 text-neutral-600"
+                }`}
+              >
+                Enter
+              </kbd>{" "}
+              to search or{" "}
+              <kbd
+                className={`px-2 py-1 rounded text-xs ${
+                  isDarkMode ? "bg-neutral-800 text-neutral-300" : "bg-neutral-100 text-neutral-600"
+                }`}
+              >
+                Shift + Enter
+              </kbd>{" "}
+              for new line
+            </p>
+          </div>
         </div>
       </div>
     </div>

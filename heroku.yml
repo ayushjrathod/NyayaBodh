@@ -1,0 +1,11 @@
+build:
+  docker:
+    web: api/Dockerfile
+setup:
+  addons:
+    - plan: heroku-postgresql:essential-0
+  config:
+    PYTHONUNBUFFERED: 1
+    TOKENIZERS_PARALLELISM: false
+    FASTAPI_ENV: production
+    LOG_LEVEL: INFO

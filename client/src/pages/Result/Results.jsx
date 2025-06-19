@@ -1,10 +1,11 @@
 import { Button, Input } from "@nextui-org/react";
 import { Send } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import EntityResult from "../../components/Results/EntityResult";
 import Filters from "../../components/Results/Filters";
 import SemanticResult from "../../components/Results/SemanticResults";
+import { apiConfig } from "../../config/api";
 
 const Results = () => {
   const location = useLocation();
@@ -13,7 +14,6 @@ const Results = () => {
     query: "",
     selectedSearch: "",
   };
-
 
   const searchType = selectedSearch.toLowerCase().split(" ")[0] || "entity";
   const [newQuery, setNewQuery] = useState(query);
@@ -40,7 +40,6 @@ const Results = () => {
       return newFilters;
     });
   };
-
   // Apply filters to results
   useEffect(() => {
     let filtered =
@@ -48,60 +47,62 @@ const Results = () => {
 
     filtered = filtered.filter((item) => {
       if (searchType === "semantic") {
+        // For semantic results, use metadata structure
+        const metadata = item.metadata || {};
         return (
-          (!activeFilters.date.length ||
-            activeFilters.date.some((year) => item.DATE?.includes(year))) &&
+          (!activeFilters.date.length || activeFilters.date.some((year) => metadata.DATE?.includes(year))) &&
+          (!activeFilters.party.length ||
+            activeFilters.party.some(
+              (party) => metadata.PETITIONER?.includes(party) || metadata.RESPONDENT?.includes(party)
+            )) &&
+          (!activeFilters.judge.length || activeFilters.judge.some((judge) => metadata.JUDGE?.includes(judge)))
+        );
+      } else {
+        // For entity results, use direct properties
+        return (
+          (!activeFilters.date.length || activeFilters.date.some((year) => item.summary?.includes(year))) &&
           (!activeFilters.party.length ||
             activeFilters.party.some(
               (party) =>
-                item.PETITIONER?.includes(party) ||
-                item.RESPONDENT?.includes(party)
+                item.petitioner?.includes(party) || item.respondent?.includes(party) || item.entities?.includes(party)
             )) &&
-          (!activeFilters.judge.length ||
-            activeFilters.judge.some((judge) => item.JUDGE?.includes(judge)))
-        );
-      } else {
-        return (
-          (!activeFilters.date.length || activeFilters.date.includes(new Date(item.date).getFullYear().toString())) &&
-          (!activeFilters.party.length || activeFilters.party.some((party) => item.entities.includes(party))) &&
-          (!activeFilters.judge.length || activeFilters.judge.includes(item.judge))
+          (!activeFilters.judge.length || activeFilters.judge.some((judge) => item.summary?.includes(judge)))
         );
       }
     });
 
     setFilteredResults(filtered);
-  }, [activeFilters, resultsData, searchType]);
-
-  // Fetching results from API
-  const fetchResults = (query) => {
-    fetch(`http://localhost:8000/search/${searchType}`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query }), // Stringify the body
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (searchType === "semantic") {
-          setResultsData({ SemanticResultData: data.SemanticResultData });
-        } else if (searchType === "entity") {
-          console.log(data)
-          setResultsData({ EntityResultData: data });
-        }
+  }, [activeFilters, resultsData, searchType]); // Fetching results from API
+  const fetchResults = useCallback(
+    (query) => {
+      fetch(apiConfig.endpoints.search(searchType), {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }), // Stringify the body
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  // Fetching results on page load
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Received data:", data);
+          if (searchType === "semantic") {
+            setResultsData({ SemanticResultData: data.SemanticResultData });
+          } else if (searchType === "entity") {
+            setResultsData({ EntityResultData: data });
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+    [searchType]
+  ); // Fetching results on page load
   useEffect(() => {
     if (query) {
       fetchResults(query);
     }
-  }, []);
+  }, [query, fetchResults]);
 
   // On submitting new query
   const handleSubmit = (e) => {
@@ -148,17 +149,18 @@ const Results = () => {
               }
               searchType={searchType}
             />
-          </div>
-
-          {/* Results */}
+          </div>{" "}
+          {/* Results */}{" "}
           <div className="">
             {searchType === "semantic" ? (
               <SemanticResult
                 resultsData={filteredResults.length > 0 ? filteredResults : resultsData.SemanticResultData || []}
+                searchType={searchType}
               />
             ) : (
               <EntityResult
-                resultsData={filteredResults.length > 0 ? { EntityResultData: filteredResults } : resultsData}
+                resultsData={filteredResults.length > 0 ? filteredResults : resultsData.EntityResultData || []}
+                searchType={searchType}
               />
             )}
           </div>

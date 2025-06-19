@@ -20,8 +20,8 @@ dtype = None  # None for auto detection. Float16 for Tesla T4, V100, Bfloat16 fo
 load_in_4bit = True
 
 # Paths
-ner_data_path = "apis/resources/ner_data.csv"
-pdf_directory = "apis/resources/03-09-24"
+ner_data_path = "data/resources/ner_data.csv"
+pdf_directory = "data/resources/03-09-24"
 context_directory = "current_context"
 
 

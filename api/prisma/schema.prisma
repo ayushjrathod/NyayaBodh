@@ -2,8 +2,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("postgresql://neondb_owner:yD9qhla2SIit@ep-twilight-breeze-a5hj2mfe.us-east-2.aws.neon.tech/neondb?sslmode=require")
-  directUrl = env("postgresql://neondb_owner:yD9qhla2SIit@ep-twilight-breeze-a5hj2mfe.us-east-2.aws.neon.tech/neondb?sslmode=require") // Add this for Neon serverless
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -18,6 +17,10 @@ model User {
   password           String
   role               Role      @default(USER)
   is_verified        Boolean   @default(false)
+  is_google_user     Boolean   @default(false)
+  otp_code           String?
+  otp_expires_at     DateTime?
+  otp_attempts       Int       @default(0)
   created_at         DateTime  @default(now())
   preferences        Preferences?
 }
@@ -37,4 +40,35 @@ model Preferences {
   dark_mode          Boolean @default(false)
   user               User     @relation(fields: [user_id], references: [id])
   user_id            Int      @unique
+}
+
+model Document {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique
+  filename    String?
+  petitioner  String?
+  respondent  String?
+  summary     String?   @db.Text
+  metadata    Json?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  embeddings  DocumentEmbedding[]
+  
+  @@index([uuid])
+  @@index([petitioner])
+  @@index([respondent])
+}
+
+model DocumentEmbedding {
+  id           Int       @id @default(autoincrement())
+  document_id  Int
+  embedding    Json      // Store as JSON array instead of Decimal array
+  model_name   String    @default("sentence-transformers/all-MiniLM-L6-v2")
+  dimension    Int       @default(384)
+  created_at   DateTime  @default(now())
+  
+  document     Document  @relation(fields: [document_id], references: [id], onDelete: Cascade)
+  
+  @@index([document_id])
+  @@index([model_name])
 }

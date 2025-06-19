@@ -1,17 +1,24 @@
+import numpy as np
+import torch
+from transformers import AutoTokenizer, AutoModel
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.metrics.pairwise import cosine_similarity
+from groq import AsyncGroq
+import asyncio
+import os
+from .model_config import config
 
 
+# Configuration
+embedding_model_name = config.EMBEDDING_MODEL
+max_chunk_size = config.MAX_CHUNK_SIZE
 
 
 class AIChatbot:
     def __init__(self):
-        # Load the main language model
-        self.model, self.tokenizer = FastLanguageModel.from_pretrained(
-            model_name="unsloth/Llama-3.2-3B-Instruct",
-            max_seq_length=max_seq_length,
-            dtype=dtype,
-            load_in_4bit=load_in_4bit
-        )
-        FastLanguageModel.for_inference(self.model)
+        # Initialize Groq client
+        self.groq_client = AsyncGroq(api_key=config.GROQ_API_KEY)
         
         # Load the embedding model for semantic chunking
         self.embedding_tokenizer = AutoTokenizer.from_pretrained(embedding_model_name)
@@ -84,29 +91,34 @@ class AIChatbot:
         
         return self.semantic_chunking(input_text)
     
-    def generate_response(self, question):
-        """Generate a response to a given question."""
+    async def generate_response(self, question):
+        """Generate a response to a given question using Groq."""
         context = self.retrieve_chunks(question)
-        input_template = """
-            <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+        
+        messages = [
+            {
+                "role": "system",
+                "content": config.SYSTEM_MESSAGE
+            },
+            {
+                "role": "user",
+                "content": f"Context: {context}\nQuestion: {question}"
+            }
+        ]
 
-            Cutting Knowledge Date: December 2023
-            Today Date: 23 July 2024
-            <|eot_id|><|start_header_id|>user<|end_header_id|>
+        try:
+            stream = await self.groq_client.chat.completions.create(
+                messages=messages,
+                model=config.LLM_MODEL,
+                temperature=config.LLM_TEMPERATURE,
+                max_completion_tokens=config.LLM_MAX_TOKENS,
+                top_p=config.LLM_TOP_P,
+                stream=True,
+            )
 
-            You are a helpful assistant that responds to the user based on the context provided, if the answer does not lie in the context, you will respond with that is not my area of expertise, I am a chatbot designed for Vidi-Lekhak, a platform to help users know and create legal documents.You will refer to Vidhi-Lekhak as "our" platform. You are the assistant for the vidhilekhak platform. If any document is mentioned by the user you will also give the steps to generate it.
-
-            Context : {context}
-            Question : {question}
-
-            <|eot_id|><|start_header_id|>assistant<|end_header_id|>
-        """
-        input_text = input_template.format(context=context, question=question)
-        inputs = self.tokenizer(input_text, return_tensors="pt")
-        streamer = TextIteratorStreamer(self.tokenizer, skip_prompt=True)
-        generation_kwargs = dict(inputs, streamer=streamer, max_new_tokens=256)
-        thread = Thread(target=self.model.generate, kwargs=generation_kwargs)
-        thread.start()
-        for new_text in streamer:
-            yield new_text
-        thread.join()
+            async for chunk in stream:
+                content = chunk.choices[0].delta.content
+                if content:
+                    yield content
+        except Exception as e:
+            yield f"Error generating response: {str(e)}"

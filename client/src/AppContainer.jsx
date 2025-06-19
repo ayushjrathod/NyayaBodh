@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react'
-import App from './App';
-import { useSelector } from 'react-redux';
-
+import { useSelector } from "react-redux";
+import App from "./App";
 
 function AppContainer() {
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
-    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-
-    return (
-        <main className={`${isDarkMode ? 'yellow-bright' : 'light'}  text-foreground bg-background`}>
-            <App />
-
-        </main>
-    )
+  return (
+    <main className={`${isDarkMode ? "yellow-bright" : "light"}  text-foreground bg-background`}>
+      <App />
+    </main>
+  );
 }
 
-export default AppContainer
+export default AppContainer;

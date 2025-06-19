@@ -2,13 +2,18 @@ from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 import torch
 import numpy as np
-from transformers import TextIteratorStreamer, AutoTokenizer, AutoModel
-from unsloth import FastLanguageModel
-from threading import Thread
+from transformers import AutoTokenizer, AutoModel
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity   
 from sklearn.metrics import silhouette_score
 from fastapi.middleware.cors import CORSMiddleware
+from groq import AsyncGroq
+import asyncio
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configuration
 embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
@@ -30,16 +35,8 @@ app.add_middleware(
 )
 class AIChatbot:
     def __init__(self):
-        # Load the main language model
-        self.model, self.tokenizer = FastLanguageModel.from_pretrained(
-            model_name="unsloth/Meta-Llama-3.1-8B-Instruct-bnb-4bit",
-            max_seq_length=max_seq_length,
-            dtype=dtype,
-            load_in_4bit=load_in_4bit
-        )
-        
-        # Enable native 2x faster inference
-        FastLanguageModel.for_inference(self.model)
+        # Initialize Groq client
+        self.groq_client = AsyncGroq(api_key=os.getenv("GROQ_API_KEY"))
         
         # Load the embedding model for semantic chunking
         self.embedding_tokenizer = AutoTokenizer.from_pretrained(embedding_model_name)
@@ -128,49 +125,38 @@ class AIChatbot:
         
         return self.semantic_chunking(input_text)
     
-    def generate_response(self, question):
-        """Generate a response to a given question using the language model."""
+    async def generate_response(self, question):
+        """Generate a response to a given question using Groq."""
         # Retrieve and print chunks related to the query
         context = self.retrieve_chunks(question)
 
-        # Define the input template
-        input_template =  """
-            <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+        messages = [
+            {
+                "role": "system",
+                "content": """You are a helpful assistant that responds to the user based on the context provided, if the answer does not lie in the context, you will respond with that is not my area of expertise, I am a chatbot designed for Vidi-Lekhak, a platform to help users know and create legal documents. You will refer to Vidhi-Lekhak as "our" platform. You are the assistant for the vidhilekhak platform. If any document is mentioned by the user you will also give the steps to generate it."""
+            },
+            {
+                "role": "user",
+                "content": f"Context: {context}\nQuestion: {question}"
+            }
+        ]
 
-            Cutting Knowledge Date: December 2023
-            Today Date: 23 July 2024
-            <|eot_id|><|start_header_id|>user<|end_header_id|>
+        try:
+            stream = await self.groq_client.chat.completions.create(
+                messages=messages,
+                model="llama-3.3-70b-versatile",
+                temperature=0.5,
+                max_completion_tokens=1024,
+                top_p=1,
+                stream=True,
+            )
 
-            You are a helpful assistant that responds to the user based on the context provided, if the  answer does not lie in the context, you will respond with that is not my area of expertise, I am a chatbot designed for Vidi-Lekhak, a platform to help users know and create legal documents.You will refer to Vidhi-Lekhak as "our" platform. You are the assistant for the vidhilekhak platform. If any document is mentioned by the user you will also give the steps to generate it.
-
-            Context : {context}
-            Question : {question}
-
-            <|eot_id|><|start_header_id|>assistant<|end_header_id|>
-            """
-
-        # Format the input text using the context and question
-        input_text = input_template.format(context=context, question=question)
-        
-        # Tokenize the input text
-        inputs = self.tokenizer(input_text, return_tensors="pt")
-
-        # Initialize the TextIteratorStreamer with the tokenizer
-        streamer = TextIteratorStreamer(self.tokenizer, skip_prompt=True)
-
-        # Prepare the generation arguments
-        generation_kwargs = dict(inputs, streamer=streamer, max_new_tokens=256)
-
-        # Run the generation in a separate thread
-        thread = Thread(target=self.model.generate, kwargs=generation_kwargs)
-        thread.start()
-
-        # Yield the generated text
-        for new_text in streamer:
-            yield new_text
-
-        # Ensure the thread has completed 
-        thread.join()
+            async for chunk in stream:
+                content = chunk.choices[0].delta.content
+                if content:
+                    yield content
+        except Exception as e:
+            yield f"Error generating response: {str(e)}"
 
 chatbot = AIChatbot()
 
@@ -180,7 +166,12 @@ async def ask_question(request: Request):
     request_data = await request.json()
     question = request_data.get("question", "")
 
+    # Create an async generator wrapper for streaming
+    async def generate_stream():
+        async for chunk in chatbot.generate_response(question):
+            yield f"data: {chunk}\n\n"
+
     # Stream the response back to the client
-    return StreamingResponse(chatbot.generate_response(question), media_type="text/plain")
+    return StreamingResponse(generate_stream(), media_type="text/plain")
 
 # Run the server with: uvicorn script_name:app --reload

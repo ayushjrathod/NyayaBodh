@@ -14,35 +14,42 @@ import { MoonIcon, SunIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import { logout as apiLogout } from "../../api/axios";
+import { setAuthState } from "../../store/slices/authSlice";
 import { toggleTheme } from "../../store/slices/themeSlice";
-import { logout } from "../../store/slices/userSlice";
-import LanguageSwitcher from "./LanguageSwitcher";
-import GoogleTranslate from "./GoogleTranslator";
 import ScreenReader from "../ScreenReader/ScreenReader";
+import GoogleTranslate from "./GoogleTranslator";
 
 function NewNavBar() {
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const { isAuthenticated, userRole } = useSelector((state) => state.auth);
+  const user = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch {
+      return {};
+    }
+  })();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   const handleToggle = () => {
     dispatch(toggleTheme());
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await apiLogout();
+    dispatch(setAuthState(false));
     navigate("/");
   };
   const navItems = [
     { name: "Home", path: "/" },
     // { name: "Recommend", path: "/recommend/1" },
-    {name:"Explain Scenario",path:"/semantic"},
+    { name: "Explain Scenario", path: "/semantic" },
     { name: "Law Lookup", path: "/lawlookup" },
     { name: "Contact Us", path: "/contact" },
-    ...(user.role === "CLERK" ? [{ name: "DocGen", path: "/docgen" }] : []),
+    ...(userRole === "ADMIN" ? [{ name: "DocGen", path: "/docgen" }] : []),
   ];
 
   return (
@@ -77,12 +84,12 @@ function NewNavBar() {
           />
         </NavbarItem>
         <NavbarItem>
-          <GoogleTranslate/>
-        </NavbarItem>
+          <GoogleTranslate />
+        </NavbarItem>{" "}
         <NavbarItem>
           <ScreenReader />
         </NavbarItem>
-        {user.isLoggedIn && (
+        {isAuthenticated && (
           <Dropdown
             placement="bottom-end"
             className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
@@ -92,7 +99,7 @@ function NewNavBar() {
           >
             <DropdownTrigger>
               <Avatar
-              showFallback
+                showFallback
                 isBordered
                 as="button"
                 className="transition-transform"

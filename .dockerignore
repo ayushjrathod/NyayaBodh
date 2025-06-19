@@ -1,0 +1,67 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Client/Frontend (since we're only deploying backend)
+client/
+db/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+
+# Environment files (will be set via Heroku config)
+.env
+.env.local
+.env.production
+
+# Documentation
+*.md
+docs/
+
+# Large data files (will need to be uploaded separately or fetched)
+data/resources/
+!data/current_context/
+
+# Build artifacts
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/

@@ -1,13 +1,13 @@
 import axios from "axios";
+import { apiConfig } from "../config/api";
 import { getTokens, replaceJWTIfRefreshed } from "./utils/authToken";
-const API_URL = "http://127.0.0.1:8080";
 // User Management
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/api/auth/register`, {
+    const response = await axios.post(apiConfig.endpoints.auth.register, {
       email: userData.email,
       password: userData.password,
-      fullname: userData.name, // Backend expects 'name' instead of 'fullname'
+      fullname: userData.name, // Backend expects 'fullname'
       role: userData.role,
     });
     return response.data;
@@ -19,14 +19,14 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await axios.post(`${API_URL}/api/auth/login`, {
+    const response = await axios.post(apiConfig.endpoints.auth.login, {
       email: credentials.email,
       password: credentials.password,
     });
 
     if (response.data.access_token) {
       localStorage.setItem("access_token", response.data.access_token);
-      localStorage.setItem("user_role", response.data.user.role);
+      localStorage.setItem("user_role", response.data.role);
       return response.data;
     }
     throw new Error("Invalid response from server");
@@ -39,7 +39,7 @@ export const loginUser = async (credentials) => {
 export const getUserProfile = async () => {
   try {
     const { token, refreshToken } = getTokens();
-    const response = await axios.get(`${API_URL}/api/auth/profile`, {
+    const response = await axios.get(apiConfig.endpoints.auth.profile, {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-refresh-token": refreshToken,
@@ -56,7 +56,7 @@ export const getUserProfile = async () => {
 export const updateUserProfile = async (profileData) => {
   try {
     const { token, refreshToken } = getTokens();
-    const response = await axios.put(`${API_URL}/api/users/profile`, profileData, {
+    const response = await axios.put(`${apiConfig.baseURL}/api/users/profile`, profileData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-refresh-token": refreshToken,
@@ -67,7 +67,7 @@ export const updateUserProfile = async (profileData) => {
 
     return response.data;
   } catch (error) {
-    console.error("Updating user profile failed:", error, token);
+    console.error("Updating user profile failed:", error);
     throw error;
   }
 };

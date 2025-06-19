@@ -58,7 +58,7 @@ export const checkAuth = async () => {
       throw new Error("Missing auth data");
     }
 
-    const response = await api.get("/api/user/profile");
+    const response = await api.get("/user/profile");
 
     localStorage.setItem("isAuthenticated", "true");
     window.dispatchEvent(new Event("auth-state-changed"));
@@ -72,7 +72,7 @@ export const checkAuth = async () => {
 
 export const register = async (data) => {
   try {
-    const response = await api.post("/api/auth/register", data);
+    const response = await api.post("/auth/register", data);
     return response.data;
   } catch (error) {
     console.error("Registration failed:", error.response?.data || error.message);
@@ -82,7 +82,7 @@ export const register = async (data) => {
 
 export const verifyOTP = async (otp, userId) => {
   try {
-    const response = await api.post("/api/auth/verify-otp", { otp, userId });
+    const response = await api.post("/auth/verify-otp", { otp, userId });
     return response.data;
   } catch (error) {
     console.error("OTP verification failed:", error.response?.data || error.message);
@@ -92,8 +92,15 @@ export const verifyOTP = async (otp, userId) => {
 
 export const login = async (data) => {
   try {
-    const response = await api.post("/api/auth/login", data);
-    const { access_token, user } = response.data;
+    const response = await api.post("/auth/login", data);
+    const { access_token, role, user_id, fullname } = response.data;
+
+    // Create user object from the response data
+    const user = {
+      id: user_id,
+      role: role,
+      fullname: fullname,
+    };
 
     localStorage.clear();
     localStorage.setItem("token", access_token);
@@ -116,7 +123,7 @@ export const login = async (data) => {
 
 export const forgotPassword = async (email) => {
   try {
-    const response = await api.post("/api/auth/forgot-password", { email });
+    const response = await api.post("/auth/forgot-password", { email });
     return response.data;
   } catch (error) {
     console.error("Forgot password failed:", error.response?.data || error.message);
@@ -129,7 +136,7 @@ export const forgotPassword = async (email) => {
 
 export const resetPassword = async (token, newPassword) => {
   try {
-    const response = await api.post("/api/auth/reset-password", {
+    const response = await api.post("/auth/reset-password", {
       token,
       new_password: newPassword,
     });
@@ -145,7 +152,7 @@ export const resetPassword = async (token, newPassword) => {
 
 export const checkOAuthStatus = async (email) => {
   try {
-    const response = await api.post("/api/auth/check-oauth", { email });
+    const response = await api.post("/auth/check-oauth", { email });
     return response.data.isOAuthUser;
   } catch (error) {
     return false;
@@ -172,7 +179,7 @@ export const handleGoogleSignIn = (remember_me) => {
 
 export const logout = async () => {
   try {
-    await api.post("/api/auth/logout");
+    await api.post("/auth/logout");
   } catch (error) {
     console.error("Logout error:", error);
   } finally {

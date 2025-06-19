@@ -1,5 +1,5 @@
 import { Accordion, AccordionItem, Card, CardBody, Checkbox } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Filters = ({ onFilterChange, results, searchType }) => {
   const [judges, setJudges] = useState([]);
@@ -11,30 +11,84 @@ const Filters = ({ onFilterChange, results, searchType }) => {
     party: [],
     judge: [],
   });
-
   useEffect(() => {
     const uniqueJudges = new Set();
     const uniqueParties = new Set();
     const uniqueYears = new Set();
 
     results.forEach((result) => {
-      if (result.JUDGE) {
-        result.JUDGE.split(",").forEach((judge) => uniqueJudges.add(judge.trim()));
-      }
+      if (searchType === "semantic") {
+        // For semantic results, use metadata structure
+        const metadata = result.metadata || {};
 
-      if (result.PETITIONER) uniqueParties.add(result.PETITIONER.trim());
-      if (result.RESPONDENT) uniqueParties.add(result.RESPONDENT.trim());
+        if (metadata.JUDGE && typeof metadata.JUDGE === "string") {
+          metadata.JUDGE.split(",").forEach((judge) => uniqueJudges.add(judge.trim()));
+        } else if (metadata.JUDGE) {
+          uniqueJudges.add(String(metadata.JUDGE).trim());
+        }
 
-      if (result.DATE) {
-        const yearMatch = result.DATE.match(/\d{4}/);
-        if (yearMatch) uniqueYears.add(yearMatch[0]);
+        if (metadata.PETITIONER && typeof metadata.PETITIONER === "string") {
+          uniqueParties.add(metadata.PETITIONER.trim());
+        } else if (metadata.PETITIONER) {
+          uniqueParties.add(String(metadata.PETITIONER).trim());
+        }
+
+        if (metadata.RESPONDENT && typeof metadata.RESPONDENT === "string") {
+          uniqueParties.add(metadata.RESPONDENT.trim());
+        } else if (metadata.RESPONDENT) {
+          uniqueParties.add(String(metadata.RESPONDENT).trim());
+        }
+
+        if (metadata.DATE && typeof metadata.DATE === "string") {
+          const yearMatch = metadata.DATE.match(/\d{4}/);
+          if (yearMatch) uniqueYears.add(yearMatch[0]);
+        } else if (metadata.DATE) {
+          const dateString = String(metadata.DATE);
+          const yearMatch = dateString.match(/\d{4}/);
+          if (yearMatch) uniqueYears.add(yearMatch[0]);
+        }
+      } else {
+        // For entity results, extract from different properties
+
+        // Extract judges from summary if available
+        if (result.summary) {
+          // Try to extract judge names from summary - this might need adjustment based on actual data format
+          const judgeMatches = result.summary.match(/Judge[s]?:\s*([^.]+)/gi);
+          if (judgeMatches) {
+            judgeMatches.forEach((match) => {
+              const judge = match.replace(/Judge[s]?:\s*/i, "").trim();
+              if (judge) uniqueJudges.add(judge);
+            });
+          }
+        }
+
+        // Add petitioner and respondent
+        if (result.petitioner) {
+          result.petitioner.split(",").forEach((party) => uniqueParties.add(party.trim()));
+        }
+        if (result.respondent) {
+          result.respondent.split(",").forEach((party) => uniqueParties.add(party.trim()));
+        }
+
+        // Add entities
+        if (result.entities) {
+          result.entities.split(",").forEach((entity) => uniqueParties.add(entity.trim()));
+        }
+
+        // Extract years from summary
+        if (result.summary) {
+          const yearMatches = result.summary.match(/\b(19|20)\d{2}\b/g);
+          if (yearMatches) {
+            yearMatches.forEach((year) => uniqueYears.add(year));
+          }
+        }
       }
     });
 
     setJudges(Array.from(uniqueJudges));
     setParties(Array.from(uniqueParties));
     setYears(Array.from(uniqueYears).sort((a, b) => b - a));
-  }, [results]);
+  }, [results, searchType]);
 
   const handleFilterChange = (type, value) => {
     setSelectedFilters((prev) => {
@@ -56,7 +110,7 @@ const Filters = ({ onFilterChange, results, searchType }) => {
     <Card className="sticky top-[5rem]">
       <CardBody>
         <aside className="p-4">
-          <h2 className="text-xl font-bold mb-4" > Filters</h2 >
+          <h2 className="text-xl font-bold mb-4"> Filters</h2>
           <Accordion>
             <AccordionItem key="date" aria-label="Date" title="Date">
               <div className="flex flex-col gap-2">
@@ -103,9 +157,9 @@ const Filters = ({ onFilterChange, results, searchType }) => {
               </div>
             </AccordionItem>
           </Accordion>
-        </aside >
-      </CardBody >
-    </Card >
+        </aside>
+      </CardBody>
+    </Card>
   );
 };
 

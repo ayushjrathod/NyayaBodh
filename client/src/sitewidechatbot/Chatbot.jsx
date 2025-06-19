@@ -2,6 +2,7 @@ import { Button, Input } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader, MessageCircle, Send, X } from "lucide-react";
 import { useRef, useState } from "react";
+import { apiConfig } from "../config/api";
 import { cn } from "../utils/utils";
 
 const SiteChatbot = () => {
@@ -23,18 +24,47 @@ const SiteChatbot = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
-
     try {
       console.log("Sending message to API");
-      const response = await fetch("https://whale-legal-api.onrender.com/ask/", {
+      const response = await fetch(apiConfig.endpoints.ask, {
         method: "POST",
         body: JSON.stringify({ question: inputValue }),
         headers: { "Content-Type": "application/json" },
       });
 
-      const data = await response.json();
-      setMessages((prev) => [...prev, { text: data.response, isUser: false }]);
-      console.log(messages);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Handle streaming response
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedText = "";
+
+      // Add AI message placeholder
+      const tempMessageId = Date.now();
+      setMessages((prev) => [...prev, { text: "", isUser: false, id: tempMessageId }]);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const text = line.slice(6);
+            if (text) {
+              accumulatedText += text;
+              // Update the message with accumulated text
+              setMessages((prev) =>
+                prev.map((msg) => (msg.id === tempMessageId ? { ...msg, text: accumulatedText } : msg))
+              );
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error("Error:", error);
       setMessages((prev) => [...prev, { text: "Sorry, something went wrong", isUser: false }]);

@@ -1,13 +1,14 @@
 // src/store/slices/adminSlice.js
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { apiConfig } from "../../config/api";
 
 const getAuthToken = () => localStorage.getItem("access_token");
 const headers = () => ({ Authorization: `Bearer ${getAuthToken()}` });
 
 export const fetchAllUsers = createAsyncThunk("admin/fetchAllUsers", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get("http://localhost:8080/api/admin/users", { headers: headers() });
+    const response = await axios.get(apiConfig.endpoints.admin.users, { headers: headers() });
     return response.data;
   } catch (err) {
     return rejectWithValue(err.response.data);
@@ -17,7 +18,7 @@ export const fetchAllUsers = createAsyncThunk("admin/fetchAllUsers", async (_, {
 export const updateUser = createAsyncThunk("admin/updateUser", async ({ userId, userData }, { rejectWithValue }) => {
   try {
     const response = await axios.put(
-      `http://localhost:8080/api/admin/users/${userId}`,
+      apiConfig.endpoints.admin.updateUser(userId),
       userData, // Make sure this matches UserUpdate model
       { headers: headers() }
     );
@@ -29,7 +30,7 @@ export const updateUser = createAsyncThunk("admin/updateUser", async ({ userId, 
 
 export const createUser = createAsyncThunk("admin/createUser", async (userData, { rejectWithValue }) => {
   try {
-    const response = await axios.post("http://localhost:8080/api/auth/register", userData, { headers: headers() });
+    const response = await axios.post(apiConfig.endpoints.auth.register, userData, { headers: headers() });
     return response.data;
   } catch (err) {
     return rejectWithValue(err.response.data);
@@ -38,7 +39,7 @@ export const createUser = createAsyncThunk("admin/createUser", async (userData, 
 
 export const deleteUser = createAsyncThunk("admin/deleteUser", async (userId, { rejectWithValue }) => {
   try {
-    await axios.delete(`http://localhost:8080/api/admin/users/${userId}`, { headers: headers() });
+    await axios.delete(apiConfig.endpoints.admin.deleteUser(userId), { headers: headers() });
     return userId;
   } catch (err) {
     return rejectWithValue(err.response.data);

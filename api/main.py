@@ -1,52 +1,52 @@
-import asyncio
-import base64
-import json
-import logging
 import os
-from contextlib import asynccontextmanager
-from datetime import datetime, timedelta
-from urllib.parse import urlencode
-
-import jwt
-import requests as python_requests
+from threading import Thread
+from typing import List
 from dotenv import load_dotenv
-from fastapi import (Cookie, Depends, FastAPI, HTTPException, Query, Request,
-                     Response, status)
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse
-from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError
-from passlib.context import CryptContext
-from prisma import Prisma
-from prisma.errors import ClientNotConnectedError
-from prisma.models import User
-from pydantic import BaseModel
-from services import (authenticate_user, create_tokens, create_user,
-                      get_current_user, refresh_access_token)
 
 # Load environment variables
 load_dotenv()
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Remove FAISS imports - now using Neon DB
+# import faiss # Removed - using Neon DB instead
+import numpy as np # Added numpy import
+import pandas as pd # Added pandas import
+# from transformers import AutoTokenizer, AutoModel # Removed - using HF API instead
 
-# Initialize password hashing
-pwd_context = CryptContext(
-    schemes=["bcrypt"],
-    deprecated="auto",
-    bcrypt__rounds=12
-)
+from app.auth import auth_router, admin_router # Import the auth routers
+from app.database import prisma, logger # Import shared prisma and logger
+from app.model_config import ModelConfig as config # Import model configuration
+from app.vector_store_service import initialize_vector_store, get_vector_store # Import vector store
+from contextlib import asynccontextmanager # Import asynccontextmanager
 
-# Initialize Prisma client
-prisma = Prisma()
+from app.global_classes import (VALID_PARAMS, SearchRequest_NER, SearchResult_NER,
+                     calculate_similarity, load_ner_data)
+from fastapi import FastAPI, HTTPException, Request, Depends # Added Depends
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, StreamingResponse, FileResponse
+from fuzzywuzzy import fuzz, process
+from pydantic import BaseModel
+from PyPDF2 import PdfReader
+import asyncio
+import torch
+
+# Paths
+ner_data_path = "./data/resources/ner_data.csv"
+pdf_directory = "./data/resources/03-09-24"
+context_directory = "./data/current_context"
+
+# Configuration
+MODEL_NAME = config.EMBEDDING_MODEL
+
+# Global variables (replaced FAISS with vector store)
+vector_store = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Manage database connections with retry logic"""
+    """Manage database connections and load initial data."""
+    global df, vector_store
+    # Connect to Prisma
     retries = 5
     retry_delay = 1
-    
     for attempt in range(retries):
         try:
             logger.info(f"Connecting to database (attempt {attempt + 1}/{retries})")
@@ -56,532 +56,583 @@ async def lifespan(app: FastAPI):
         except Exception as e:
             if attempt == retries - 1:
                 logger.error(f"Failed to connect after {retries} attempts: {e}")
-                raise
-            logger.warning(f"Connection failed: {e}")
-            await asyncio.sleep(retry_delay)
+                # Depending on policy, you might want to raise an error here
+                # or let the app start and fail on db operations.
+            else:
+                logger.warning(f"Connection failed: {e}, retrying in {retry_delay}s...")
+                await asyncio.sleep(retry_delay)
     
+    # Load NER data
     try:
-        yield
-    finally:
+        df = pd.read_csv(ner_data_path)
+        logger.info(f"Successfully loaded NER data from {ner_data_path}")
+    except Exception as e:
+        logger.error(f"Failed to load NER data: {e}")
+        df = pd.DataFrame() # Initialize with empty DataFrame to prevent errors
+
+    # Initialize vector store (replaces FAISS initialization)
+    try:
+        vector_store = await initialize_vector_store(prisma)
+        logger.info("Vector store initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize vector store: {e}")
+        vector_store = None
+    
+    yield
+    
+    # Disconnect from Prisma
+    if prisma.is_connected():
         await prisma.disconnect()
         logger.info("Database disconnected")
 
-# FastAPI setup
+# Initialize FastAPI
 app = FastAPI(
-    title="Authentication API",
-    description="API for user authentication and management",
-    debug=True,
-    lifespan=lifespan
+    title="NyayBodh API", # Updated title
+    description="Main API for NyayBodh including Authentication and other services", # Updated description
+    debug=True, # Keep debug true for development
+    lifespan=lifespan # Added lifespan manager
 )
 
-# OAuth2 setup
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+# Include the authentication routers
+app.include_router(auth_router)
+app.include_router(admin_router)
 
-# Middleware setup
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Be explicit about allowed origins
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["*"],
-    max_age=3600
 )
 
+# df = pd.read_csv(ner_data_path) # This will be loaded in lifespan
+# chatbot = AIChatbot() # Ensure AIChatbot is defined or remove if not used
 
-# Constants
-FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
-BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:8080')
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
-GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
-GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI')
-SECRET_KEY = os.getenv("SECRET_KEY", "secret_key")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-# Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-# Helper functions
-def hash_password(password: str) -> str:
-    """Hash password using bcrypt"""
-    return pwd_context.hash(password)
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify password hash"""
-    return pwd_context.verify(plain_password, hashed_password)
-
-def create_access_token(data: dict, expires_delta: timedelta = None) -> str:
-    to_encode = data.copy()
-    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
-# Routes and logic (example Google OAuth route shown)
-@app.get("/auth/google")
-async def auth_google(remember_me: bool = Query(False)):
-    redirect_uri = GOOGLE_REDIRECT_URI
-    google_auth_endpoint = "https://accounts.google.com/o/oauth2/v2/auth"
-    params = {
-        "client_id": GOOGLE_CLIENT_ID,
-        "redirect_uri": redirect_uri,
-        "response_type": "code",
-        "scope": "openid email profile",
-        "access_type": "offline",
-        "prompt": "consent",
-        "state": "remember_me" if remember_me else "regular"
-    }
-    url = f"{google_auth_endpoint}?{urlencode(params)}"
-    return RedirectResponse(url)
-
-@app.post("/api/auth/check-oauth")
-async def check_oauth(email: str):
-    user = await prisma.user.find_unique(
-        where={"email": email}
-    )
-    return {
-        "isOAuthUser": user.is_google_user if user else False
-    }
-
-@app.get("/auth/google/callback")
-async def auth_google_callback(request: Request, response: Response, code: str, state: str):
-    redirect_uri = GOOGLE_REDIRECT_URI
-    token_endpoint = "https://oauth2.googleapis.com/token"
-    token_data = {
-        "code": code,
-        "client_id": GOOGLE_CLIENT_ID,
-        "client_secret": GOOGLE_CLIENT_SECRET,
-        "redirect_uri": redirect_uri,
-        "grant_type": "authorization_code"
-    }
-
-    # Exchange authorization code for access token
-    token_response = await aiohttp_post(token_endpoint, data=token_data)
-    token_json = await token_response.json()
-
-    if 'error' in token_json:
-        raise HTTPException(status_code=400, detail=f"Error from Google: {token_json.get('error_description', 'Unknown error')}")
-
-    access_token = token_json.get("access_token")
-    if not access_token:
-        raise HTTPException(status_code=400, detail="Failed to obtain access token from Google")
-
-    # Fetch user information using access token
-    userinfo_endpoint = 'https://www.googleapis.com/oauth2/v2/userinfo'
-    userinfo_response = await aiohttp_get(
-        userinfo_endpoint,
-        headers={'Authorization': f'Bearer {access_token}'}
-    )
-    userinfo = await userinfo_response.json()
-
-    if 'error' in userinfo:
-        raise HTTPException(status_code=400, detail=f"Error fetching user info: {userinfo.get('error_description', 'Unknown error')}")
-
-    email = userinfo.get('email')
-    fullname = userinfo.get('fullname', '')
-
-    if not email:
-        raise HTTPException(status_code=400, detail="Email not provided by Google")
-
-    # Check if user exists, or create new Google user
-    user = await prisma.user.upsert(
-        where={"email": email},
-        update={},
-        create={
-            "email": email,
-            "fullname": fullname,
-            "is_google_user": True
-        }
-    )
-
-    # Generate tokens
-    access_token = services.create_access_token(user.id)
-    refresh_token = services.create_refresh_token(user.id)
-    expires_in = 3600  # Example expiration time
-
-    # Prepare auth data
-    auth_data = {
-        "access_token": access_token,
-        "user": {
-            "id": user.id,
-            "email": user.email,
-            "fullname": user.fullname,
-            "is_google_user": True,
-            "avatar_url": userinfo.get('picture')
-        }
-    }
-
-    auth_data_json = json.dumps(auth_data)
-    auth_data_b64 = base64.b64encode(auth_data_json.encode('utf-8')).decode('utf-8')
-    redirect_url = f"{FRONTEND_URL}/oauth/callback?data={auth_data_b64}"
-
-    return RedirectResponse(url=redirect_url)
-
-
-
-@app.post("/api/auth/register")
-async def register(request: Request):
+# Health check endpoint for Docker
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Docker and load balancers."""
     try:
-        # Parse request data
-        data = await request.json()
-        
-        # Extract and validate required fields
-        email = data.get("email")
-        password = data.get("password")
-        fullname = data.get("fullname")  # Match frontend field name
-        role = data.get("role")
-
-        # Validate required fields
-        if not all([email, password, fullname, role]):
-            raise HTTPException(
-                status_code=400,
-                detail="Missing required fields"
+        # Check if database is connected
+        if prisma.is_connected():
+            return {"status": "healthy", "database": "connected"}
+        else:
+            return JSONResponse(
+                status_code=503,
+                content={"status": "unhealthy", "database": "disconnected"}
             )
-        
-
-        # Check for existing user
-        existing_user = await prisma.user.find_unique(
-            where={"email": email}
-        )
-        print(existing_user)
-        
-        if existing_user:
-            raise HTTPException(
-                status_code=400,
-                detail="Email already registered"
-            )
-
-        print("hi")
-        # Create new user
-        user = await create_user(email, password, fullname, role)
-        print(user)
-        # Generate access token
-        access_token = create_access_token({"sub": str(user.id)})
-        print(access_token)
-        return {
-            "access_token": access_token,
-            "user": {
-                "id": user.id,
-                "email": user.email,
-                "fullname": user.fullname,
-                "role": user.role
-            }
-        }
-
     except Exception as e:
-        logger.error(f"Registration error: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
+        return JSONResponse(
+            status_code=503,
+            content={"status": "unhealthy", "error": str(e)}
         )
 
-@app.post("/api/auth/verify-otp")
-async def verify_otp(request: Request):
+# Legacy FAISS initialization function - REMOVED
+# Replaced with vector_store initialization in lifespan
+
+@app.get("/recommend/{uuid}")
+async def recommend_cases(uuid: str):
     try:
-        # Extract data from request
-        data = await request.json()
-        otp = data.get("otp")
-        userId = data.get("userId")
+        # Load CSV()
+        df=pd.read_csv('./data/resources/ner_data.csv')
+        #  df = load_ner_data()
         
-        # Verify OTP
-        otp_verified = await services.verify_otp(otp, userId)
+        # Check if UUID exists
+        target_case = df[df["uuid"] == uuid]
+        if target_case.empty:
+            raise HTTPException(status_code=404, detail="UUID not found")
         
-        if otp_verified:
-            # Fetch user from database using Prisma
-            user = await prisma.user.find_unique(where={"id": userId})
-            if user:
-                # Create access and refresh tokens
-                access_token, refresh_token, expires_in = services.create_tokens(user)
-                return {
-                    "token": access_token,
-                    "expires_in": expires_in
-                }
-            else:
-                raise HTTPException(status_code=404, detail="User not found")
+        # Filter columns for similarity calculation
+        columns_to_compare = ["PROVISION", "STATUTE", "PRECEDENT", "GPE"]
+        target_case_row = target_case.iloc[0]
         
-        raise HTTPException(status_code=400, detail="Invalid OTP")
+        # Prepare the data for fuzzy matching
+        data_to_compare = df.drop(index=target_case.index)
+        
+        # Calculate similarity using a combined string approach
+        data_to_compare["similarity"] = data_to_compare.apply(
+            lambda row: fuzz.ratio(
+                " ".join(map(str, target_case_row[columns_to_compare])),
+                " ".join(map(str, row[columns_to_compare]))
+            ), axis=1
+        )
+        
+        # Get top 5 similar cases
+        top_cases = data_to_compare.nlargest(5, "similarity")
+        
+        # Convert DataFrame to list of dictionaries with NaN handled
+        def convert_row(row):
+            return {k: (None if pd.isna(v) else v) for k, v in row.items()}
+        
+        response = {
+            "target_case": convert_row(target_case.iloc[0]),
+            "recommended_cases": [convert_row(row) for _, row in top_cases.iterrows()]
+        }
+        
+        return JSONResponse(content=response)
     
-    except HTTPException as e:
-        raise e
+    except HTTPException as http_e:
+        return JSONResponse(
+            status_code=http_e.status_code, 
+            content={"error": http_e.detail}
+        )
     except Exception as e:
-        logger.error(f"OTP verification error: {str(e)}")
-        raise HTTPException(status_code=500, detail="OTP verification failed")
-
-
-@app.post("/api/auth/login")
-async def login(request: Request):
-    """Handle user login"""
-    try:
-        data = await request.json()
-        email = data.get("email")
-        password = data.get("password")
-
-        if not email or not password:
-            raise HTTPException(
-                status_code=400,
-                detail="Missing email or password"
-            )
-
-        # Find user
-        user = await prisma.user.find_unique(
-            where={"email": email}
+        return JSONResponse(
+            status_code=500, 
+            content={"error": str(e)}
         )
 
-        if not user:
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid credentials"
-            )
+# Update this helper function
+def safe_get_value(df_value, default_for_none=""):
+    """
+    Handle NaN values from pandas DataFrame before passing to Pydantic models
+    Returns empty string for None values by default which works for string fields
+    """
+    if pd.isna(df_value):
+        return default_for_none
+    return df_value
 
-        # Verify password
-        if not pwd_context.verify(password, user.password):
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid credentials"
-            )
-
-        # Create access token
-        access_token = create_access_token(
-            data={"sub": str(user.id)}
-        )
-
-        # Return user data without password
-        return {
-            "access_token": access_token,
-            "user": {
-                "id": user.id,
-                "email": user.email,
-                "fullname": user.fullname,
-                "role": user.role,
-                "is_verified": user.is_verified
-            }
-        }
-
-    except Exception as e:
-        logger.error(f"Login error: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
-        )
-
-@app.post("/api/auth/logout")
-async def logout(response: Response):
-    response.delete_cookie("refresh_token")
-    return {"message": "Successfully logged out"}
-
-
-@app.get("/users/{user_id}")
-async def read_user(user_id: int):
-    user = await prisma.user.find_unique(
-        where={'id': user_id}
-    )
-    return user
-
-# Admin routes
-class UserOut(BaseModel):
-    id: int
-    email: str
-    fullname: str
-    role: str
-    is_verified: bool
-
-class User(BaseModel):
-    id: int
-    email: str
-    fullname: str
-    role: str
-    is_verified: bool
+@app.post("/search/entity", response_model=List[SearchResult_NER])
+async def search_entity(request: SearchRequest_NER):
+    """
+    Search for entities across all columns of the CSV using fuzzy matching.
+    """
+    # Validate the DataFrame
+    if df.empty:
+        raise HTTPException(status_code=500, detail="The CSV data is empty or not loaded.")
     
-from typing import List
+    # Use a set to track unique UUIDs to prevent duplicates
+    unique_uuids = set()
+    response = []
+    
+    for column_name in df.columns:
+        # Extract data for fuzzy matching
+        column_data = df[column_name].fillna("").tolist()
+        
+        # Perform fuzzy matching on the current column
+        results = process.extractBests(request.query, column_data, scorer=fuzz.partial_ratio, limit=10)
+        
+        for match, score in results:
+            if score >= 50:  # Optional: Set a score threshold
+                # Find the index of the match in the original dataframe
+                index = df[column_name].eq(match).idxmax()
+                
+                # Check if this UUID is already in our results
+                current_uuid = df.loc[index, "uuid"]
+                if current_uuid not in unique_uuids:
+                    unique_uuids.add(current_uuid)
+                    response.append(SearchResult_NER(
+                        uuid=current_uuid,
+                        petitioner=safe_get_value(df.loc[index, "PETITIONER"]),
+                        respondent=safe_get_value(df.loc[index, "RESPONDENT"]),
+                        entities=safe_get_value(df.loc[index, column_name]),
+                        summary=safe_get_value(df.loc[index, "summary"])
+                    ))    
+    if not response:
+        raise HTTPException(status_code=404, detail="No matching results found.")
+    
+    return response
 
-from services import get_current_admin
+# Additional imports for semantic search
+from typing import List, Optional
+from app.embedding_service import get_embedding_service, initialize_embedding_service
 
+class SearchRequestSEM(BaseModel):
+    query: str
+    param: Optional[str] = ""  # Add this field with a default empty string
 
-@app.delete("/api/admin/users/{user_id}")
-async def delete_user_endpoint(user_id: int):
+class ActSearchRequestSEM(BaseModel):
+    act_name: str
+
+class SearchResponseSEM(BaseModel):
+    SemanticResultData: List[dict]
+
+# Define fuzzy search function
+def fuzzy_search(text, search_term, threshold=80):
+    return fuzz.partial_ratio(text.lower(), search_term.lower()) >= threshold
+
+# Updated semantic search using vector store instead of FAISS
+@app.post("/search/semantic")
+async def search_endpoint(request: SearchRequestSEM):
+    global vector_store
+    
+    if not vector_store:
+        raise HTTPException(status_code=503, detail="Vector store not initialized")
+    
+    query = request.query
+    print(f"Query: {query}")
+
     try:
-        await prisma.user.delete(
-            where={'id': user_id}
-        )
-        return {"message": f"User {user_id} deleted successfully"}
+        # Use vector store for similarity search
+        results = await vector_store.similarity_search(query, k=10, min_similarity=0.1)
+        
+        semantic_result_data = []
+        for result in results:
+            # Structure the response to match the expected format
+            result_data = {
+                "uuid": result['uuid'],
+                "summary": result['summary'],
+                "score": float(result['similarity_score']),  # Convert to float for JSON compatibility
+                "metadata": result['metadata'] or {},
+            }
+            semantic_result_data.append(result_data)
+
+        return {"SemanticResultData": semantic_result_data}
+
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"User {user_id} not found")
+        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
+@app.get("/recommend/embedding/{uuid}")
+async def recommend_cases_embedding(uuid: str):
+    """
+    Embedding-based case recommendation using vector store
+    """
+    global vector_store
+    
+    if not vector_store:
+        raise HTTPException(status_code=503, detail="Vector store not initialized")
 
- 
-@app.get("/api/admin/users", response_model=List[UserOut])
-async def get_all_users():
-    users = await prisma.user.find_many()
-    print(users)
-    return users
-
-class RoleUpdate(BaseModel):
-    role: str
-
-
-@app.post("/api/auth/resend-otp")
-async def resend_otp(request: Request):
     try:
-        # Extract data from request
-        data = await request.json()
-        userId = data.get("userId")
-        
-        # Use Prisma to find the user by ID
-        user = await prisma.user.find_unique(where={"id": userId})
-        
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        
-        # Call the service to resend the OTP
-        result = services.resend_otp(user)
-        
-        return result
+        # Get the target case
+        case_data = await vector_store.get_document_by_uuid(uuid)
+        if not case_data:
+            raise HTTPException(status_code=404, detail="UUID not found")
 
+        # Get similar cases
+        similar_cases = await vector_store.recommend_similar_cases(uuid, k=5)
+        
+        # Format response
+        formatted_similar_cases = []
+        for case in similar_cases:
+            formatted_similar_cases.append({
+                "uuid": case["uuid"],
+                "case_name": f"{case.get('petitioner', 'N/A')} vs {case.get('respondent', 'N/A')}",
+                "summary": case["summary"],
+                "similarity_score": case["similarity_score"]
+            })
+
+        return {
+            "target_case": {
+                "uuid": case_data["uuid"],
+                "case_name": f"{case_data.get('petitioner', 'N/A')} vs {case_data.get('respondent', 'N/A')}",
+                "summary": case_data["summary"]
+            },
+            "similar_cases": formatted_similar_cases,
+            "method": "embedding-based (Neon DB Vector Store)"
+        }
+        
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error(f"Resend OTP error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Failed to resend OTP")
+        raise HTTPException(status_code=500, detail=f"Error in embedding recommendation: {str(e)}")
 
+@app.post("/search-acts")
+async def search_acts(request: ActSearchRequestSEM):
+    act_name = request.act_name.strip()
+    
+    # Ensure the 'List of Acts' column exists
+    if 'List of Acts' not in df.columns:
+        raise HTTPException(status_code=500, detail="CSV does not contain 'List of Acts' column")
 
-@app.get("/api/auth/profile")
-async def get_profile(current_user=Depends(get_current_user)):
+    # Search for the act name in the 'List of Acts' column using fuzzy matching
+    results = []
+    for _, row in df.iterrows():
+        list_of_acts = row.get("List of Acts", "")
+        if fuzzy_search(list_of_acts, act_name):
+            result = { "SemanticResultData":
+                [
+                {"uuid": row.get("uuid"),
+                "description": row.get("summary", ""),
+                "metadata": row.get("metadata", ""),
+                "acts": row.get("List of Acts", "")}
+                ]
+            }
+            print(result)
+            results.append(result)
+    
+    if not results:
+        raise HTTPException(status_code=404, detail="No matching acts found")
+    
+    return {"results": results}
+
+pdf_folder = './03-09-24'
+
+@app.get("/get-file/{uuid}")
+async def get_file(uuid: str):
+    # Check if the serial number is in the DataFrame
+    row = df[df['uuid'] == uuid]
+    if row.empty:
+        raise HTTPException(status_code=404, detail="UUID not found")
+    
+    # Extract the filename from the DataFrame
+    filename = row['Filename'].values[0]
+    file_path = os.path.join(pdf_folder, filename)
+    
+    # Check if the file exists
+    if not os.path.isfile(file_path):
+        raise HTTPException(status_code=404, detail="File not found")
+      # Return the file
+    return FileResponse(file_path)
+
+# The recommend_cases_embedding function has been replaced by the one 
+# in the semantic search section that uses vector_store
+
+@app.post("/recommend/build-index")
+async def build_embedding_index():
+    """
+    Build or rebuild the vector store index from CSV data
+    """
+    global vector_store
+    
+    if not vector_store:
+        raise HTTPException(status_code=503, detail="Vector store not initialized")
+    
+    try:
+        # Perform migration from CSV
+        csv_file_path = "./data/resources/ner_data.csv"
+        if not os.path.exists(csv_file_path):
+            raise HTTPException(status_code=404, detail=f"{csv_file_path} not found")
+        
+        stats = await vector_store.bulk_migrate_from_csv(csv_file_path)
+        
+        return {
+            "message": "Index rebuilt successfully",
+            "stats": stats,
+            "method": "vector_store (Neon DB)"
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error rebuilding index: {str(e)}")
+
+# Example of a protected route using the auth service (optional)
+from app.auth_service import get_current_user
+from prisma.models import User # Assuming User model is needed
+
+@app.get("/users/me", tags=["User"]) # Example protected route
+async def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
 
+# Chat functionality imports
+from groq import AsyncGroq
+import PyPDF2
+from app.model_config import config
 
-@app.post("/api/auth/refresh")
-async def refresh_token(
-    response: Response,
-    refresh_token: str = Cookie(None)
-):
-    if not refresh_token:
-        raise HTTPException(status_code=401, detail="No refresh token")
+# Chat configuration
+prepared_documents = {}
+groq_client = AsyncGroq(api_key=config.GROQ_API_KEY)
+
+# Chat utility functions
+def extract_pdf_text(pdf_path):
+    """Extract text from PDF file."""
+    with open(pdf_path, "rb") as f:
+        reader = PyPDF2.PdfReader(f)
+        return " ".join(page.extract_text() for page in reader.pages)
+
+def chunk_and_encode_text(text, chunk_size=None):
+    """Chunk the text and encode each chunk into embeddings using HuggingFace API."""
+    from app.embedding_service import get_embedding_service
     
-    try:
-        # Use Prisma to refresh the access token
-        new_access_token = await services.refresh_access_token(refresh_token)
+    if chunk_size is None:
+        chunk_size = config.MAX_CHUNK_SIZE
         
-        return {"access_token": new_access_token, "token_type": "bearer"}
+    print(f"Chunking text with chunk_size: {chunk_size}")
     
-    except Exception as e:
-        logger.error(f"Error refreshing access token: {str(e)}")
-        raise HTTPException(status_code=500, detail="Failed to refresh token")
-
-
-@app.post("/api/auth/logout")
-async def logout(response: Response):
-    response.delete_cookie("refresh_token")
-    return {"message": "Successfully logged out"}
-
-class ForgotPasswordRequest(BaseModel):
-    email: str
-
-@app.post("/api/auth/forgot-password")
-async def forgot_password(request: ForgotPasswordRequest):
-    try:
-        # Check if the user exists using Prisma
-        user = await prisma.user.find_unique(where={"email": request.email})
-        
-        if user:
-            # Create the reset token
-            token = services.create_jwt_token(user, expires_delta=timedelta(hours=24))
-            reset_link = f"{FRONTEND_URL}/reset-password?token={token}"
-            
-            # Send the reset email
-            if services.send_password_reset_email(user.email, reset_link):
-                return {"message": "If the email exists, a reset link will be sent"}
-            raise HTTPException(status_code=500, detail="Failed to send reset email")
-        
-    except Exception as e:
-        logger.error(f"Password reset error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Password reset failed")
+    # Simple text chunking by characters since we don't have tokenizer
+    words = text.split()
+    chunks = []
+    current_chunk = []
+    current_length = 0
     
-    return {"message": "If the email exists, a reset link will be sent"}
-
-
-@app.post("/api/auth/reset-password")
-async def reset_password(token: str, new_password: str):
-    try:
-        # Decode the token
-        payload = jwt.decode(token, services.SECRET_KEY, algorithms=[services.ALGORITHM])
-        email = payload.get("sub")
+    for word in words:
+        # Approximate token count (rough estimate: 1 word ≈ 1.3 tokens)
+        word_token_count = len(word) // 4 + 1
         
-        # Find user by email using Prisma
-        user = await prisma.user.find_unique(where={"email": email})
-        
-        if user:
-            # Hash and update the new password
-            user.hashed_password = services.pwd_context.hash(new_password)
-            
-            # Update the user's password in Prisma
-            await prisma.user.update(
-                where={"id": user.id},
-                data={"hashed_password": user.hashed_password}
-            )
-            return {"message": "Password reset successful"}
-        
-    except jwt.JWTError:
-        raise HTTPException(status_code=400, detail="Invalid token")
+        if current_length + word_token_count > chunk_size and current_chunk:
+            chunks.append(' '.join(current_chunk))
+            current_chunk = [word]
+            current_length = word_token_count
+        else:
+            current_chunk.append(word)
+            current_length += word_token_count
     
-    raise HTTPException(status_code=404, detail="User not found")
+    if current_chunk:
+        chunks.append(' '.join(current_chunk))
+    
+    print(f"Created {len(chunks)} text chunks")
+    
+    # Encode all chunks using HuggingFace API
+    embedding_service = get_embedding_service()
+    embeddings = []
+    for chunk_text in chunks:
+        embedding = embedding_service.encode(chunk_text)
+        embeddings.append(embedding)
 
-# Add error handling for database connections
-@app.exception_handler(Exception)
-async def database_exception_handler(request, exc):
-    if "Connection" in str(exc):
-        return JSONResponse(
-            status_code=503,
-            content={"detail": "Database connection error"}
-        )
-    return JSONResponse(
-        status_code=500,
-        content={"detail": str(exc)}
-    )
+    print(f"Created embeddings for {len(chunks)} chunks")
+    return chunks, embeddings
 
+def retrieve_context(question, chunks, embeddings, top_n=None):
+    """Retrieve the most relevant chunks for the given question using HuggingFace API."""
+    from app.embedding_service import get_embedding_service
+    
+    if top_n is None:
+        top_n = config.TOP_N_CHUNKS
+        
+    print(f"Retrieving context for question with top_n: {top_n}")
+    
+    # Encode the question using HuggingFace API
+    embedding_service = get_embedding_service()
+    question_embedding = embedding_service.encode(question)
+    
+    # Ensure question_embedding is 2D
+    if question_embedding.ndim == 1:
+        question_embedding = question_embedding.reshape(1, -1)
+    
+    # Ensure embeddings are 2D
+    embeddings_array = np.vstack(embeddings)    
+    # Compute cosine similarities - using numpy instead of sklearn
+    def cosine_similarity_numpy(a, b):
+        """Compute cosine similarity using numpy"""
+        dot_product = np.dot(a, b.T)
+        norm_a = np.linalg.norm(a, axis=1, keepdims=True)
+        norm_b = np.linalg.norm(b, axis=1, keepdims=True)
+        return dot_product / (norm_a * norm_b.T)
+    
+    similarities = cosine_similarity_numpy(question_embedding, embeddings_array).flatten()
+    
+    # Get top_n most relevant chunks
+    top_indices = similarities.argsort()[-top_n:][::-1]
+    context = " ".join(chunks[i] for i in top_indices)
+    print(f"Retrieved context length: {len(context)}")
+    return context
 
-# Add database connection check middleware
-@app.middleware("http")
-async def db_connection_check(request: Request, call_next):
-    try:
-        if not prisma.is_connected():
-            await prisma.connect()
-        return await call_next(request)
-    except Exception as e:
-        logger.error(f"Database connection error in middleware: {e}")
-        return JSONResponse(
-            status_code=503,
-            content={"detail": "Database connection error"}
-        )
-
-
-from typing import Optional
-
-from pydantic import BaseModel
-
-
-class UserUpdate(BaseModel):
-    email: Optional[str] = None
-    fullname: Optional[str] = None
-    password: Optional[str] = None
-    role: Optional[str] = None
-
-@app.put("/api/admin/users/{user_id}")
-async def update_user_endpoint(
-    user_id: int, 
-    user_data: UserUpdate, 
-):
-    try:
-        update_data = user_data.dict(exclude_unset=True)
-        if 'password' in update_data:
-            update_data['password'] = pwd_context.hash(update_data['password'])
-            
-        updated_user = await prisma.user.update(
-            where={'id': user_id},
-            data=update_data
-        )
-        return {
-            "id": updated_user.id,
-            "email": updated_user.email,
-            "fullname": updated_user.fullname,
-            "role": updated_user.role
+async def generate_chat_response(question, context):
+    """Generate a response using Groq API with streaming."""
+    messages = [
+        {
+            "role": "system",
+            "content": config.SYSTEM_MESSAGE
+        },
+        {
+            "role": "user",
+            "content": f"Context: {context}\nQuestion: {question}"
         }
+    ]
+
+    try:
+        stream = await groq_client.chat.completions.create(
+            messages=messages,
+            model=config.LLM_MODEL,
+            temperature=config.LLM_TEMPERATURE,
+            max_completion_tokens=config.LLM_MAX_TOKENS,
+            top_p=config.LLM_TOP_P,
+            stream=True,
+        )
+
+        async for chunk in stream:
+            content = chunk.choices[0].delta.content
+            if content:                yield content
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        yield f"Error generating response: {str(e)}"
+
+# Chat endpoints
+@app.options("/get-ready/{document_id}")
+async def options_prepare_document(document_id: str):
+    """Handle CORS preflight for prepare document endpoint."""
+    return {"message": "OK"}
+
+@app.post("/get-ready/{document_id}")
+async def prepare_document(document_id: str):
+    """Prepare a document for chat by processing its content."""
+    try:
+        print(f"GET-READY: Preparing document {document_id}")
+        
+        # Check if document is already prepared
+        if document_id in prepared_documents:
+            print(f"GET-READY: Document {document_id} already prepared, skipping processing")
+            return {"message": "Case ready", "status": "already_prepared"}
+        
+        # Load NER data to find the filename for this UUID
+        ner_df = pd.read_csv(ner_data_path)
+        
+        # Check if UUID exists
+        target_case = ner_df[ner_df["uuid"] == document_id]
+        if target_case.empty:
+            print(f"GET-READY: Document ID {document_id} not found in NER data")
+            return {"error": "Document ID not found"}
+        
+        # Get the filename from the mapping
+        filename = target_case.iloc[0]["file_name"]
+        print(f"GET-READY: Found filename {filename} for UUID {document_id}")
+        
+        # Try to find in current_context directory first (as .txt file)
+        context_file_path = os.path.join(context_directory, f"{filename}.txt")
+        if os.path.exists(context_file_path):
+            print(f"GET-READY: Loading from context directory: {context_file_path}")
+            with open(context_file_path, 'r', encoding='utf-8') as file:
+                text_content = file.read()
+            print(f"GET-READY: Loaded {len(text_content)} characters from context file")
+            chunks, embeddings = chunk_and_encode_text(text_content)
+        else:
+            # Fallback to PDF directory
+            pdf_path = os.path.join(pdf_directory, filename)
+            if not os.path.exists(pdf_path):
+                print(f"GET-READY: Document file not found: {filename}")
+                return {"error": f"Document file not found: {filename}"}
+            
+            print(f"GET-READY: Loading from PDF directory: {pdf_path}")
+            text_content = extract_pdf_text(pdf_path)
+            print(f"GET-READY: Extracted {len(text_content)} characters from PDF")
+            chunks, embeddings = chunk_and_encode_text(text_content)
+        
+        # Store prepared data globally for this document
+        prepared_documents[document_id] = {
+            "chunks": chunks,
+            "embeddings": embeddings,
+            "text": text_content,
+            "filename": filename
+        }
+        
+        print(f"GET-READY: Document {document_id} ({filename}) prepared successfully with {len(chunks)} chunks")
+        return {"message": "Case ready"}
+    
+    except Exception as e:
+        print(f"GET-READY: Error preparing document {document_id}: {str(e)}")
+        import traceback
+        print(f"GET-READY: Traceback: {traceback.format_exc()}")
+        return {"error": f"Failed to prepare document: {str(e)}"}
+
+@app.post("/ask")
+async def ask_question(request: Request):
+    """Handle chat questions with streaming response."""
+    data = await request.json()
+    question = data.get("question")
+
+    print(f"Received question: {question}")
+    print(f"Prepared documents: {list(prepared_documents.keys())}")
+
+    if not question:
+        return {"error": "Question is required"}
+
+    # Use the first prepared document if available
+    if not prepared_documents:
+        return {"error": "No prepared document found. Please prepare a document first."}
+    
+    # Use the first prepared document (could be improved to handle multiple)
+    doc_data = list(prepared_documents.values())[0]
+    print(f"Using document with {len(doc_data['chunks'])} chunks")
+    
+    context = retrieve_context(question, doc_data["chunks"], doc_data["embeddings"])
+    print(f"Retrieved context length: {len(context)}")
+
+    # Stream response using Groq
+    async def generate_stream():
+        try:
+            async for chunk in generate_chat_response(question, context):
+                yield f"data: {chunk}\n\n"
+        except Exception as e:
+            print(f"Error in generate_stream: {str(e)}")
+            yield f"data: Error generating response: {str(e)}\n\n"
+
+    return StreamingResponse(generate_stream(), media_type="text/plain")
+
+# Existing endpoints continue below
