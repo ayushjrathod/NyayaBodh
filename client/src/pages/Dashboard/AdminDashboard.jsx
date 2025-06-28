@@ -6,7 +6,6 @@ import {
   Modal,
   Select,
   SelectItem,
-  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -15,8 +14,9 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { Edit2, Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import EnhancedLoader from "../../components/ui/EnhancedLoader";
 import { createUser, deleteUser, fetchAllUsers, updateUser } from "../../store/slices/adminSlice";
 
 export default function AdminDashboard() {
@@ -82,7 +82,9 @@ export default function AdminDashboard() {
       </Button>
 
       {status === "loading" ? (
-        <Spinner />
+        <div className="flex justify-center items-center py-8">
+          <EnhancedLoader size="md" label="Loading users..." center={true} />
+        </div>
       ) : (
         <Table>
           <TableHeader>

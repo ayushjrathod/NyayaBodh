@@ -1,26 +1,38 @@
-FROM node:18-alpine as build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy package files and install dependencies
+ARG VITE_API_BASE_URL
+ARG VITE_AUTH_BASE_URL
+
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+ENV VITE_AUTH_BASE_URL=$VITE_AUTH_BASE_URL
+
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Copy the rest of the application code
 COPY . .
 
-# Build the application
 RUN npm run build
 
-# Production stage with Nginx
 FROM nginx:alpine
 
-# Copy built files from build stage
+RUN apk --no-cache add curl
+
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
+    echo 'export PORT=${PORT:-80}' >> /docker-entrypoint.sh && \
+    echo 'envsubst "\$PORT \$BACKEND_URL" < /etc/nginx/conf.d/default.conf > /tmp/default.conf' >> /docker-entrypoint.sh && \
+    echo 'mv /tmp/default.conf /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.sh && \
+    echo 'nginx -g "daemon off;"' >> /docker-entrypoint.sh && \
+    chmod +x /docker-entrypoint.sh
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE ${PORT:-80}
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:${PORT:-80}/health || exit 1
+
+CMD ["/docker-entrypoint.sh"]

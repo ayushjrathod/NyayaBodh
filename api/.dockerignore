@@ -1,0 +1,66 @@
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Development
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+# Dockerfile  # Commented out - we need Dockerfile
+# .dockerignore  # Commented out - we need .dockerignore
+# docker-compose*.yml  # Commented out - may need for reference
+
+# Data and logs
+*.log
+logs/
+data/current_context/*.txt
+
+# Prisma
+prisma/migrations/
+*.db
+*.sqlite
+
+# Testing
+test_*.py
+*_test.py
+tests/
+.pytest_cache/
+
+# Documentation
+README.md
+*.md
+docs/

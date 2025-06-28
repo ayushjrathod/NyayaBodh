@@ -1,23 +1,38 @@
 FROM python:3.10-slim
 
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
 WORKDIR /app
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements files
-COPY apis/requirements.txt ./requirements.txt
+RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt 
+COPY ./requirements.txt /app/requirements.txt
 
-# Copy application code
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Run the application
-CMD ["uvicorn", "apis.server:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN prisma generate
+
+RUN chown -R appuser:appuser /app
+
+USER appuser
+
+EXPOSE $PORT
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:$PORT/health || exit 1
+
+CMD ["sh", "-c", "python -m uvicorn main:app --host 0.0.0.0 --port $PORT"]
