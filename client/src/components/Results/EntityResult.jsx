@@ -1,11 +1,26 @@
 import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { FileText, MessageSquare } from "lucide-react";
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EntityResult = ({ resultsData, searchType }) => {
   const navigate = useNavigate();
   const [expandedEntities, setExpandedEntities] = useState({});
+
+  // Ensure resultsData is an array
+  const safeResultsData = Array.isArray(resultsData) ? resultsData : [];
+
+  // Show empty state if no results
+  if (safeResultsData.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center py-16 text-center">
+        <div className="text-lg text-gray-600 mb-2">🔍</div>
+        <div className="text-lg font-medium text-gray-700 mb-1">No Entity Results</div>
+        <div className="text-sm text-gray-500">Try refining your search query</div>
+      </div>
+    );
+  }
 
   const toggleEntities = (uuid) => {
     setExpandedEntities((prev) => ({
@@ -50,7 +65,7 @@ const EntityResult = ({ resultsData, searchType }) => {
     navigate(`/result/${result.uuid}`, {
       state: {
         searchType: "entity",
-        EntityResultData: Array.isArray(resultsData) ? resultsData : resultsData?.EntityResultData || [],
+        EntityResultData: safeResultsData,
         // Legacy support for backward compatibility
         metadata: result.metadata || {},
         id: result.uuid,
@@ -79,12 +94,12 @@ const EntityResult = ({ resultsData, searchType }) => {
   };
   return (
     <main className="p-4">
+      {" "}
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">
-        Total {Array.isArray(resultsData) ? resultsData.length : resultsData?.EntityResultData?.length || 0} results
-        found for your entity search.
+        Total {safeResultsData.length} results found for your entity search.
       </h1>
       <div className="space-y-4">
-        {(Array.isArray(resultsData) ? resultsData : resultsData?.EntityResultData || []).map((result) => {
+        {safeResultsData.map((result) => {
           // Extract petitioner and respondent names before the first comma
           const petitionerName = result.petitioner?.split(",")[0]?.trim() || "Unknown";
           const respondentName = result.respondent?.split(",")[0]?.trim() || "Unknown";
@@ -144,6 +159,11 @@ const EntityResult = ({ resultsData, searchType }) => {
       </div>
     </main>
   );
+};
+
+EntityResult.propTypes = {
+  resultsData: PropTypes.array.isRequired,
+  searchType: PropTypes.string.isRequired,
 };
 
 export default EntityResult;

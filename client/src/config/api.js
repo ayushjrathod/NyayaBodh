@@ -1,5 +1,7 @@
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const API_BASE_URL = "http://localhost:8000"; // Default to local development server
+// const API_BASE_URL =
+//   import.meta.env.VITE_API_BASE_URL || "https://nyaybodh-backend-1750354950-7824ed4d28cf.herokuapp.com";
 // Auth now runs through the same main API server (no separate auth port)
 const AUTH_BASE_URL = import.meta.env.VITE_AUTH_BASE_URL || API_BASE_URL;
 

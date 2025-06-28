@@ -47,3 +47,4 @@ docs/
 # Temporary files
 .tmp/
 temp/
+venv

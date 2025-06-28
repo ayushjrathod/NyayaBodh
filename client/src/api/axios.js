@@ -1,10 +1,15 @@
 import axios from "axios";
 
 const FRONTEND_URL = "http://localhost:5173";
-const BACKEND_URL = "http://localhost:8000";
+// Use production backend URL in production, localhost in development
+const BACKEND_URL = "http://localhost:8000"; // Replace with your backend URL
+// import.meta.env.VITE_API_BASE_URL ||
+// (import.meta.env.MODE === "production"
+//   ? "https://nyaybodh-backend-1750354950-7824ed4d28cf.herokuapp.com"
+//   : "http://localhost:8000");
 
 export const api = axios.create({
-  baseURL: "/api",
+  baseURL: BACKEND_URL,
 });
 
 api.interceptors.request.use(
@@ -58,7 +63,7 @@ export const checkAuth = async () => {
       throw new Error("Missing auth data");
     }
 
-    const response = await api.get("/user/profile");
+    const response = await api.get("/api/auth/profile");
 
     localStorage.setItem("isAuthenticated", "true");
     window.dispatchEvent(new Event("auth-state-changed"));
@@ -72,7 +77,7 @@ export const checkAuth = async () => {
 
 export const register = async (data) => {
   try {
-    const response = await api.post("/auth/register", data);
+    const response = await api.post("/api/auth/register", data);
     return response.data;
   } catch (error) {
     console.error("Registration failed:", error.response?.data || error.message);
@@ -82,7 +87,7 @@ export const register = async (data) => {
 
 export const verifyOTP = async (otp, userId) => {
   try {
-    const response = await api.post("/auth/verify-otp", { otp, userId });
+    const response = await api.post("/api/auth/verify-otp", { otp, userId });
     return response.data;
   } catch (error) {
     console.error("OTP verification failed:", error.response?.data || error.message);
@@ -92,7 +97,7 @@ export const verifyOTP = async (otp, userId) => {
 
 export const login = async (data) => {
   try {
-    const response = await api.post("/auth/login", data);
+    const response = await api.post("/api/auth/login", data);
     const { access_token, role, user_id, fullname } = response.data;
 
     // Create user object from the response data
@@ -123,7 +128,7 @@ export const login = async (data) => {
 
 export const forgotPassword = async (email) => {
   try {
-    const response = await api.post("/auth/forgot-password", { email });
+    const response = await api.post("/api/auth/forgot-password", { email });
     return response.data;
   } catch (error) {
     console.error("Forgot password failed:", error.response?.data || error.message);
@@ -136,7 +141,7 @@ export const forgotPassword = async (email) => {
 
 export const resetPassword = async (token, newPassword) => {
   try {
-    const response = await api.post("/auth/reset-password", {
+    const response = await api.post("/api/auth/reset-password", {
       token,
       new_password: newPassword,
     });
@@ -152,7 +157,7 @@ export const resetPassword = async (token, newPassword) => {
 
 export const checkOAuthStatus = async (email) => {
   try {
-    const response = await api.post("/auth/check-oauth", { email });
+    const response = await api.post("/api/auth/check-oauth", { email });
     return response.data.isOAuthUser;
   } catch (error) {
     return false;
@@ -172,14 +177,13 @@ export const handleGoogleSignIn = (remember_me) => {
     remember_me: remember_me.toString(),
     state,
   });
-
   console.log("Starting OAuth flow:", { state, params: params.toString() });
-  window.location.href = `${BACKEND_URL}/auth/google?${params}`;
+  window.location.href = `${BACKEND_URL}/api/auth/google?${params}`;
 };
 
 export const logout = async () => {
   try {
-    await api.post("/auth/logout");
+    await api.post("/api/auth/logout");
   } catch (error) {
     console.error("Logout error:", error);
   } finally {

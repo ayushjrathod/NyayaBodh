@@ -260,13 +260,18 @@ async def get_or_create_google_user(email: str, name: str):
         
         if user:
             logger.info(f"Found existing user: {email}")
-            # Update existing user to mark as Google user if not already
-            if hasattr(user, 'is_google_user') and not user.is_google_user:
-                user = await prisma.user.update(
-                    where={"email": email},
-                    data={"is_google_user": True}
-                )
-                logger.info(f"Updated user {email} to mark as Google user")
+            # Update existing user with latest Google data and mark as Google user
+            update_data = {
+                "is_google_user": True,
+                "fullname": name,  # Update with latest Google profile name
+                "is_verified": True,  # Ensure Google users are verified
+            }
+            
+            user = await prisma.user.update(
+                where={"email": email},
+                data=update_data
+            )
+            logger.info(f"Updated user {email} with latest Google data")
             return user
         
         # Create new user
@@ -279,13 +284,8 @@ async def get_or_create_google_user(email: str, name: str):
             "password": "",  # No password for Google OAuth users
             "role": "USER",  # Default role
             "is_verified": True,  # Google users are considered verified
+            "is_google_user": True,
         }
-        
-        # Add Google user field if it exists in schema
-        try:
-            user_data["is_google_user"] = True
-        except:
-            logger.warning("is_google_user field not available in schema")
         
         user = await prisma.user.create(data=user_data)
         logger.info(f"Successfully created Google user: {email} with ID: {user.id}")

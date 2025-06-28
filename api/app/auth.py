@@ -495,7 +495,7 @@ async def verify_google_token(token_request: GoogleTokenRequest):
                 user_response = await client.get(user_info_url)
                 user_response.raise_for_status()
                 user_data = user_response.json()
-                logger.info(f"Google user data retrieved: {user_data.get('email', 'unknown')}")
+                logger.info(f"Google user data retrieved: email={user_data.get('email', 'unknown')}, name={user_data.get('name', 'unknown')}")
                 
                 # Validate required fields
                 if not user_data.get("email") or not user_data.get("name"):
@@ -515,7 +515,7 @@ async def verify_google_token(token_request: GoogleTokenRequest):
                 email=user_data["email"],
                 name=user_data["name"]
             )
-            logger.info(f"User retrieved/created: {user.email}")
+            logger.info(f"User retrieved/created: email={user.email}, name={user.fullname}, id={user.id}")
         except Exception as e:
             logger.error(f"Error creating/getting user: {e}")
             raise HTTPException(status_code=500, detail="Failed to create user account")

@@ -216,12 +216,12 @@ class NeonVectorStore:
                         'summary': doc.summary,
                         'filename': doc.filename,
                         'metadata': doc.metadata,
-                        'similarity': similarity,
+                        'similarity_score': similarity,
                         'document_id': doc.id
                     })
             
             # Sort by similarity score (descending) and return top k
-            results.sort(key=lambda x: x['similarity'], reverse=True)
+            results.sort(key=lambda x: x['similarity_score'], reverse=True)
             return results[:k]
             
         except Exception as e:

@@ -5,6 +5,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import Split from "react-split";
+import EnhancedLoader from "../../components/ui/EnhancedLoader";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
@@ -460,9 +461,10 @@ const SeprateResults = () => {
           <div className="overflow-hidden pl-2">
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
               <div style={{ height: "100%" }}>
+                {" "}
                 {isLoading ? (
                   <div className="flex items-center justify-center h-full">
-                    <p>Loading PDF...</p>
+                    <EnhancedLoader size="md" label="Loading PDF document..." center={true} />
                   </div>
                 ) : pdfError ? (
                   <div className="flex items-center justify-center h-full">

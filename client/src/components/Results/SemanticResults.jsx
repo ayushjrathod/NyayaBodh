@@ -1,11 +1,26 @@
 import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { FileText, MessageSquare } from "lucide-react";
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SemanticResults = ({ resultsData, searchType }) => {
   const navigate = useNavigate();
   const [expandedEntities, setExpandedEntities] = useState({});
+
+  // Ensure resultsData is an array
+  const safeResultsData = Array.isArray(resultsData) ? resultsData : [];
+
+  // Show empty state if no results
+  if (safeResultsData.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center py-16 text-center">
+        <div className="text-lg text-gray-600 mb-2">📄</div>
+        <div className="text-lg font-medium text-gray-700 mb-1">No Semantic Results</div>
+        <div className="text-sm text-gray-500">Try refining your search query</div>
+      </div>
+    );
+  }
 
   const toggleEntities = (uuid) => {
     setExpandedEntities((prev) => ({
@@ -76,10 +91,10 @@ const SemanticResults = ({ resultsData, searchType }) => {
     <main className="p-4">
       {" "}
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">
-        Total {resultsData?.length || 0} results found for your semantic search.
+        Total {safeResultsData.length} results found for your semantic search.
       </h1>
       <div className="space-y-4">
-        {(resultsData || []).map((result) => {
+        {safeResultsData.map((result) => {
           // Extract background section
           const summaryContent = result.summary || "";
           const backgroundSection = summaryContent.match(/Background:\s*(.*?)\s*Tasks:/is)?.[1]?.trim();
@@ -90,17 +105,21 @@ const SemanticResults = ({ resultsData, searchType }) => {
           return (
             <Card key={result.uuid} className="w-full">
               <CardBody>
+                {" "}
                 <button
                   onClick={() => handleTitleClick(result)}
                   className="text-lg text-start font-semibold hover:underline hover:decoration-1 cursor-pointer hover:text-blue-600"
                 >
-                  {(typeof result.metadata?.PETITIONER === "string"
-                    ? result.metadata.PETITIONER.split(",")[0]?.trim()
-                    : result.metadata?.PETITIONER) || "Unknown"}{" "}
-                  v.{" "}
-                  {(typeof result.metadata?.RESPONDENT === "string"
-                    ? result.metadata.RESPONDENT.split(",")[0]?.trim()
-                    : result.metadata?.RESPONDENT) || "Unknown"}{" "}
+                  {result.title ||
+                    `${
+                      (typeof result.metadata?.PETITIONER === "string"
+                        ? result.metadata.PETITIONER.split(",")[0]?.trim()
+                        : result.metadata?.PETITIONER) || "Unknown"
+                    } v. ${
+                      (typeof result.metadata?.RESPONDENT === "string"
+                        ? result.metadata.RESPONDENT.split(",")[0]?.trim()
+                        : result.metadata?.RESPONDENT) || "Unknown"
+                    }`}
                 </button>
                 <p className="text-xl font-semibold text-default-500">
                   Entities: {renderEntities([result.metadata?.COURT, result.metadata?.JUDGE], result.uuid)}
@@ -138,6 +157,11 @@ const SemanticResults = ({ resultsData, searchType }) => {
       </div>
     </main>
   );
+};
+
+SemanticResults.propTypes = {
+  resultsData: PropTypes.array.isRequired,
+  searchType: PropTypes.string.isRequired,
 };
 
 export default SemanticResults;

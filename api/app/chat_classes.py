@@ -1,6 +1,4 @@
 import numpy as np
-import torch
-from transformers import AutoTokenizer, AutoModel
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.metrics.pairwise import cosine_similarity

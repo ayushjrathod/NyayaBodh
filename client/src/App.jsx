@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, Spinner } from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ import LicenseAgreementForm from "./components/DocGen/LLA/LLA";
 import NDAForm from "./components/DocGen/NDA/NDA";
 import POA from "./components/DocGen/POW/POA";
 import Layout from "./components/Layout/Layout";
+import EnhancedLoader from "./components/ui/EnhancedLoader";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Login from "./pages/Auth/Login";
 import Chatbot from "./pages/Chatbot/Chatbot";
@@ -56,18 +57,12 @@ const App = () => {
       </div>
     );
   }
-
   if (isLoading) {
-    return (
-      <div className="h-screen w-screen flex justify-center items-center">
-        <Spinner size="sm" color="primary" />
-        Loading...
-      </div>
-    );
+    return <EnhancedLoader fullScreen={true} size="lg" label="Initializing application..." />;
   }
 
   return (
-    <GoogleOAuthProvider clientId="141965980825-262jk7uh4h31v5vqojbe7jhl0eof0mgp.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="319048462859-357vnfkhosp0dqr66mjpb2lid83duifs.apps.googleusercontent.com">
       <Router>
         {" "}
         <Routes>

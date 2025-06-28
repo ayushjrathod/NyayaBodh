@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import EntityResult from "../../components/Results/EntityResult";
 import Filters from "../../components/Results/Filters";
 import SemanticResult from "../../components/Results/SemanticResults";
+import EnhancedLoader from "../../components/ui/EnhancedLoader";
 import { apiConfig } from "../../config/api";
 
 const Results = () => {
@@ -14,12 +15,12 @@ const Results = () => {
     query: "",
     selectedSearch: "",
   };
-
   const searchType = selectedSearch.toLowerCase().split(" ")[0] || "entity";
   const [newQuery, setNewQuery] = useState(query);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const inputRef = useRef();
-
   const [resultsData, setResultsData] = useState({});
   const [filteredResults, setFilteredResults] = useState([]);
   const [activeFilters, setActiveFilters] = useState({
@@ -27,6 +28,8 @@ const Results = () => {
     party: [],
     judge: [],
   });
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Handle filter changes
   const handleFilterChange = (filterType, value, checked) => {
@@ -39,11 +42,15 @@ const Results = () => {
       }
       return newFilters;
     });
-  };
-  // Apply filters to results
+  }; // Apply filters to results
   useEffect(() => {
     let filtered =
       searchType === "semantic" ? resultsData.SemanticResultData || [] : resultsData.EntityResultData || [];
+
+    // Ensure filtered is an array
+    if (!Array.isArray(filtered)) {
+      filtered = [];
+    }
 
     filtered = filtered.filter((item) => {
       if (searchType === "semantic") {
@@ -70,11 +77,15 @@ const Results = () => {
         );
       }
     });
-
     setFilteredResults(filtered);
-  }, [activeFilters, resultsData, searchType]); // Fetching results from API
+  }, [activeFilters, resultsData, searchType]);
+  // Fetching results from API
   const fetchResults = useCallback(
     (query) => {
+      setIsLoading(true);
+      setHasError(false);
+      setErrorMessage("");
+
       fetch(apiConfig.endpoints.search(searchType), {
         method: "POST",
         mode: "cors",
@@ -83,17 +94,50 @@ const Results = () => {
         },
         body: JSON.stringify({ query }), // Stringify the body
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
         .then((data) => {
           console.log("Received data:", data);
+          // Check if the response indicates an error or no results
+          if (data.detail && data.detail.includes("No matching results found")) {
+            // Handle no results case
+            setHasError(true);
+            setErrorMessage("No matching results found for your query.");
+            if (searchType === "semantic") {
+              setResultsData({ SemanticResultData: [] });
+            } else if (searchType === "entity") {
+              setResultsData({ EntityResultData: [] });
+            }
+            return;
+          }
+
+          // Handle successful response with data
           if (searchType === "semantic") {
-            setResultsData({ SemanticResultData: data.SemanticResultData });
+            setResultsData({
+              SemanticResultData: Array.isArray(data.SemanticResultData) ? data.SemanticResultData : [],
+            });
           } else if (searchType === "entity") {
-            setResultsData({ EntityResultData: data });
+            setResultsData({ EntityResultData: Array.isArray(data) ? data : [] });
           }
         })
         .catch((error) => {
           console.error("Error:", error);
+          setHasError(true);
+          setErrorMessage("An error occurred while searching. Please try again.");
+          // Set empty results on error
+          if (searchType === "semantic") {
+            setResultsData({ SemanticResultData: [] });
+          } else if (searchType === "entity") {
+            setResultsData({ EntityResultData: [] });
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setIsInitialLoad(false);
         });
     },
     [searchType]
@@ -131,7 +175,8 @@ const Results = () => {
                   variant="light"
                   color="primary"
                   onClick={handleSubmit}
-                  isDisabled={!newQuery.trim()}
+                  isDisabled={!newQuery.trim() || isLoading}
+                  isLoading={isLoading}
                 >
                   <Send className="size-4" />
                 </Button>
@@ -150,9 +195,24 @@ const Results = () => {
               searchType={searchType}
             />
           </div>{" "}
-          {/* Results */}{" "}
+          {/* Results */}
           <div className="">
-            {searchType === "semantic" ? (
+            {isInitialLoad && isLoading ? (
+              <div className="flex justify-center items-center py-16">
+                <EnhancedLoader size="lg" label={`Searching ${searchType} results...`} center={true} />
+              </div>
+            ) : isLoading ? (
+              <div className="flex justify-center items-center py-8">
+                <EnhancedLoader size="md" label="Updating results..." center={true} />
+              </div>
+            ) : hasError ? (
+              <div className="flex flex-col justify-center items-center py-16 text-center">
+                <div className="text-lg text-gray-600 mb-2">⚠️</div>
+                <div className="text-lg font-medium text-gray-700 mb-1">No Results Found</div>
+                <div className="text-sm text-gray-500">{errorMessage}</div>
+                <div className="text-xs text-gray-400 mt-2">Try adjusting your search terms or filters</div>
+              </div>
+            ) : searchType === "semantic" ? (
               <SemanticResult
                 resultsData={filteredResults.length > 0 ? filteredResults : resultsData.SemanticResultData || []}
                 searchType={searchType}

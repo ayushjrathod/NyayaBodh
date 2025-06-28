@@ -15,8 +15,10 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout as apiLogout } from "../../api/axios";
+import logoNB from "../../assets/logoNB.png";
 import { setAuthState } from "../../store/slices/authSlice";
 import { toggleTheme } from "../../store/slices/themeSlice";
+import { getDropdownThemeClasses } from "../../utils/themeUtils";
 import ScreenReader from "../ScreenReader/ScreenReader";
 import GoogleTranslate from "./GoogleTranslator";
 
@@ -54,11 +56,11 @@ function NewNavBar() {
 
   return (
     <Navbar isBordered>
+      {" "}
       <NavbarBrand>
-        <img alt="Logo" src="../src/assets/logoNB.png" className="h-8 w-8 mr-2" />
+        <img alt="Logo" src={logoNB} className="h-8 w-8 mr-2" />
         <p className="font-bold text-inheritnotranslate">NYAAYBODH</p>
       </NavbarBrand>
-
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {navItems.map((item) => (
           <NavbarItem key={item.name}>
@@ -71,7 +73,6 @@ function NewNavBar() {
           </NavbarItem>
         ))}
       </NavbarContent>
-
       <NavbarContent justify="end">
         <NavbarItem>
           <Switch
@@ -92,7 +93,7 @@ function NewNavBar() {
         {isAuthenticated && (
           <Dropdown
             placement="bottom-end"
-            className={` z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background `}
+            className={getDropdownThemeClasses(isDarkMode)}
             classNames={{
               content: "border-small border-divider bg-background",
             }}

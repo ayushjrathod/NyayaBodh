@@ -1,5 +1,4 @@
 import os
-from threading import Thread
 from typing import List
 from dotenv import load_dotenv
 
@@ -10,7 +9,6 @@ load_dotenv()
 # import faiss # Removed - using Neon DB instead
 import numpy as np # Added numpy import
 import pandas as pd # Added pandas import
-# from transformers import AutoTokenizer, AutoModel # Removed - using HF API instead
 
 from app.auth import auth_router, admin_router # Import the auth routers
 from app.database import prisma, logger # Import shared prisma and logger
@@ -27,7 +25,6 @@ from fuzzywuzzy import fuzz, process
 from pydantic import BaseModel
 from PyPDF2 import PdfReader
 import asyncio
-import torch
 
 # Paths
 ner_data_path = "./data/resources/ner_data.csv"
@@ -235,7 +232,6 @@ async def search_entity(request: SearchRequest_NER):
 
 # Additional imports for semantic search
 from typing import List, Optional
-from app.embedding_service import get_embedding_service, initialize_embedding_service
 
 class SearchRequestSEM(BaseModel):
     query: str
@@ -268,9 +264,24 @@ async def search_endpoint(request: SearchRequestSEM):
         
         semantic_result_data = []
         for result in results:
+            # Create title from petitioner and respondent
+            petitioner = result.get('petitioner', '')
+            respondent = result.get('respondent', '')
+            filename = result.get('filename', '')
+            
+            # Generate title based on available data
+            if petitioner and respondent:
+                title = f"{petitioner} v. {respondent}"
+            elif filename:
+                # Use filename without extension as title
+                title = filename.replace('.pdf', '').replace('.txt', '')
+            else:
+                title = "Legal Case Document"
+            
             # Structure the response to match the expected format
             result_data = {
                 "uuid": result['uuid'],
+                "title": title,
                 "summary": result['summary'],
                 "score": float(result['similarity_score']),  # Convert to float for JSON compatibility
                 "metadata": result['metadata'] or {},

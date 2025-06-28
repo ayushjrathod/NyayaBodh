@@ -87,17 +87,45 @@ export default function Login() {
   // Handle Google login success
   const onGoogleSuccess = async (tokenResponse) => {
     try {
+      console.log("Google login success, access_token received");
       const { access_token } = tokenResponse;
       const userData = await axios.post(apiConfig.endpoints.auth.googleVerify, { token: access_token });
+
+      console.log("Google verify response:", userData.data);
+
+      // The backend returns the token data directly, not wrapped in a user object
+      const { access_token: jwt_token, role, user_id, fullname } = userData.data;
+
+      // Create user object for local storage
+      const user = {
+        id: user_id,
+        role: role,
+        fullname: fullname,
+      };
+
+      console.log("Storing Google user data:", user);
+
+      // Clear any existing auth data first
+      localStorage.clear();
+
       // Store the user data similar to regular login
-      localStorage.setItem("token", userData.data.access_token);
-      localStorage.setItem("user", JSON.stringify(userData.data.user));
+      localStorage.setItem("token", jwt_token);
+      localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("isAuthenticated", "true");
 
+      console.log("Stored data verification:", {
+        hasToken: Boolean(localStorage.getItem("token")),
+        user: localStorage.getItem("user"),
+        isAuthenticated: localStorage.getItem("isAuthenticated"),
+      });
+
       dispatch(setAuthState(true));
-      dispatch(setUserRole(userData.data.user.role));
+      dispatch(setUserRole(role));
       window.dispatchEvent(new Event("auth-state-changed"));
-      navigate("/");
+
+      console.log("Google login complete, navigating to /");
+      // Small delay to ensure state updates are processed
+      setTimeout(() => navigate("/"), 100);
     } catch (error) {
       console.error("Google login failed:", error);
     }

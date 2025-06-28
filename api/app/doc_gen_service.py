@@ -2,7 +2,6 @@ from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 import torch
 import numpy as np
-from transformers import AutoTokenizer, AutoModel
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity   
 from sklearn.metrics import silhouette_score

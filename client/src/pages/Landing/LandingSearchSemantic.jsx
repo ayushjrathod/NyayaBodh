@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSpeechToText } from "../../components/SpeechToText/useSpeechToText";
 import { toggleTheme } from "../../store/slices/themeSlice";
+import { getDropdownThemeClasses } from "../../utils/themeUtils";
 
 const LandingSearchSemantic = () => {
   const [query, setQuery] = useState("");
@@ -115,7 +116,7 @@ const LandingSearchSemantic = () => {
         </div>
 
         <Dropdown
-          className={`z-50 ${isDarkMode && "yellow-bright"} text-foreground bg-background`}
+          className={getDropdownThemeClasses(isDarkMode)}
           placement="bottom-end"
           classNames={{
             content: "glass-morphism shadow-xl",

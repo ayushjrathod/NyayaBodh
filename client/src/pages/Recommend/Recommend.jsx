@@ -8,13 +8,13 @@ import {
   Chip,
   Divider,
   ScrollShadow,
-  Skeleton,
 } from "@nextui-org/react";
 import axios from "axios";
 import { Briefcase, Calendar, FileText, Gavel, MapPin, Scale, Users } from "lucide-react";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import EnhancedLoader from "../../components/ui/EnhancedLoader";
 import { apiConfig } from "../../config/api";
 
 const Recommend = () => {
@@ -44,25 +44,10 @@ const Recommend = () => {
 
     fetchRecommendations();
   }, [uuid]);
-
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
-          <Skeleton className="h-8 w-1/3 rounded-lg" />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
-              <Skeleton className="h-96 rounded-xl" />
-            </div>
-            <div className="lg:col-span-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[...Array(4)].map((_, i) => (
-                  <Skeleton key={i} className="h-64 rounded-xl" />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 flex items-center justify-center">
+        <EnhancedLoader size="lg" label="Analyzing legal cases and generating recommendations..." center={true} />
       </div>
     );
   }

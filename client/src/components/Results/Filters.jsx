@@ -1,4 +1,5 @@
 import { Accordion, AccordionItem, Card, CardBody, Checkbox } from "@nextui-org/react";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 const Filters = ({ onFilterChange, results, searchType }) => {
@@ -12,6 +13,14 @@ const Filters = ({ onFilterChange, results, searchType }) => {
     judge: [],
   });
   useEffect(() => {
+    // Ensure results is an array before processing
+    if (!Array.isArray(results)) {
+      setJudges([]);
+      setParties([]);
+      setYears([]);
+      return;
+    }
+
     const uniqueJudges = new Set();
     const uniqueParties = new Set();
     const uniqueYears = new Set();
@@ -161,6 +170,12 @@ const Filters = ({ onFilterChange, results, searchType }) => {
       </CardBody>
     </Card>
   );
+};
+
+Filters.propTypes = {
+  onFilterChange: PropTypes.func.isRequired,
+  results: PropTypes.array.isRequired,
+  searchType: PropTypes.string.isRequired,
 };
 
 export default Filters;

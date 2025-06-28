@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
   nyaybodh-network:
     driver: bridge
@@ -11,6 +9,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "7860:80" # HF Spaces expects port 7860
+    env_file:
+      - client/.env
+    environment:
+      - PORT=80
+      - BACKEND_URL=http://backend:8000
     depends_on:
       backend:
         condition: service_healthy
@@ -18,7 +21,7 @@ services:
       - nyaybodh-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -31,9 +34,10 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - api/.env
     environment:
-      - FRONTEND_URL=http://frontend
+      - PORT=8000
+      - FRONTEND_URL=http://frontend:80
       - PYTHONUNBUFFERED=1
     networks:
       - nyaybodh-network

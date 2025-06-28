@@ -1,8 +1,6 @@
-import torch
 import numpy as np
 import os
 import pandas as pd
-from transformers import TextIteratorStreamer, AutoTokenizer, AutoModel
 # from unsloth import FastLanguageModel
 from threading import Thread
 from sklearn.cluster import KMeans

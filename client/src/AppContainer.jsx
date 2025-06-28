@@ -5,7 +5,7 @@ function AppContainer() {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   return (
-    <main className={`${isDarkMode ? "yellow-bright" : "light"}  text-foreground bg-background`}>
+    <main className={`${isDarkMode ? "yellow-bright dark" : "light"} text-foreground bg-background`}>
       <App />
     </main>
   );
