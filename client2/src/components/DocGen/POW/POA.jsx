@@ -4,6 +4,19 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import FormSections from "./FormSections";
 
+/**
+ * Multi-step Power of Attorney form component that collects principal, attorney, power, and witness details,
+ * posts the completed data to a backend to generate a PDF, and shows a PDF preview in a modal.
+ *
+ * The component manages form state across four steps, validates that all fields are filled before submission,
+ * sends a POST request to "https://whale-legal-api.onrender.com/generate-pow-pdf", converts a successful
+ * response blob into an object URL for preview, and revokes that URL when the preview modal is closed.
+ *
+ * Renders navigation (Previous/Next) between sections and a Submit button on the final step. Displays
+ * inline error and success messages based on validation and submission outcome.
+ *
+ * @returns {JSX.Element} The POA form UI.
+ */
 function POA() {
   const [formData, setFormData] = useState({
     principal_name: "",

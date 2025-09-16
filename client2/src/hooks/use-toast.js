@@ -13,6 +13,14 @@ const actionTypes = {
 
 let count = 0;
 
+/**
+ * Produce a new numeric ID as a string by incrementing the module-level counter.
+ *
+ * Increments the internal `count`, wraps at Number.MAX_SAFE_INTEGER back to 0, and
+ * returns the resulting value as a string.
+ *
+ * @returns {string} A new ID string.
+ */
 function genId() {
   count = (count + 1) % Number.MAX_SAFE_INTEGER;
   return count.toString();
@@ -93,6 +101,11 @@ const listeners = [];
 
 let memoryState = { toasts: [] };
 
+/**
+ * Apply an action to the in-memory toast state and notify all subscribers.
+ *
+ * @param {{type: string, [key: string]: any}} action - Action object consumed by the reducer (e.g., `{ type: 'ADD_TOAST', ... }`); merged into state by the reducer and then broadcast to all listeners.
+ */
 function dispatch(action) {
   memoryState = reducer(memoryState, action);
   listeners.forEach((listener) => {
@@ -100,6 +113,20 @@ function dispatch(action) {
   });
 }
 
+/**
+ * Create and show an in-memory toast and return controls for it.
+ *
+ * Creates a new toast with a generated `id`, marks it open, and dispatches an ADD_TOAST action into the in-memory store.
+ * The provided `props` are merged into the toast object; the created toast receives an `onOpenChange` handler that
+ * calls `dismiss()` when the toast is closed, and will be scheduled for removal after dismissal.
+ *
+ * @param {Object} props - Arbitrary toast properties (e.g., title, description, intent, duration). These are merged
+ * into the created toast object.
+ * @returns {{id: string, dismiss: function(): void, update: function(Object): void}} An object containing:
+ *  - id: the generated toast id,
+ *  - dismiss(): dismisses this toast (dispatches DISMISS_TOAST for the id),
+ *  - update(props): merges `props` into the existing toast (dispatches UPDATE_TOAST for the id).
+ */
 function toast({ ...props }) {
   const id = genId();
 
@@ -129,6 +156,19 @@ function toast({ ...props }) {
   };
 }
 
+/**
+ * React hook that exposes the in-memory toast store and control helpers.
+ *
+ * Subscribes the component to the shared in-memory toast state and keeps it
+ * synchronized. Returns the current state spread (including `toasts`), the
+ * `toast` factory for creating toasts, and a `dismiss(toastId)` helper to
+ * programmatically dismiss a toast.
+ *
+ * The hook registers a listener on mount and removes it on unmount so the
+ * consumer receives updates when the global toast state changes.
+ *
+ * @return {{ toasts: Array, toast: Function, dismiss: (toastId?: string) => void }} Current toast state and control helpers.
+ */
 function useToast() {
   const [state, setState] = React.useState(memoryState);
 

@@ -3,6 +3,19 @@ import { useMultiStepForm } from "../../../hooks/useMultiStepForm";
 import MultiStepForm from "../../ui/organisms/MultiStepForm";
 import FormSections from "./FormSections";
 
+/**
+ * AgreementOfSaleForm component — a five-step multi-section form to generate an Agreement of Sale PDF.
+ *
+ * Renders a multi-step UI for collecting seller, purchaser, property, sale, and previous ownership details.
+ * Validates that all fields are filled before submitting; on submit it POSTs the collected form data as JSON
+ * to https://whale-legal-api.onrender.com/generate_agreement_of_sale_pdf. On a successful response the returned
+ * PDF blob is opened in a new browser tab and a success banner is shown; on failure an error message is displayed.
+ *
+ * Note: this component uses a multi-step form hook for navigation and submission state and delegates per-step
+ * inputs to components from FormSections. It has the side effect of performing a network request and opening a new tab.
+ *
+ * @returns {JSX.Element} The Agreement of Sale multi-step form UI.
+ */
 function AgreementOfSaleForm() {
   const initialFormData = {
     seller_name: "",

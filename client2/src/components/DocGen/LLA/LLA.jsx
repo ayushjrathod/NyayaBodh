@@ -3,6 +3,22 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import FormSections from "./FormSections";
 
+/**
+ * Multi-step React form component for creating a Leave and License Agreement and previewing a generated PDF.
+ *
+ * Renders a five-step wizard (General Details, Licensor, Licensee, Lease, Property) that collects all agreement
+ * fields in a single `formData` state object, validates that every field is filled, and submits the data to an
+ * external PDF generation endpoint. On successful submission the component creates an object URL from the returned
+ * PDF blob, opens a modal to preview the PDF in an iframe, and retains a success indicator; closing the modal revokes
+ * the created object URL to free resources.
+ *
+ * Side effects:
+ * - Performs a POST request with `formData` to https://whale-legal-api.onrender.com/generate-lnl-pdf.
+ * - Creates and stores a blob object URL for the generated PDF on success.
+ * - Revokes the object URL when the preview modal is closed.
+ *
+ * @returns {JSX.Element} The LicenseAgreementForm component UI.
+ */
 function LicenseAgreementForm() {
   const [formData, setFormData] = useState({
     date: "",

@@ -3,6 +3,16 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import FormSections from "./FormSections";
 
+/**
+ * Renders a multi-step Deed of Sale form for a flat, validates input, submits the collected data
+ * to an API to generate a PDF, and previews the generated PDF in a modal.
+ *
+ * Manages form state for owner, witnesses, property, and sale details across four steps, shows
+ * progress and navigation controls, displays validation and server error messages, and revokes
+ * the created object URL when the preview modal is closed.
+ *
+ * @returns {JSX.Element} The Deed of Sale form UI with PDF generation and preview behavior.
+ */
 function DeedOfSaleOfFlat() {
   const [formData, setFormData] = useState({
     owner_name: "",

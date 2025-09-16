@@ -2,6 +2,14 @@ import { Button, Card } from "@nextui-org/react";
 import { AlertTriangle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
+/**
+ * Render a full-screen "Unauthorized Access" page with an alert icon, explanatory text, and a "Go Back" button.
+ *
+ * The component centers a Card containing a red AlertTriangle icon, a heading, a short message advising the user to
+ * contact an administrator if access is unexpected, and a button that navigates to the "/login" route.
+ *
+ * @returns {JSX.Element} The Unauthorized page component.
+ */
 export default function Unauthorized() {
   return (
     <div className="flex font-inter items-center justify-center min-h-screen bg-background">

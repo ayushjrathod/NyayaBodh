@@ -19,6 +19,18 @@ import { useDispatch, useSelector } from "react-redux";
 import EnhancedLoader from "../../components/ui/EnhancedLoader";
 import { createUser, deleteUser, fetchAllUsers, updateUser } from "../../store/slices/adminSlice";
 
+/**
+ * Admin dashboard React component for listing and managing users.
+ *
+ * Renders a table of users fetched from the admin Redux slice and provides UI to
+ * create, edit, and delete users via modals. On mount it dispatches fetchAllUsers.
+ * Editing pre-fills a form; updates are dispatched with updateUser (password is
+ * included only when provided). Creating dispatches createUser, closes the create
+ * modal, and resets the form. Deletion asks for a browser confirmation before
+ * dispatching deleteUser.
+ *
+ * @returns {JSX.Element} The admin dashboard UI.
+ */
 export default function AdminDashboard() {
   const dispatch = useDispatch();
   const { users, status } = useSelector((state) => state.admin);

@@ -27,6 +27,21 @@ import { getDropdownThemeClasses } from "../../utils/themeUtils";
 import ScreenReader from "../ScreenReader/ScreenReader";
 import GoogleTranslate from "./GoogleTranslator";
 
+/**
+ * Responsive navigation bar component with theme, language, accessibility, and user controls.
+ *
+ * Renders a responsive NextUI-based navbar with brand/logo, center-aligned navigation links
+ * (includes an ADMIN-only "DocGen" item), a theme toggle, Google Translate, accessibility tool,
+ * and an authenticated user avatar menu (profile and logout). Reads a `user` object from
+ * localStorage (safe-parsed) and uses Redux for auth and theme state.
+ *
+ * Side effects:
+ * - Reads from localStorage ("user").
+ * - Dispatches `toggleTheme()` and `setAuthState(false)` via Redux.
+ * - Calls the `apiLogout()` API and navigates using React Router on logout.
+ *
+ * @returns {JSX.Element} The navbar element.
+ */
 function NewNavBar() {
   const { t } = useTranslation();
   const dispatch = useDispatch();

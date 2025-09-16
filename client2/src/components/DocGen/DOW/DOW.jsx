@@ -3,6 +3,21 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import FormSections from "./FormSections";
 
+/**
+ * Multi-step React component that collects will-deed data, submits it to an API to generate a PDF, and previews the result.
+ *
+ * Renders a six-step form (Testator Details, Family Details, Property Details, Executors, Witnesses, Contract Date)
+ * and manages form state including dynamic executor entries. Performs client-side validation requiring all string
+ * fields and every executor sub-field to be non-empty. On successful submission the component POSTs the form JSON
+ * to the will-deed PDF generation endpoint, converts the response blob to an object URL, opens a modal to preview
+ * the generated PDF, and exposes success/error messages. Navigation controls allow stepping between sections and a
+ * final submit on the last step.
+ *
+ * State of importance (managed internally): formData (all form fields + executors array), currentStep, errorMsg,
+ * success, pdfUrl (object URL for preview), modalIsOpen.
+ *
+ * @returns {JSX.Element} The WillDeedForm React component.
+ */
 function WillDeedForm() {
   const [formData, setFormData] = useState({
     file_name: "will_deed.pdf",

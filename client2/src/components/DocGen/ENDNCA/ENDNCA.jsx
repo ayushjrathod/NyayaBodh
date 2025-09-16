@@ -3,6 +3,21 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import FormSections from "./FormSections";
 
+/**
+ * EmployeeNDAForm React component — a three-step form for generating an Employee NDA PDF.
+ *
+ * Renders a multi-step UI collecting company, employee, and agreement details, validates that all fields
+ * are filled, and on submission POSTs the form data to an API to generate a PDF. On successful response
+ * the component creates an object URL for the returned PDF blob, opens a preview modal showing the PDF,
+ * and revokes the object URL when the modal is closed.
+ *
+ * Notes:
+ * - Validation: requires all form fields (company_name, company_address, employee_name, employee_address, high_court_city) to be non-empty.
+ * - API endpoint used for PDF generation: POST https://whale-legal-api.onrender.com/generate_employee_nda_pdf
+ * - Side effects: performs a network request, creates and revokes a blob object URL, and manages modal visibility.
+ *
+ * @returns {JSX.Element} The Employee NDA form UI.
+ */
 function EmployeeNDAForm() {
   const [formData, setFormData] = useState({
     company_name: "",

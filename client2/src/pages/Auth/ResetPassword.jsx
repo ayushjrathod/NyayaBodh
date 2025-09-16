@@ -6,6 +6,22 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { apiConfig } from "../../config/api";
 
+/**
+ * Password reset page component.
+ *
+ * Renders a form that accepts a new password and confirmation, validates input
+ * (required, min length 8, at least one uppercase, one lowercase, and one number;
+ * confirmation must match), reads a reset token from the URL query string, and
+ * submits the new password to the configured reset endpoint. UI branches into
+ * three states: the reset form, an "invalid/expired link" screen when the token
+ * is missing, and a success confirmation screen after a successful reset.
+ *
+ * The component manages local loading and success state and performs the POST
+ * request to apiConfig.endpoints.auth.resetPassword with payload
+ * { token, new_password }.
+ *
+ * @returns {JSX.Element} The Reset Password page UI.
+ */
 export default function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

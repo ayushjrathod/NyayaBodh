@@ -26,6 +26,15 @@ const formSchema = z.object({
 })
 
 
+/**
+ * Contact support page component rendering contact info and a validated message form.
+ *
+ * Renders contact details and a two-column layout with a message form powered by react-hook-form
+ * and Zod validation. Submission triggers a simulated async send, disables the submit button while
+ * sending, and resets the form on success. Visual styling adapts to theme state from Redux.
+ *
+ * @returns {JSX.Element} The Contact support page component.
+ */
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);

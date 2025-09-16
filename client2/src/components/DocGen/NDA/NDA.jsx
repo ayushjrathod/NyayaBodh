@@ -3,6 +3,17 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import FormSections from "./FormSections";
 
+/**
+ * Multi-step NDA form component that collects agreement details, validates input, submits the data to an API to generate a PDF, and previews the resulting PDF in a modal.
+ *
+ * The form tracks its own state for fields (effective date, party names and businesses, purpose, confidentiality period, jurisdiction), the current step, submission success/failure messages, and the generated PDF URL. Navigation between four steps is provided with a progress indicator; the last step submits the form. On successful submission the component converts the API response to a Blob URL and opens a modal containing an iframe preview of the PDF; closing the modal revokes the object URL.
+ *
+ * Validation: all fields are required and must be non-empty (trimmed) before submission.
+ *
+ * Side effects: posts JSON to https://whale-legal-api.onrender.com/generate-general-nda-pdf and creates/revokes an object URL for the returned PDF blob.
+ *
+ * @returns {JSX.Element} The rendered NDA form and PDF preview modal.
+ */
 function NDAForm() {
   const [formData, setFormData] = useState({
     effective_date: "",

@@ -26,6 +26,17 @@ const registerSchema = z.object({
   role: z.enum(["USER", "ADMIN", "JUDGE", "LAWYER", "CLERK"]),
 });
 
+/**
+ * Authentication page component that provides tabbed "Login" and "Sign up" forms and Google OAuth.
+ *
+ * Renders a combined UI for signing in and creating an account, validates inputs using zod/react-hook-form,
+ * calls the appropriate backend APIs (login, register, Google verification), and updates client state on success.
+ * Side effects include persisting authentication data to localStorage, dispatching Redux auth/role actions,
+ * showing toast notifications, emitting a global "auth-state-changed" event (after Google sign-in), and navigating
+ * to the app root on successful authentication.
+ *
+ * @returns {JSX.Element} The authentication page React element.
+ */
 export default function Login() {
   const [selected, setSelected] = useState("login");
   const navigate = useNavigate();

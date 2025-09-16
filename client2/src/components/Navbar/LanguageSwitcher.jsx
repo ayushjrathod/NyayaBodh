@@ -3,6 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLanguage } from "../../store/slices/languageSlice";
 import { getDropdownThemeClasses } from "../../utils/themeUtils";
 
+/**
+ * Language selection component that renders a themed dropdown and updates the app language in Redux.
+ *
+ * Reads the current language and dark-mode flag from the Redux store, renders a NextUI Dropdown whose
+ * trigger shows the active language label, and dispatches `setLanguage` with the chosen key when selection changes.
+ *
+ * @return {JSX.Element} A Dropdown UI allowing selection between "en" (English) and "hi" (हिंदी).
+ */
 function LanguageSwitcher() {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.language.language);

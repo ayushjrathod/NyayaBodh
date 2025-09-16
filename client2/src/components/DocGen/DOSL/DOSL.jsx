@@ -1,7 +1,26 @@
 import { Button, Card, CardBody, CardHeader, Modal, Progress } from "@nextui-org/react";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
-import FormSections from "./FormSections"; // Updated import
+import FormSections from "./FormSections"; /**
+ * LandSaleDeedForm — a multi-step React component that collects land sale deed data,
+ * generates a PDF via an API, and previews the resulting PDF in a modal.
+ *
+ * Renders a four-step form (Seller Details, Purchaser Details, Land Details, Sale Details)
+ * with progress tracking and navigation (Previous/Next). Form state is kept in a nested
+ * `formData` object (includes nested groups such as `land_details.boundaries`). Inputs
+ * using dot notation (e.g., "land_details.boundaries.north") are supported by the
+ * component's change handler to update nested fields immutably.
+ *
+ * On submit, the component validates that all fields in `formData` are non-empty (traverses
+ * nested objects). If validation passes it POSTs the form JSON to
+ * "https://whale-legal-api.onrender.com/generate_land_sale_deed_pdf". On a successful
+ * response it converts the returned blob to an object URL, stores it in state, opens a
+ * preview modal, and displays a success message. Errors from the request or validation
+ * are surfaced via an inline error message. The modal close handler revokes the created
+ * object URL and clears it from state to avoid memory leaks.
+ *
+ * @returns {JSX.Element} The LandSaleDeedForm component UI.
+ */
 
 function LandSaleDeedForm() {
   const [formData, setFormData] = useState({

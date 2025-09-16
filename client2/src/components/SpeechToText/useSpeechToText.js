@@ -1,5 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
 
+/**
+ * React hook that provides live speech-to-text using the browser's Web Speech API (SpeechRecognition).
+ *
+ * Initializes a SpeechRecognition instance when available, manages listening state and accumulated transcript,
+ * and exposes controls to start, stop, or toggle listening. Gracefully handles unsupported environments.
+ *
+ * @return {{isListening: boolean, transcript: string, toggleListening: function(): void, startListening: function(): void, stopListening: function(): void, setTranscript: function(string): void, isSupported: boolean}}
+ *   An object with:
+ *   - isListening: true when recognition is active.
+ *   - transcript: latest accumulated transcript (final or interim), trimmed.
+ *   - toggleListening: starts or stops recognition; clears transcript when starting.
+ *   - startListening: starts recognition if supported and not already listening; clears transcript when starting.
+ *   - stopListening: stops recognition if currently listening.
+ *   - setTranscript: React state setter to replace the transcript string.
+ *   - isSupported: true if SpeechRecognition is available in the current browser.
+ */
 export function useSpeechToText() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");

@@ -6,6 +6,23 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { apiConfig } from "../../config/api";
 
+/**
+ * ForgotPassword React component.
+ *
+ * Renders a two-step "forgot password" UI: an email input form (with client-side validation)
+ * and a confirmation screen after a successful request. Submitting the form sends a POST
+ * request to the configured forgot-password endpoint; on success the component shows a
+ * confirmation view that displays the submitted email and a "Back to Login" action.
+ *
+ * Side effects:
+ * - Sends an HTTP POST to apiConfig.endpoints.auth.forgotPassword via axios.
+ * - Navigates to "/login" when the user clicks "Back to Login".
+ * - Logs errors to the console if the request fails.
+ *
+ * Uses react-hook-form for form state/validation and NextUI components for UI.
+ *
+ * @returns {JSX.Element} The forgot-password page UI.
+ */
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
