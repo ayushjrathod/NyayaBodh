@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Non-Disclosure Agreement",
+    "shortName": "NDA",
+    "description": "Non-disclosure agreements are a legal contract between two or more parties that signifies a confidential relationship exists between the parties involved."
+  },
+  {
+    "id": 2,
+    "name": "Leave and License Agreement",
+    "shortName": "LLA",
+    "description": "A leave and license agreement is a document that establishes a relationship between a landlord and a tenant for the tenant to occupy the landlord's property for a certain period of time."
+  },
+  {
+    "id": 3,
+    "name": "Agreement of Sale",
+    "shortName": "AOS",
+    "description": "An agreement of sale constitutes the terms and conditions of sale of a property by the seller to the buyer."
+  },
+  {
+    "id": 4,
+    "name": "Deed of Sale for Land",
+    "shortName": "DOSL",
+    "description": "Proof of work is a system that ties mining capability to computational power. Blocks must be hashed, which is in itself an easy computational process, but an additional variable is added to the hashing process to make it more difficult."
+  },
+  {
+    "id": 5,
+    "name": "Deed of Sale for Flat",
+    "shortName": "DOSF",
+    "description": "Proof of work is a system that ties mining capability to computational power. Blocks must be hashed, which is in itself an easy computational process, but an additional variable is added to the hashing process to make it more difficult."
+  },
+  {
+    "id": 6,
+    "name": "Employee NDA ",
+    "shortName": "ENDNCA",
+    "description": "An employee non-disclosure and non-compete agreement is a legal contract between an employer and an employee that prohibits the employee from disclosing confidential information or competing with the employer for a certain period of time."
+  },
+  {
+    "id": 7,
+    "name": "Will of Deed",
+    "shortName": "DOW",
+    "description": "A will of deed is a legal document in which a person specifies how their property and affairs should be handled after their death."
+  },
+  {
+    "id": 8,
+    "name": "Power of Attorney",
+    "shortName": "POA",
+    "description": "A power of attorney is a legal document that allows a person to appoint another person to act on their behalf in legal or financial matters."
+  }
+]
