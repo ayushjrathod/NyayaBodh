@@ -63,8 +63,8 @@ function NewNavBar() {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <Navbar 
-      isBordered 
+    <Navbar
+      isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       maxWidth="full"
@@ -90,18 +90,9 @@ function NewNavBar() {
 
       {/* Brand - Centered on mobile, left on desktop */}
       <NavbarBrand className="flex items-center gap-2 justify-center sm:justify-start">
-        <img 
-          alt="NyayBodh Logo" 
-          src={logoNB} 
-          className="h-8 w-8" 
-          loading="lazy"
-        />
-        <span className="font-bold text-xl text-foreground notranslate hidden sm:block">
-          NYAAYBODH
-        </span>
-        <span className="font-bold text-lg text-foreground notranslate sm:hidden">
-          NB
-        </span>
+        <img alt="NyayBodh Logo" src={logoNB} className="h-8 w-8" loading="lazy" />
+        <span className="font-bold text-xl text-foreground notranslate hidden sm:block">NYAAYBODH</span>
+        <span className="font-bold text-lg text-foreground notranslate sm:hidden">NB</span>
       </NavbarBrand>
 
       {/* Desktop Navigation - Centered */}
@@ -110,11 +101,9 @@ function NewNavBar() {
           <NavbarItem key={item.name}>
             <NavLink
               to={item.path}
-              className={({ isActive }) => 
+              className={({ isActive }) =>
                 `relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:bg-default-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-                  isActive 
-                    ? "text-primary bg-primary/10 after:w-full" 
-                    : "text-foreground hover:text-primary after:w-0"
+                  isActive ? "text-primary bg-primary/10 after:w-full" : "text-foreground hover:text-primary after:w-0"
                 } after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:bg-primary after:transition-all after:duration-300 after:-translate-x-1/2`
               }
               onClick={closeMenu}
@@ -130,7 +119,7 @@ function NewNavBar() {
         {/* Theme toggle */}
         <NavbarItem>
           <Switch
-            defaultSelected={isDarkMode}
+            isSelected={isDarkMode}
             size="md"
             color="primary"
             startContent={<SunIcon className="w-3 h-3" />}
@@ -171,7 +160,7 @@ function NewNavBar() {
                   variant="light"
                   isIconOnly
                   className="transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                  aria-label={`User menu for ${user.email || 'user'}`}
+                  aria-label={`User menu for ${user.email || "user"}`}
                 >
                   <Avatar
                     showFallback
@@ -184,13 +173,10 @@ function NewNavBar() {
                   />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu 
-                aria-label="User Actions" 
-                variant="flat"
-              >
-                <DropdownItem 
-                  key="user-info" 
-                  className="h-14 gap-2 cursor-default opacity-100" 
+              <DropdownMenu aria-label="User Actions" variant="flat">
+                <DropdownItem
+                  key="user-info"
+                  className="h-14 gap-2 cursor-default opacity-100"
                   textValue="User information"
                 >
                   <div className="flex flex-col">
@@ -199,17 +185,12 @@ function NewNavBar() {
                     <p className="text-xs text-primary capitalize">{user.role?.toLowerCase()}</p>
                   </div>
                 </DropdownItem>
-                <DropdownItem 
-                  key="profile" 
-                  textValue="Profile"
-                  onPress={() => navigate("/profile")}
-                  className="gap-2"
-                >
+                <DropdownItem key="profile" textValue="Profile" onPress={() => navigate("/profile")} className="gap-2">
                   <span className="text-sm">Profile</span>
                 </DropdownItem>
-                <DropdownItem 
-                  key="logout" 
-                  color="danger" 
+                <DropdownItem
+                  key="logout"
+                  color="danger"
                   onClick={handleLogout}
                   textValue="Log Out"
                   className="text-danger"
@@ -233,8 +214,8 @@ function NewNavBar() {
                 onClick={closeMenu}
                 className={({ isActive }) =>
                   `w-full text-left px-4 py-3 text-base font-medium transition-all duration-300 rounded-lg hover:bg-default-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-                    isActive 
-                      ? "text-primary bg-primary/10 border-l-4 border-primary" 
+                    isActive
+                      ? "text-primary bg-primary/10 border-l-4 border-primary"
                       : "text-foreground hover:text-primary hover:translate-x-1"
                   }`
                 }
@@ -244,7 +225,7 @@ function NewNavBar() {
             </NavbarMenuItem>
           ))}
         </div>
-        
+
         {/* Mobile-only controls */}
         <div className="mt-6 pt-6 border-t border-divider space-y-4">
           <div className="flex items-center justify-between px-4">
@@ -263,16 +244,9 @@ function NewNavBar() {
         {isAuthenticated && (
           <div className="mt-6 pt-6 border-t border-divider">
             <div className="flex items-center gap-3 px-4 py-3 bg-default-50 rounded-lg">
-              <Avatar
-                showFallback
-                size="sm"
-                src={user.picture}
-                name={user.fullname || user.email}
-              />
+              <Avatar showFallback size="sm" src={user.picture} name={user.fullname || user.email} />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">
-                  {user.fullname || "User"}
-                </p>
+                <p className="text-sm font-medium text-foreground truncate">{user.fullname || "User"}</p>
                 <p className="text-xs text-default-500 truncate">{user.email}</p>
               </div>
             </div>

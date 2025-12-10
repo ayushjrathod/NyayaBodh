@@ -1,6 +1,6 @@
 import { Accordion, AccordionItem, Card, CardBody, Checkbox } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { useEffect, useState, useMemo, memo } from "react";
+import { memo, useMemo, useState } from "react";
 
 const Filters = memo(({ onFilterChange, results, searchType }) => {
   const [selectedFilters, setSelectedFilters] = useState({
@@ -118,7 +118,7 @@ const Filters = memo(({ onFilterChange, results, searchType }) => {
   };
 
   return (
-    <Card className="sticky top-[5rem]">
+    <Card className="lg:sticky lg:top-[5rem]">
       <CardBody>
         <aside className="p-4">
           <h2 className="text-xl font-bold mb-4">Filters</h2>
@@ -173,11 +173,7 @@ const Filters = memo(({ onFilterChange, results, searchType }) => {
 
 // Memoized checkbox component to prevent unnecessary re-renders
 const FilterCheckbox = memo(({ value, label, isSelected, onChange }) => (
-  <Checkbox
-    value={value}
-    isSelected={isSelected}
-    onValueChange={onChange}
-  >
+  <Checkbox value={value} isSelected={isSelected} onValueChange={onChange}>
     {label}
   </Checkbox>
 ));

@@ -10,16 +10,26 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { Mic, MicOff, MoonIcon, Send, SunIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import { logout as apiLogout } from "../../api/axios";
 import { useSpeechToText } from "../../components/SpeechToText/useSpeechToText";
+import { setAuthState, setUserRole } from "../../store/slices/authSlice";
 import { toggleTheme } from "../../store/slices/themeSlice";
 import { getDropdownThemeClasses } from "../../utils/themeUtils";
 
 const LandingSearchSemantic = () => {
   const [query, setQuery] = useState("");
-  const user = useSelector((state) => state.user);
+  const user = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch {
+      return {};
+    }
+  }, []);
+  const displayName = user.fullname || user.name || "User";
+  const displayEmail = user.email || user.role || "Signed in";
   const { isListening, transcript, toggleListening, isSupported } = useSpeechToText();
 
   const textareaRef = useRef(null);
@@ -32,11 +42,11 @@ const LandingSearchSemantic = () => {
     dispatch(toggleTheme());
   };
 
-  const handleLogout = () => {
-    // Add logout logic here
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-    navigate("/login");
+  const handleLogout = async () => {
+    await apiLogout();
+    dispatch(setAuthState(false));
+    dispatch(setUserRole(null));
+    navigate("/login", { replace: true });
   };
 
   const handleInputChange = (e) => {
@@ -128,7 +138,7 @@ const LandingSearchSemantic = () => {
               as="button"
               className="transition-all duration-200 interactive-hover ring-2 ring-primary/20 hover:ring-primary/40 focus-enhanced"
               color="primary"
-              name={user.name}
+              name={displayName}
               size="md"
               src={user.picture}
             />
@@ -137,7 +147,8 @@ const LandingSearchSemantic = () => {
             <DropdownItem key="signinas" className="h-14 gap-2 cursor-default opacity-60">
               <div className="flex flex-col">
                 <p className="text-xs text-default-500">Signed in as</p>
-                <p className="font-semibold text-sm">{user.email}</p>
+                <p className="font-semibold text-sm">{displayName}</p>
+                <p className="text-xs text-default-500">{displayEmail}</p>
               </div>
             </DropdownItem>
             <DropdownItem key="profile" as={NavLink} to="/profile" className="gap-2">

@@ -1,5 +1,6 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import PropTypes from "prop-types";
 import { lazy, Suspense, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -19,11 +20,13 @@ import { checkAuthState } from "./store/slices/authSlice";
 const AdminDashboard = lazy(() => import("./pages/Dashboard/AdminDashboard"));
 const Chatbot = lazy(() => import("./pages/Chatbot/Chatbot"));
 const Contact = lazy(() => import("./pages/Contact/Contact"));
+const Resources = lazy(() => import("./pages/Resources/Resources"));
 const LawLookupPage = lazy(() => import("./pages/LawLookup/LawLookup"));
 const Recommend = lazy(() => import("./pages/Recommend/Recommend"));
 const SeprateResults = lazy(() => import("./pages/SeprateResults/SeprateResults"));
 const PdfSummary = lazy(() => import("./pages/PdfSummary/PdfSummary"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
+const PublicLanding = lazy(() => import("./pages/Landing/PublicLanding"));
 
 // DocGen components - these are admin-only and can be lazy loaded
 const SelectionPage = lazy(() => import("./pages/DocGen/SelectionPage"));
@@ -43,6 +46,9 @@ const LazyLoadingFallback = ({ message = "Loading..." }) => (
     <EnhancedLoader size="lg" label={message} center={true} />
   </div>
 );
+LazyLoadingFallback.propTypes = {
+  message: PropTypes.string,
+};
 
 const App = () => {
   const isLoading = false;
@@ -78,6 +84,16 @@ const App = () => {
       <Router>
         <Routes>
           {/* Public routes - redirect authenticated users */}
+          <Route
+            path="/welcome"
+            element={
+              <PublicRoute redirectTo="/">
+                <Suspense fallback={<LazyLoadingFallback message="Loading experience..." />}>
+                  <PublicLanding />
+                </Suspense>
+              </PublicRoute>
+            }
+          />
           <Route
             path="/login"
             element={
@@ -195,9 +211,9 @@ const App = () => {
           <Route
             path="/contact"
             element={
-              <ProtectedRoute>
+              <PublicRoute redirectTo="/">
                 <Layout />
-              </ProtectedRoute>
+              </PublicRoute>
             }
           >
             <Route
@@ -205,6 +221,23 @@ const App = () => {
               element={
                 <Suspense fallback={<LazyLoadingFallback message="Loading contact page..." />}>
                   <Contact />
+                </Suspense>
+              }
+            />
+          </Route>
+          <Route
+            path="/resources"
+            element={
+              <PublicRoute redirectTo="/">
+                <Layout />
+              </PublicRoute>
+            }
+          >
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading resources..." />}>
+                  <Resources />
                 </Suspense>
               }
             />

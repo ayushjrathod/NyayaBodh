@@ -1,17 +1,12 @@
-import PropTypes from "prop-types";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import PropTypes from "prop-types";
 
 /**
  * Versatile skeleton loader component for different content types
  */
-const SkeletonLoader = ({ 
-  type = "card", 
-  count = 1, 
-  className = "",
-  animated = true 
-}) => {
-  const baseClasses = `bg-default-200 rounded-lg ${animated ? 'animate-pulse' : ''}`;
-  
+const SkeletonLoader = ({ type = "card", count = 1, className = "", animated = true }) => {
+  const baseClasses = `bg-default-200 rounded-lg ${animated ? "animate-pulse" : ""}`;
+
   const renderSkeleton = (index) => {
     switch (type) {
       case "search-result":
@@ -102,6 +97,24 @@ const SkeletonLoader = ({
           </div>
         );
 
+      case "filter":
+        return (
+          <Card key={index} className={`w-full ${className}`}>
+            <CardHeader className="pb-2">
+              <div className={`h-5 w-24 ${baseClasses}`} />
+            </CardHeader>
+            <CardBody className="space-y-3">
+              {[1, 2, 3].map((section) => (
+                <div key={section} className="space-y-2 border border-default-200/70 rounded-md p-3">
+                  <div className={`h-4 w-20 ${baseClasses}`} />
+                  <div className={`h-3 w-28 ${baseClasses}`} />
+                  <div className={`h-3 w-24 ${baseClasses}`} />
+                </div>
+              ))}
+            </CardBody>
+          </Card>
+        );
+
       case "card":
       default:
         return (
@@ -121,21 +134,18 @@ const SkeletonLoader = ({
     }
   };
 
-  return (
-    <div className="space-y-4">
-      {Array.from({ length: count }, (_, index) => renderSkeleton(index))}
-    </div>
-  );
+  return <div className="space-y-4">{Array.from({ length: count }, (_, index) => renderSkeleton(index))}</div>;
 };
 
 SkeletonLoader.propTypes = {
   type: PropTypes.oneOf([
-    "card", 
-    "search-result", 
-    "recommendation", 
-    "chat-message", 
-    "form-field", 
-    "table-row"
+    "card",
+    "search-result",
+    "recommendation",
+    "chat-message",
+    "form-field",
+    "table-row",
+    "filter",
   ]),
   count: PropTypes.number,
   className: PropTypes.string,

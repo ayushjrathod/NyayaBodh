@@ -1,31 +1,28 @@
-import {
-  Avatar,
-  Card,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Switch,
-} from "@nextui-org/react";
+import { Avatar, Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Switch } from "@nextui-org/react";
 import { Mic, MicOff, MoonIcon, SunIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import { logout as apiLogout } from "../../api/axios";
 import { useSpeechToText } from "../../components/SpeechToText/useSpeechToText";
-import { 
-  Button, 
-  SearchInput, 
-  useResponsive, 
-  AccessibleButton, 
-  LiveRegion 
-} from "../../components/ui";
+import { AccessibleButton, LiveRegion, SearchInput, useResponsive } from "../../components/ui";
+import { setAuthState, setUserRole } from "../../store/slices/authSlice";
 import { toggleTheme } from "../../store/slices/themeSlice";
 import { getDropdownThemeClasses } from "../../utils/themeUtils";
 
 const LandingSearch = () => {
   const [query, setQuery] = useState("");
   const [announceMessage, setAnnounceMessage] = useState("");
-  const user = useSelector((state) => state.user);
+
+  const user = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch {
+      return {};
+    }
+  }, []);
+  const displayName = user.fullname || user.name || "User";
+  const displayEmail = user.email || user.role || "Signed in";
   const { isListening, transcript, toggleListening, isSupported } = useSpeechToText();
   const { isMobile, isTablet } = useResponsive();
 
@@ -35,13 +32,14 @@ const LandingSearch = () => {
 
   const handleToggle = () => {
     dispatch(toggleTheme());
-    setAnnounceMessage(`Switched to ${isDarkMode ? 'light' : 'dark'} mode`);
+    setAnnounceMessage(`Switched to ${isDarkMode ? "light" : "dark"} mode`);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-    navigate("/login");
+  const handleLogout = async () => {
+    await apiLogout();
+    dispatch(setAuthState(false));
+    dispatch(setUserRole(null));
+    navigate("/login", { replace: true });
   };
 
   const handleInputChange = (e) => {
@@ -69,7 +67,7 @@ const LandingSearch = () => {
       setAnnounceMessage("Please enter a search query");
       return;
     }
-    
+
     setAnnounceMessage("Searching for entity results");
     navigate("/results", {
       state: {
@@ -80,7 +78,7 @@ const LandingSearch = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && query.trim()) {
+    if (e.key === "Enter" && query.trim()) {
       handleSendMessage();
     }
   };
@@ -88,7 +86,7 @@ const LandingSearch = () => {
   return (
     <div className="relative h-screen w-full bg-background overflow-hidden font-poppins">
       <LiveRegion message={announceMessage} />
-      
+
       {/* Enhanced Grid Pattern Background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f1a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:20px_20px] opacity-60"></div>
 
@@ -96,8 +94,8 @@ const LandingSearch = () => {
       <div
         className={`absolute left-1/2 top-0 h-[800px] w-[800px] -translate-x-1/2 rounded-full ${
           isDarkMode
-            ? "bg-[radial-gradient(circle_600px_at_50%_200px,#fbfbfb15,transparent_70%)]"
-            : "bg-[radial-gradient(circle_600px_at_50%_200px,#d5c5ff25,transparent_70%)]"
+            ? "bg-[radial-gradient(circle_620px_at_50%_200px,#ffffff2e,transparent_60%)]"
+            : "bg-[radial-gradient(circle_620px_at_50%_200px,#7c3aed33,#a855f71f_40%,transparent_65%)]"
         } blur-3xl`}
       ></div>
 
@@ -117,7 +115,7 @@ const LandingSearch = () => {
             }}
           />
         </div>
-        
+
         <Dropdown
           className={getDropdownThemeClasses(isDarkMode)}
           placement="bottom-end"
@@ -129,29 +127,30 @@ const LandingSearch = () => {
             <AccessibleButton
               variant="light"
               isIconOnly
-              ariaLabel={`User menu for ${user.email || 'user'}`}
+              ariaLabel={`User menu for ${displayEmail || "user"}`}
               className="transition-all duration-200 interactive-hover ring-2 ring-primary/20 hover:ring-primary/40 focus-enhanced"
             >
-              <Avatar
-                isBordered
-                color="primary"
-                name={user.name}
-                size={isMobile ? "sm" : "md"}
-                src={user.picture}
-              />
+              <Avatar isBordered color="primary" name={displayName} size={isMobile ? "sm" : "md"} src={user.picture} />
             </AccessibleButton>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="signinas" className="h-14 gap-2 cursor-default opacity-60" textValue="Signed in as">
               <div className="flex flex-col">
                 <p className="text-xs text-default-500">Signed in as</p>
-                <p className="font-semibold text-sm">{user.email}</p>
+                <p className="font-semibold text-sm">{displayName}</p>
+                <p className="text-xs text-default-500">{displayEmail}</p>
               </div>
             </DropdownItem>
             <DropdownItem key="profile" as={NavLink} to="/profile" className="gap-2" textValue="Profile">
               <span className="text-sm">Profile</span>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={() => handleLogout()} className="gap-2" textValue="Log Out">
+            <DropdownItem
+              key="logout"
+              color="danger"
+              onClick={() => handleLogout()}
+              className="gap-2"
+              textValue="Log Out"
+            >
               <span className="text-sm">Log Out</span>
             </DropdownItem>
           </DropdownMenu>
@@ -168,14 +167,16 @@ const LandingSearch = () => {
                 isDarkMode
                   ? "from-neutral-50 via-neutral-100 to-neutral-400"
                   : "from-neutral-900 via-neutral-700 to-neutral-500"
-              } ${isMobile ? 'text-3xl' : isTablet ? 'text-4xl' : 'lg:text-4xl xl:text-6xl'} tracking-tight leading-tight`}
+              } ${
+                isMobile ? "text-3xl" : isTablet ? "text-4xl" : "lg:text-4xl xl:text-6xl"
+              } tracking-tight leading-tight`}
             >
               AI-Powered
               <br />
               <span className="text-gradient">Research Assistant</span>
             </h1>
             <p
-              className={`mt-4 md:mt-6 ${isMobile ? 'text-base' : 'text-lg md:text-xl'} ${
+              className={`mt-4 md:mt-6 ${isMobile ? "text-base" : "text-lg md:text-xl"} ${
                 isDarkMode ? "text-neutral-400" : "text-neutral-600"
               } max-w-2xl mx-auto leading-relaxed`}
             >
@@ -191,7 +192,7 @@ const LandingSearch = () => {
             role="search"
             aria-label="Legal research search"
           >
-            <div className={`${isMobile ? 'p-4' : 'p-6 md:p-8'}`}>
+            <div className={`${isMobile ? "p-4" : "p-6 md:p-8"}`}>
               {/* Search Input Container */}
               <div className="space-y-4">
                 <label
@@ -200,7 +201,7 @@ const LandingSearch = () => {
                 >
                   What would you like to research?
                 </label>
-                
+
                 <div className="flex items-end gap-3">
                   <div className="flex-1">
                     <SearchInput
@@ -213,7 +214,7 @@ const LandingSearch = () => {
                       aria-describedby="search-description"
                     />
                   </div>
-                  
+
                   {/* Voice Input Button */}
                   <AccessibleButton
                     isIconOnly
@@ -234,9 +235,10 @@ const LandingSearch = () => {
                     {isListening ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
                   </AccessibleButton>
                 </div>
-                
+
                 <div id="search-description" className="sr-only">
-                  Use this search to find legal cases, statutes, and legal information. You can type your query or use voice input.
+                  Use this search to find legal cases, statutes, and legal information. You can type your query or use
+                  voice input.
                 </div>
               </div>
 
@@ -245,7 +247,7 @@ const LandingSearch = () => {
                 {[
                   { icon: "🔍", text: "Entity Search" },
                   { icon: "🧠", text: "AI-Powered Analysis" },
-                  { icon: "🎤", text: "Voice Input" }
+                  { icon: "🎤", text: "Voice Input" },
                 ].map((feature, index) => (
                   <span
                     key={index}

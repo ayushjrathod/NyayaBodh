@@ -196,39 +196,69 @@ async def search_entity(request: SearchRequest_NER):
     """
     # Validate the DataFrame
     if df.empty:
-        raise HTTPException(status_code=500, detail="The CSV data is empty or not loaded.")
+        logger.warning("NER dataframe is empty; returning empty entity result set.")
+        return []
     
-    # Use a set to track unique UUIDs to prevent duplicates
-    unique_uuids = set()
-    response = []
-    
-    for column_name in df.columns:
-        # Extract data for fuzzy matching
-        column_data = df[column_name].fillna("").tolist()
+    try:
+        # Use a set to track unique UUIDs to prevent duplicates
+        unique_uuids = set()
+        response = []
+        best_fallback = {"score": -1, "row_index": None, "column": None, "value": None}
         
-        # Perform fuzzy matching on the current column
-        results = process.extractBests(request.query, column_data, scorer=fuzz.partial_ratio, limit=10)
+        for column_name in df.columns:
+            # Extract data for fuzzy matching
+            column_data = df[column_name].fillna("").tolist()
+            
+            # Perform fuzzy matching on the current column
+            results = process.extractBests(request.query, column_data, scorer=fuzz.partial_ratio, limit=10)
+            
+            for match, score in results:
+                if score >= 50:  # Optional: Set a score threshold
+                    # Find the index of the match in the original dataframe
+                    index = df[column_name].eq(match).idxmax()
+                    
+                    # Check if this UUID is already in our results
+                    current_uuid = df.loc[index, "uuid"]
+                    if current_uuid not in unique_uuids:
+                        unique_uuids.add(current_uuid)
+                        response.append(SearchResult_NER(
+                            uuid=current_uuid,
+                            petitioner=safe_get_value(df.loc[index, "PETITIONER"]),
+                            respondent=safe_get_value(df.loc[index, "RESPONDENT"]),
+                            entities=safe_get_value(df.loc[index, column_name]),
+                            summary=safe_get_value(df.loc[index, "summary"])
+                        ))    
+                # Track best fallback even if score is below threshold
+                if score > best_fallback["score"]:
+                    best_fallback = {
+                        "score": score,
+                        "row_index": df[column_name].eq(match).idxmax(),
+                        "column": column_name,
+                        "value": match
+                    }
+        if not response:
+            if best_fallback["row_index"] is not None:
+                idx = best_fallback["row_index"]
+                logger.info(
+                    "No entity matches met threshold for query '%s'; returning closest fallback (score=%s, column=%s).",
+                    request.query,
+                    best_fallback["score"],
+                    best_fallback["column"],
+                )
+                return [SearchResult_NER(
+                    uuid=safe_get_value(df.loc[idx, "uuid"]),
+                    petitioner=safe_get_value(df.loc[idx, "PETITIONER"]),
+                    respondent=safe_get_value(df.loc[idx, "RESPONDENT"]),
+                    entities=safe_get_value(best_fallback["value"]),
+                    summary=safe_get_value(df.loc[idx, "summary"])
+                )]
+            logger.info("No entity matches found for query '%s'; returning empty list.", request.query)
+            return []
         
-        for match, score in results:
-            if score >= 50:  # Optional: Set a score threshold
-                # Find the index of the match in the original dataframe
-                index = df[column_name].eq(match).idxmax()
-                
-                # Check if this UUID is already in our results
-                current_uuid = df.loc[index, "uuid"]
-                if current_uuid not in unique_uuids:
-                    unique_uuids.add(current_uuid)
-                    response.append(SearchResult_NER(
-                        uuid=current_uuid,
-                        petitioner=safe_get_value(df.loc[index, "PETITIONER"]),
-                        respondent=safe_get_value(df.loc[index, "RESPONDENT"]),
-                        entities=safe_get_value(df.loc[index, column_name]),
-                        summary=safe_get_value(df.loc[index, "summary"])
-                    ))    
-    if not response:
-        raise HTTPException(status_code=404, detail="No matching results found.")
-    
-    return response
+        return response
+    except Exception as e:
+        logger.error("Entity search failed for query '%s': %s", request.query, str(e))
+        return []
 
 # Additional imports for semantic search
 from typing import List, Optional
@@ -253,7 +283,14 @@ async def search_endpoint(request: SearchRequestSEM):
     global vector_store
     
     if not vector_store:
-        raise HTTPException(status_code=503, detail="Vector store not initialized")
+        logger.warning("Vector store not initialized; returning empty semantic result set.")
+        return {"SemanticResultData": [{
+            "uuid": "unavailable",
+            "title": "Search temporarily unavailable",
+            "summary": "Try again in a moment.",
+            "score": 0.0,
+            "metadata": {}
+        }]}
     
     query = request.query
     print(f"Query: {query}")
@@ -288,10 +325,27 @@ async def search_endpoint(request: SearchRequestSEM):
             }
             semantic_result_data.append(result_data)
 
+        if not semantic_result_data:
+            logger.info("No semantic matches found for query '%s'; returning placeholder.", query)
+            return {"SemanticResultData": [{
+                "uuid": "no-match",
+                "title": "No close match found",
+                "summary": "Try a broader or different query.",
+                "score": 0.0,
+                "metadata": {}
+            }]}
+
         return {"SemanticResultData": semantic_result_data}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+        logger.error("Semantic search failed for query '%s': %s", query, str(e))
+        return {"SemanticResultData": [{
+            "uuid": "error",
+            "title": "Search error",
+            "summary": "We hit an issue running the search. Please retry.",
+            "score": 0.0,
+            "metadata": {}
+        }]}
 
 @app.get("/recommend/embedding/{uuid}")
 async def recommend_cases_embedding(uuid: str):
@@ -366,24 +420,39 @@ async def search_acts(request: ActSearchRequestSEM):
     
     return {"results": results}
 
-pdf_folder = './03-09-24'
+pdf_folder = pdf_directory  # Use the same directory as the loaded resources
 
 @app.get("/get-file/{uuid}")
 async def get_file(uuid: str):
-    # Check if the serial number is in the DataFrame
-    row = df[df['uuid'] == uuid]
+    # Ensure data is loaded
+    if df.empty:
+        raise HTTPException(status_code=503, detail="NER data not loaded")
+
+    row = df[df["uuid"] == uuid]
     if row.empty:
         raise HTTPException(status_code=404, detail="UUID not found")
-    
-    # Extract the filename from the DataFrame
-    filename = row['Filename'].values[0]
+
+    # Accept both legacy and current filename columns
+    filename_column = None
+    for col in ("Filename", "file_name"):
+        if col in row.columns:
+            filename_column = col
+            break
+
+    if not filename_column:
+        raise HTTPException(status_code=500, detail="CSV missing filename column")
+
+    filename_value = row[filename_column].iloc[0]
+    if pd.isna(filename_value) or not str(filename_value).strip():
+        raise HTTPException(status_code=404, detail="Filename not available for this UUID")
+
+    filename = str(filename_value).strip()
     file_path = os.path.join(pdf_folder, filename)
-    
-    # Check if the file exists
+
     if not os.path.isfile(file_path):
         raise HTTPException(status_code=404, detail="File not found")
-      # Return the file
-    return FileResponse(file_path)
+
+    return FileResponse(file_path, media_type="application/pdf", filename=filename)
 
 # The recommend_cases_embedding function has been replaced by the one 
 # in the semantic search section that uses vector_store

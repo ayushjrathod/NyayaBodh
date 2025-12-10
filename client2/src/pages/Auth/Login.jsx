@@ -3,13 +3,13 @@ import { Button, Card, CardBody, Link, Select, SelectItem, Tab, Tabs } from "@ne
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { User } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
 import { login as apiLogin, register as apiRegister } from "../../api/axios";
-import { ValidatedInput, validationRules, useToast } from "../../components/ui";
+import { useToast, ValidatedInput, validationRules } from "../../components/ui";
 import { apiConfig } from "../../config/api";
 import { setAuthState, setUserRole } from "../../store/slices/authSlice";
 
@@ -31,7 +31,19 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-  const { toast } = useToast();
+  const { toast, removeToast } = useToast();
+  const authToastId = useRef(null);
+
+  const replaceToast = useCallback(
+    (type, message) => {
+      if (authToastId.current) {
+        removeToast(authToastId.current);
+        authToastId.current = null;
+      }
+      authToastId.current = toast[type](message);
+    },
+    [removeToast, toast]
+  );
 
   // Setup forms with react-hook-form and zodResolver for validation
   const loginForm = useForm({
@@ -56,8 +68,8 @@ export default function Login() {
   const onLoginSubmit = async (values) => {
     try {
       console.log("Attempting login with values:", values);
-      toast.loading("Signing you in...");
-      
+      replaceToast("loading", "Signing you in...");
+
       const response = await apiLogin(values);
       console.log("Login response:", response);
 
@@ -67,30 +79,30 @@ export default function Login() {
       dispatch(setAuthState(true));
       dispatch(setUserRole(user.role));
 
-      toast.success("Login successful! Welcome back.");
+      replaceToast("success", "Login successful! Welcome back.");
       console.log("About to navigate to /");
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
-      toast.error(error.response?.data?.detail || "Login failed. Please check your credentials.");
+      replaceToast("error", error.response?.data?.detail || "Login failed. Please check your credentials.");
     }
   };
 
   // Handle register submission
   const onRegisterSubmit = async (values) => {
     try {
-      toast.loading("Creating your account...");
-      
+      replaceToast("loading", "Creating your account...");
+
       await apiRegister(values);
       const user = JSON.parse(localStorage.getItem("user"));
       dispatch(setAuthState(true));
       dispatch(setUserRole(user.role));
-      
-      toast.success("Account created successfully! Welcome to NyayBodh.");
+
+      replaceToast("success", "Account created successfully! Welcome to NyayBodh.");
       navigate("/");
     } catch (error) {
       console.error("Registration failed:", error);
-      toast.error(error.response?.data?.detail || "Registration failed. Please try again.");
+      replaceToast("error", error.response?.data?.detail || "Registration failed. Please try again.");
     }
   };
 
@@ -98,8 +110,8 @@ export default function Login() {
   const onGoogleSuccess = async (tokenResponse) => {
     try {
       console.log("Google login success, access_token received");
-      toast.loading("Signing in with Google...");
-      
+      replaceToast("loading", "Signing in with Google...");
+
       const { access_token } = tokenResponse;
       const userData = await axios.post(apiConfig.endpoints.auth.googleVerify, { token: access_token });
 
@@ -130,19 +142,19 @@ export default function Login() {
       dispatch(setUserRole(role));
       window.dispatchEvent(new Event("auth-state-changed"));
 
-      toast.success("Google sign-in successful!");
+      replaceToast("success", "Google sign-in successful!");
       console.log("Google login complete, navigating to /");
       setTimeout(() => navigate("/"), 100);
     } catch (error) {
       console.error("Google login failed:", error);
-      toast.error("Google sign-in failed. Please try again.");
+      replaceToast("error", "Google sign-in failed. Please try again.");
     }
   };
 
   // Handle Google login failure
   const onGoogleFailure = (error) => {
     console.error("Google login failed:", error);
-    toast.error("Google sign-in was cancelled or failed.");
+    replaceToast("error", "Google sign-in was cancelled or failed.");
   };
 
   const googleLogin = useGoogleLogin({
@@ -187,7 +199,8 @@ export default function Login() {
                     isRequired
                     realTimeValidation={false}
                     classNames={{
-                      inputWrapper: "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
+                      inputWrapper:
+                        "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
                   />
@@ -203,7 +216,8 @@ export default function Login() {
                     isRequired
                     realTimeValidation={false}
                     classNames={{
-                      inputWrapper: "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
+                      inputWrapper:
+                        "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
                   />
@@ -278,7 +292,8 @@ export default function Login() {
                     isRequired
                     startContent={<User className="w-4 h-4 text-default-400" />}
                     classNames={{
-                      inputWrapper: "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
+                      inputWrapper:
+                        "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
                   />
@@ -293,7 +308,8 @@ export default function Login() {
                     placeholder="Enter your email address"
                     isRequired
                     classNames={{
-                      inputWrapper: "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
+                      inputWrapper:
+                        "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
                   />
@@ -308,7 +324,8 @@ export default function Login() {
                     placeholder="Create a strong password"
                     isRequired
                     classNames={{
-                      inputWrapper: "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
+                      inputWrapper:
+                        "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
                   />
@@ -323,7 +340,8 @@ export default function Login() {
                     value={registerForm.watch("role")}
                     onChange={(e) => registerForm.setValue("role", e.target.value)}
                     classNames={{
-                      trigger: "border-default-200 hover:border-primary-300 data-[focus=true]:border-primary backdrop-blur-sm bg-default-50/50",
+                      trigger:
+                        "border-default-200 hover:border-primary-300 data-[focus=true]:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                       value: "text-sm font-medium",
                       popoverContent: `${isDarkMode ? "dark" : ""} bg-background text-foreground`,
