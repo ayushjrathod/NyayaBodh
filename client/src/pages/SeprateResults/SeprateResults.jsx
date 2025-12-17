@@ -3,6 +3,7 @@ import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import Split from "react-split";
 import EnhancedLoader from "../../components/ui/EnhancedLoader";
@@ -17,6 +18,7 @@ import { apiConfig } from "../../config/api";
 const SeprateResults = () => {
   const location = useLocation();
   const { uuid } = useParams();
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   // Handle both entity and semantic search data structures
   const stateData = location.state || {};
@@ -59,6 +61,12 @@ const SeprateResults = () => {
   const petitioner = currentCase?.petitioner || metadata?.PETITIONER || entityPetitioner || "Unknown";
   const respondent = currentCase?.respondent || metadata?.RESPONDENT || entityRespondent || "Unknown";
   const entities = currentCase?.entities || entityEntities || "N/A";
+  const summaryChips = [
+    { label: "Date", value: metadata?.DATE },
+    { label: "Court", value: metadata?.COURT },
+    { label: "Judge", value: metadata?.JUDGE },
+    { label: "Case No", value: metadata?.CASE_NUMBER },
+  ].filter((chip) => Boolean(chip.value));
   // Debug logging
   console.log("SeprateResults Debug:", {
     uuid,
@@ -175,6 +183,8 @@ const SeprateResults = () => {
   };
 
   useEffect(() => {
+    let objectUrl;
+
     const fetchPdf = async () => {
       if (!uuid) {
         console.error("No UUID provided");
@@ -217,8 +227,8 @@ const SeprateResults = () => {
           throw new Error(`Invalid content type: ${response.headers["content-type"]}`);
         }
 
-        const url = URL.createObjectURL(response.data);
-        setPdfFile(url);
+        objectUrl = URL.createObjectURL(response.data);
+        setPdfFile(objectUrl);
       } catch (error) {
         console.error("PDF fetch error:", {
           message: error.message,
@@ -250,11 +260,11 @@ const SeprateResults = () => {
     fetchPdf();
 
     return () => {
-      if (pdfFile) {
-        URL.revokeObjectURL(pdfFile);
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
       }
     };
-  }, [uuid, pdfFile]);
+  }, [uuid]);
   // Add loading indicator at component level
   if (!uuid) {
     return (
@@ -281,6 +291,19 @@ const SeprateResults = () => {
         <h1 className="text-lg sm:text-xl font-bold mb-6 break-words leading-tight">
           {currentCase ? `${petitioner} v. ${respondent}` : "Case Details Not Available"}
         </h1>
+        {summaryChips.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {summaryChips.map((chip) => (
+              <span
+                key={chip.label}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-default-200 bg-default-50 text-xs font-medium"
+              >
+                <span className="text-default-500">{chip.label}:</span>
+                <span className="text-foreground">{chip.value}</span>
+              </span>
+            ))}
+          </div>
+        )}
         <Split
           sizes={[50, 50]}
           minSize={100}
@@ -472,7 +495,7 @@ const SeprateResults = () => {
                   </div>
                 ) : pdfFile ? (
                   <Viewer
-                    theme="dark"
+                    theme={isDarkMode ? "dark" : "light"}
                     fileUrl={pdfFile}
                     plugins={[defaultLayoutPluginInstance]}
                     onError={(error) => {

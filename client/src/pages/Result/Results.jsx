@@ -1,22 +1,36 @@
 import { Button, Input } from "@nextui-org/react";
 import { Send } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import EntityResult from "../../components/Results/EntityResult";
 import Filters from "../../components/Results/Filters";
 import SemanticResult from "../../components/Results/SemanticResults";
-import EnhancedLoader from "../../components/ui/EnhancedLoader";
+import { EmptyState, SkeletonLoader, useToast } from "../../components/ui";
 import { apiConfig } from "../../config/api";
+
+// Search cache to persist results
+const searchCache = new Map();
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
 
 const Results = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast, removeToast } = useToast();
+  const initialFetchRan = useRef(false);
+  const searchToastId = useRef(null);
 
-  const { query, selectedSearch } = location.state || {
-    query: "",
-    selectedSearch: "",
-  };
-  const searchType = selectedSearch.toLowerCase().split(" ")[0] || "entity";
-  const [newQuery, setNewQuery] = useState(query);
+  // Get search params from URL or location state
+  const urlParams = new URLSearchParams(location.search);
+  const urlQuery = urlParams.get("q");
+  const urlSearchType = urlParams.get("type");
+
+  const { query: stateQuery, selectedSearch } = location.state || {};
+
+  // Use URL params if available, otherwise fall back to location state
+  const initialQuery = urlQuery || stateQuery || "";
+  const initialSearchType = urlSearchType || selectedSearch?.toLowerCase().split(" ")[0] || "entity";
+
+  const [newQuery, setNewQuery] = useState(initialQuery);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -30,6 +44,35 @@ const Results = () => {
   });
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [currentSearchType, setCurrentSearchType] = useState(initialSearchType);
+
+  // Generate cache key
+  const getCacheKey = (query, searchType) => `${searchType}:${query.toLowerCase().trim()}`;
+
+  // Toast helpers to keep a single toast per search action
+  const replaceToast = useCallback(
+    (type, message) => {
+      if (searchToastId.current) {
+        removeToast(searchToastId.current);
+        searchToastId.current = null;
+      }
+      searchToastId.current = toast[type](message);
+    },
+    [removeToast, toast]
+  );
+
+  // Update URL with search parameters
+  const updateURL = useCallback(
+    (query, searchType) => {
+      const params = new URLSearchParams();
+      if (query) params.set("q", query);
+      if (searchType) params.set("type", searchType);
+
+      const newURL = `${location.pathname}?${params.toString()}`;
+      navigate(newURL, { replace: true, state: { query, selectedSearch: searchType } });
+    },
+    [location.pathname, navigate]
+  );
 
   // Handle filter changes
   const handleFilterChange = (filterType, value, checked) => {
@@ -42,10 +85,12 @@ const Results = () => {
       }
       return newFilters;
     });
-  }; // Apply filters to results
+  };
+
+  // Apply filters to results
   useEffect(() => {
     let filtered =
-      searchType === "semantic" ? resultsData.SemanticResultData || [] : resultsData.EntityResultData || [];
+      currentSearchType === "semantic" ? resultsData.SemanticResultData || [] : resultsData.EntityResultData || [];
 
     // Ensure filtered is an array
     if (!Array.isArray(filtered)) {
@@ -53,7 +98,7 @@ const Results = () => {
     }
 
     filtered = filtered.filter((item) => {
-      if (searchType === "semantic") {
+      if (currentSearchType === "semantic") {
         // For semantic results, use metadata structure
         const metadata = item.metadata || {};
         return (
@@ -78,10 +123,34 @@ const Results = () => {
       }
     });
     setFilteredResults(filtered);
-  }, [activeFilters, resultsData, searchType]);
-  // Fetching results from API
+  }, [activeFilters, resultsData, currentSearchType]);
+
+  // Fetching results from API with caching
   const fetchResults = useCallback(
-    (query) => {
+    (query, searchType = currentSearchType, useCache = true) => {
+      if (!query.trim()) return;
+
+      const cacheKey = getCacheKey(query, searchType);
+
+      // Check cache first
+      if (useCache && searchCache.has(cacheKey)) {
+        const cached = searchCache.get(cacheKey);
+        if (Date.now() - cached.timestamp < CACHE_DURATION) {
+          console.log("Using cached results for:", cacheKey);
+          setResultsData(cached.data);
+          setHasError(false);
+          setErrorMessage("");
+          setIsLoading(false);
+          setIsInitialLoad(false);
+          replaceToast("success", `Loaded cached results for "${query}"`);
+          return;
+        } else {
+          // Remove expired cache
+          searchCache.delete(cacheKey);
+        }
+      }
+
+      replaceToast("loading", "Searching...");
       setIsLoading(true);
       setHasError(false);
       setErrorMessage("");
@@ -92,7 +161,7 @@ const Results = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ query }), // Stringify the body
+        body: JSON.stringify({ query }),
       })
         .then((response) => {
           if (!response.ok) {
@@ -102,9 +171,9 @@ const Results = () => {
         })
         .then((data) => {
           console.log("Received data:", data);
+
           // Check if the response indicates an error or no results
           if (data.detail && data.detail.includes("No matching results found")) {
-            // Handle no results case
             setHasError(true);
             setErrorMessage("No matching results found for your query.");
             if (searchType === "semantic") {
@@ -112,22 +181,48 @@ const Results = () => {
             } else if (searchType === "entity") {
               setResultsData({ EntityResultData: [] });
             }
+            replaceToast("info", "No results found. Try adjusting your search terms.");
             return;
           }
 
           // Handle successful response with data
+          let resultsToCache = {};
           if (searchType === "semantic") {
-            setResultsData({
-              SemanticResultData: Array.isArray(data.SemanticResultData) ? data.SemanticResultData : [],
-            });
+            const results = Array.isArray(data.SemanticResultData) ? data.SemanticResultData : [];
+            resultsToCache = { SemanticResultData: results };
+            setResultsData(resultsToCache);
+            if (results.length > 0) {
+              replaceToast("success", `Found ${results.length} semantic search results`);
+            } else {
+              replaceToast("info", "No semantic results found. Try another query.");
+              setHasError(true);
+              setErrorMessage("No results found for your query.");
+            }
           } else if (searchType === "entity") {
-            setResultsData({ EntityResultData: Array.isArray(data) ? data : [] });
+            const results = Array.isArray(data) ? data : [];
+            resultsToCache = { EntityResultData: results };
+            setResultsData(resultsToCache);
+            if (results.length > 0) {
+              replaceToast("success", `Found ${results.length} entity search results`);
+            } else {
+              replaceToast("info", "No entity results found. Try another query.");
+              setHasError(true);
+              setErrorMessage("No results found for your query.");
+            }
           }
+
+          // Cache the results
+          searchCache.set(cacheKey, {
+            data: resultsToCache,
+            timestamp: Date.now(),
+          });
         })
         .catch((error) => {
           console.error("Error:", error);
           setHasError(true);
           setErrorMessage("An error occurred while searching. Please try again.");
+          replaceToast("error", "Search failed. Please check your connection and try again.");
+
           // Set empty results on error
           if (searchType === "semantic") {
             setResultsData({ SemanticResultData: [] });
@@ -140,25 +235,46 @@ const Results = () => {
           setIsInitialLoad(false);
         });
     },
-    [searchType]
-  ); // Fetching results on page load
+    [currentSearchType, replaceToast]
+  );
+
+  // Fetching results on page load
   useEffect(() => {
-    if (query) {
-      fetchResults(query);
+    if (initialFetchRan.current) return;
+    initialFetchRan.current = true;
+
+    if (initialQuery) {
+      setCurrentSearchType(initialSearchType);
+      fetchResults(initialQuery, initialSearchType);
+      // Update URL to ensure consistency
+      updateURL(initialQuery, initialSearchType);
     }
-  }, [query, fetchResults]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount to avoid duplicate toasts in StrictMode
 
   // On submitting new query
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (newQuery) {
-      fetchResults(newQuery);
+    if (newQuery.trim()) {
+      // Clear filters when performing new search
+      setActiveFilters({ date: [], party: [], judge: [] });
+      fetchResults(newQuery, currentSearchType, false); // Don't use cache for new searches
+      updateURL(newQuery, currentSearchType);
     }
   };
 
+  const currentResults =
+    currentSearchType === "semantic"
+      ? filteredResults.length > 0
+        ? filteredResults
+        : resultsData.SemanticResultData || []
+      : filteredResults.length > 0
+      ? filteredResults
+      : resultsData.EntityResultData || [];
+
   return (
     <div className="min-h-screen bg-background pb-4 font-Inter text-foreground">
-      <div className="h-fit w-fit rounded-3xl ">
+      <div className="h-fit w-full max-w-6xl mx-auto rounded-3xl">
         <div className="flex justify-center m-4">
           <form onSubmit={handleSubmit} className="w-full">
             <Input
@@ -184,44 +300,51 @@ const Results = () => {
             />
           </form>
         </div>
-        <div className="grid px-4 gap-4 grid-cols-[1fr_3fr]">
+
+        <div className="grid px-4 gap-4 grid-cols-1 lg:grid-cols-[1fr_3fr]">
           {/* Left sidebar for filters */}
-          <div className=" mt-4">
-            <Filters
-              onFilterChange={handleFilterChange}
-              results={
-                searchType === "semantic" ? resultsData.SemanticResultData || [] : resultsData.EntityResultData || []
-              }
-              searchType={searchType}
-            />
-          </div>{" "}
+          <div className="mt-4">
+            {isLoading && isInitialLoad ? (
+              <SkeletonLoader type="filter" animated />
+            ) : (
+              <Filters onFilterChange={handleFilterChange} results={currentResults} searchType={currentSearchType} />
+            )}
+          </div>
+
           {/* Results */}
           <div className="">
             {isInitialLoad && isLoading ? (
-              <div className="flex justify-center items-center py-16">
-                <EnhancedLoader size="lg" label={`Searching ${searchType} results...`} center={true} />
+              <div className="space-y-4">
+                <SkeletonLoader type="search-result" count={3} className="animate-pulse" />
               </div>
             ) : isLoading ? (
-              <div className="flex justify-center items-center py-8">
-                <EnhancedLoader size="md" label="Updating results..." center={true} />
+              <div className="space-y-4">
+                <SkeletonLoader type="search-result" count={2} className="animate-pulse" />
               </div>
-            ) : hasError ? (
-              <div className="flex flex-col justify-center items-center py-16 text-center">
-                <div className="text-lg text-gray-600 mb-2">⚠️</div>
-                <div className="text-lg font-medium text-gray-700 mb-1">No Results Found</div>
-                <div className="text-sm text-gray-500">{errorMessage}</div>
-                <div className="text-xs text-gray-400 mt-2">Try adjusting your search terms or filters</div>
-              </div>
-            ) : searchType === "semantic" ? (
-              <SemanticResult
-                resultsData={filteredResults.length > 0 ? filteredResults : resultsData.SemanticResultData || []}
-                searchType={searchType}
+            ) : hasError || currentResults.length === 0 ? (
+              <EmptyState
+                type="search"
+                title={hasError ? "Search Error" : "No Results Found"}
+                description={
+                  hasError
+                    ? errorMessage
+                    : `No ${currentSearchType} results found for "${
+                        newQuery || initialQuery
+                      }". Try different keywords or adjust your filters.`
+                }
+                actionLabel="Clear Filters"
+                onAction={() => {
+                  setActiveFilters({ date: [], party: [], judge: [] });
+                  if (hasError) {
+                    fetchResults(newQuery || initialQuery, currentSearchType, false);
+                  }
+                }}
+                size="md"
               />
+            ) : currentSearchType === "semantic" ? (
+              <SemanticResult resultsData={currentResults} searchType={currentSearchType} />
             ) : (
-              <EntityResult
-                resultsData={filteredResults.length > 0 ? filteredResults : resultsData.EntityResultData || []}
-                searchType={searchType}
-              />
+              <EntityResult resultsData={currentResults} searchType={currentSearchType} />
             )}
           </div>
         </div>

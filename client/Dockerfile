@@ -1,12 +1,9 @@
-FROM node:18-alpine AS build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
 ARG VITE_API_BASE_URL
-ARG VITE_AUTH_BASE_URL
-
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
-ENV VITE_AUTH_BASE_URL=$VITE_AUTH_BASE_URL
 
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -15,24 +12,21 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:alpine
+FROM node:20-alpine AS runner
 
-RUN apk --no-cache add curl
+WORKDIR /app
 
-COPY --from=build /app/dist /usr/share/nginx/html
+RUN apk --no-cache add curl && \
+    npm install -g serve
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /app/dist
 
-RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
-    echo 'export PORT=${PORT:-80}' >> /docker-entrypoint.sh && \
-    echo 'envsubst "\$PORT \$BACKEND_URL" < /etc/nginx/conf.d/default.conf > /tmp/default.conf' >> /docker-entrypoint.sh && \
-    echo 'mv /tmp/default.conf /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.sh && \
-    echo 'nginx -g "daemon off;"' >> /docker-entrypoint.sh && \
-    chmod +x /docker-entrypoint.sh
+# Simple health file for uptime checks
+RUN echo "healthy" > /app/dist/health
 
-EXPOSE ${PORT:-80}
+EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:${PORT:-80}/health || exit 1
+    CMD sh -c 'curl -f http://localhost:${PORT:-3000}/health || exit 1'
 
-CMD ["/docker-entrypoint.sh"]
+CMD ["sh", "-c", "serve -s /app/dist -l ${PORT:-3000} --single"]

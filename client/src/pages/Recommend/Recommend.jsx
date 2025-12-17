@@ -14,7 +14,7 @@ import { Briefcase, Calendar, FileText, Gavel, MapPin, Scale, Users } from "luci
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import EnhancedLoader from "../../components/ui/EnhancedLoader";
+import { SkeletonLoader, EmptyState, useToast } from "../../components/ui";
 import { apiConfig } from "../../config/api";
 
 const Recommend = () => {
@@ -22,56 +22,102 @@ const Recommend = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { uuid } = useParams();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
         setLoading(true);
+        setError(null);
+        
         const response = await axios.get(apiConfig.endpoints.recommend(uuid));
+        
         if (response.data) {
           setData(response.data);
+          toast.success("Recommendations loaded successfully");
         } else {
           setData(null);
+          toast.warning("No recommendation data available");
         }
       } catch (error) {
         console.error("Error fetching recommendations:", error);
-        setError("Failed to load recommendations");
+        const errorMessage = error.response?.data?.message || "Failed to load recommendations";
+        setError(errorMessage);
         setData(null);
+        toast.error(errorMessage);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchRecommendations();
-  }, [uuid]);
+    if (uuid) {
+      fetchRecommendations();
+    } else {
+      setLoading(false);
+      setError("No case ID provided");
+    }
+  }, [uuid, toast]);
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 flex items-center justify-center">
-        <EnhancedLoader size="lg" label="Analyzing legal cases and generating recommendations..." center={true} />
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6">
+        <div className="max-w-7xl mx-auto space-y-8">
+          {/* Header Skeleton */}
+          <div className="text-center space-y-4">
+            <div className="h-10 bg-gray-700 rounded-lg w-96 mx-auto animate-pulse" />
+            <div className="h-6 bg-gray-700 rounded-lg w-64 mx-auto animate-pulse" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Target Case Skeleton */}
+            <div className="lg:col-span-1">
+              <SkeletonLoader type="recommendation" count={1} />
+            </div>
+
+            {/* Recommended Cases Skeleton */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="h-8 bg-gray-700 rounded-lg w-48 animate-pulse" />
+                <div className="h-6 bg-gray-700 rounded-full w-16 animate-pulse" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <SkeletonLoader type="recommendation" count={4} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
-        <Card className="bg-red-900/50 border border-red-500/50">
-          <CardBody className="text-center p-8">
-            <div className="text-red-400 text-lg font-semibold">{error}</div>
-          </CardBody>
-        </Card>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-6">
+        <EmptyState
+          type="error"
+          title="Failed to Load Recommendations"
+          description={error}
+          actionLabel="Try Again"
+          onAction={() => window.location.reload()}
+          size="lg"
+          className="text-white"
+        />
       </div>
     );
   }
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
-        <Card className="bg-gray-800/50 border border-gray-600/50">
-          <CardBody className="text-center p-8">
-            <div className="text-gray-300 text-lg">No data available</div>
-          </CardBody>
-        </Card>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-6">
+        <EmptyState
+          type="legal"
+          title="No Recommendation Data"
+          description="No recommendation data is available for this case."
+          actionLabel="Go Back"
+          onAction={() => window.history.back()}
+          size="lg"
+          className="text-white"
+        />
       </div>
     );
   }
@@ -151,11 +197,22 @@ TargetCaseCard.propTypes = {
 const RecommendedCasesSection = ({ cases }) => {
   if (!cases || !Array.isArray(cases) || cases.length === 0) {
     return (
-      <Card className="bg-gray-800/60 border border-gray-600/50">
-        <CardBody className="text-center py-12">
-          <div className="text-gray-400 text-lg">No recommended cases found</div>
-        </CardBody>
-      </Card>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-primary-400 flex items-center gap-3">
+            <Briefcase className="w-7 h-7" />
+            Recommended Cases
+          </h2>
+        </div>
+        
+        <EmptyState
+          type="legal"
+          title="No Recommended Cases"
+          description="No similar cases were found for the target case."
+          size="md"
+          className="text-white bg-gray-800/60 border border-gray-600/50 rounded-lg p-8"
+        />
+      </div>
     );
   }
 

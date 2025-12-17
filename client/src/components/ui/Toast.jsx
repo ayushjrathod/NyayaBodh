@@ -1,5 +1,6 @@
 import { AlertTriangle, CheckCircle, Info, X, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Toast = ({ type = "info", message, duration = 5000, onClose }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -29,46 +30,77 @@ const Toast = ({ type = "info", message, duration = 5000, onClose }) => {
   const getColorClasses = () => {
     switch (type) {
       case "success":
-        return "bg-success/10 border-success/20 text-success-600";
+        return "bg-white dark:bg-gray-800 border-l-4 border-l-green-500 text-green-800 dark:text-green-200 shadow-green-500/20";
       case "error":
-        return "bg-danger/10 border-danger/20 text-danger-600";
+        return "bg-white dark:bg-gray-800 border-l-4 border-l-red-500 text-red-800 dark:text-red-200 shadow-red-500/20";
       case "warning":
-        return "bg-warning/10 border-warning/20 text-warning-600";
+        return "bg-white dark:bg-gray-800 border-l-4 border-l-yellow-500 text-yellow-800 dark:text-yellow-200 shadow-yellow-500/20";
       default:
-        return "bg-primary/10 border-primary/20 text-primary-600";
+        return "bg-white dark:bg-gray-800 border-l-4 border-l-blue-500 text-blue-800 dark:text-blue-200 shadow-blue-500/20";
+    }
+  };
+
+  const getIconColorClasses = () => {
+    switch (type) {
+      case "success":
+        return "text-green-500";
+      case "error":
+        return "text-red-500";
+      case "warning":
+        return "text-yellow-500";
+      default:
+        return "text-blue-500";
     }
   };
 
   return (
-    <div
-      className={`
-        fixed top-4 right-4 z-50 max-w-sm w-full
-        transform transition-all duration-300 ease-out
-        ${isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}
-      `}
-    >
-      <div
-        className={`
-          p-4 rounded-lg border backdrop-blur-sm
-          flex items-start gap-3 shadow-lg
-          ${getColorClasses()}
-        `}
-      >
-        <div className="flex-shrink-0 mt-0.5">{getIcon()}</div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-foreground">{message}</p>
-        </div>
-        <button
-          onClick={() => {
-            setIsVisible(false);
-            setTimeout(onClose, 300);
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, x: 300, scale: 0.9 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: 300, scale: 0.9 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 300, 
+            damping: 30,
+            duration: 0.3 
           }}
-          className="flex-shrink-0 text-default-400 hover:text-default-600 transition-colors"
+          className={`
+            fixed top-4 right-4 z-50 max-w-sm w-full
+            pointer-events-auto
+          `}
         >
-          <X className="w-4 h-4" />
-        </button>
-      </div>
-    </div>
+          <div
+            className={`
+              p-4 rounded-lg border border-gray-200 dark:border-gray-700
+              backdrop-blur-sm shadow-lg
+              flex items-start gap-3
+              ${getColorClasses()}
+            `}
+          >
+            <div className={`flex-shrink-0 mt-0.5 ${getIconColorClasses()}`}>
+              {getIcon()}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium leading-relaxed break-words">
+                {message}
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setIsVisible(false);
+                setTimeout(onClose, 300);
+              }}
+              className="flex-shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+              aria-label="Close notification"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

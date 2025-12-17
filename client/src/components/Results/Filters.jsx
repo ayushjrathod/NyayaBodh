@@ -1,24 +1,23 @@
 import { Accordion, AccordionItem, Card, CardBody, Checkbox } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { memo, useMemo, useState } from "react";
 
-const Filters = ({ onFilterChange, results, searchType }) => {
-  const [judges, setJudges] = useState([]);
-  const [parties, setParties] = useState([]);
-  const [years, setYears] = useState([]);
-
+const Filters = memo(({ onFilterChange, results, searchType }) => {
   const [selectedFilters, setSelectedFilters] = useState({
     date: [],
     party: [],
     judge: [],
   });
-  useEffect(() => {
+
+  // Memoize the extraction of filter options to prevent recalculation
+  const filterOptions = useMemo(() => {
     // Ensure results is an array before processing
     if (!Array.isArray(results)) {
-      setJudges([]);
-      setParties([]);
-      setYears([]);
-      return;
+      return {
+        judges: [],
+        parties: [],
+        years: [],
+      };
     }
 
     const uniqueJudges = new Set();
@@ -61,7 +60,6 @@ const Filters = ({ onFilterChange, results, searchType }) => {
 
         // Extract judges from summary if available
         if (result.summary) {
-          // Try to extract judge names from summary - this might need adjustment based on actual data format
           const judgeMatches = result.summary.match(/Judge[s]?:\s*([^.]+)/gi);
           if (judgeMatches) {
             judgeMatches.forEach((match) => {
@@ -94,10 +92,14 @@ const Filters = ({ onFilterChange, results, searchType }) => {
       }
     });
 
-    setJudges(Array.from(uniqueJudges));
-    setParties(Array.from(uniqueParties));
-    setYears(Array.from(uniqueYears).sort((a, b) => b - a));
+    return {
+      judges: Array.from(uniqueJudges),
+      parties: Array.from(uniqueParties),
+      years: Array.from(uniqueYears).sort((a, b) => b - a),
+    };
   }, [results, searchType]);
+
+  const { judges, parties, years } = filterOptions;
 
   const handleFilterChange = (type, value) => {
     setSelectedFilters((prev) => {
@@ -116,22 +118,21 @@ const Filters = ({ onFilterChange, results, searchType }) => {
   };
 
   return (
-    <Card className="sticky top-[5rem]">
+    <Card className="lg:sticky lg:top-[5rem]">
       <CardBody>
         <aside className="p-4">
-          <h2 className="text-xl font-bold mb-4"> Filters</h2>
+          <h2 className="text-xl font-bold mb-4">Filters</h2>
           <Accordion>
             <AccordionItem key="date" aria-label="Date" title="Date">
               <div className="flex flex-col gap-2">
                 {years.map((year) => (
-                  <Checkbox
+                  <FilterCheckbox
                     key={year}
                     value={year}
+                    label={year}
                     isSelected={selectedFilters.date.includes(year)}
-                    onValueChange={() => handleFilterChange("date", year)}
-                  >
-                    {year}
-                  </Checkbox>
+                    onChange={() => handleFilterChange("date", year)}
+                  />
                 ))}
               </div>
             </AccordionItem>
@@ -139,14 +140,13 @@ const Filters = ({ onFilterChange, results, searchType }) => {
             <AccordionItem key="party" aria-label="Party" title="Party">
               <div className="flex flex-col gap-2">
                 {parties.map((party) => (
-                  <Checkbox
+                  <FilterCheckbox
                     key={party}
                     value={party}
+                    label={party}
                     isSelected={selectedFilters.party.includes(party)}
-                    onValueChange={() => handleFilterChange("party", party)}
-                  >
-                    {party}
-                  </Checkbox>
+                    onChange={() => handleFilterChange("party", party)}
+                  />
                 ))}
               </div>
             </AccordionItem>
@@ -154,14 +154,13 @@ const Filters = ({ onFilterChange, results, searchType }) => {
             <AccordionItem key="judge" aria-label="Judge" title="Judge">
               <div className="flex flex-col gap-2">
                 {judges.map((judge) => (
-                  <Checkbox
+                  <FilterCheckbox
                     key={judge}
                     value={judge}
+                    label={judge}
                     isSelected={selectedFilters.judge.includes(judge)}
-                    onValueChange={() => handleFilterChange("judge", judge)}
-                  >
-                    {judge}
-                  </Checkbox>
+                    onChange={() => handleFilterChange("judge", judge)}
+                  />
                 ))}
               </div>
             </AccordionItem>
@@ -170,6 +169,23 @@ const Filters = ({ onFilterChange, results, searchType }) => {
       </CardBody>
     </Card>
   );
+});
+
+// Memoized checkbox component to prevent unnecessary re-renders
+const FilterCheckbox = memo(({ value, label, isSelected, onChange }) => (
+  <Checkbox value={value} isSelected={isSelected} onValueChange={onChange}>
+    {label}
+  </Checkbox>
+));
+
+FilterCheckbox.displayName = "FilterCheckbox";
+Filters.displayName = "Filters";
+
+FilterCheckbox.propTypes = {
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 Filters.propTypes = {

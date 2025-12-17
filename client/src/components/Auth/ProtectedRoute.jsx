@@ -16,7 +16,7 @@ const ProtectedRoute = ({ children, allowedRoles, adminOnly }) => {
   }
 
   if (!isAuthenticated || !localStorage.getItem("token")) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/welcome" replace />;
   }
 
   // Check for admin-only access
