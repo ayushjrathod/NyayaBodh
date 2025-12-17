@@ -1,12 +1,9 @@
 import axios from "axios";
 
 const FRONTEND_URL = "http://localhost:5173";
-// Use production backend URL in production, localhost in development
-const BACKEND_URL = "http://localhost:8000"; // Replace with your backend URL
-// import.meta.env.VITE_API_BASE_URL ||
-// (import.meta.env.MODE === "production"
-//   ? "https://nyaybodh-backend-1750354950-7824ed4d28cf.herokuapp.com"
-//   : "http://localhost:8000");
+// Prefer env override; fall back to deployed backend host to keep login hitting the live API
+const BACKEND_URL =
+  import.meta.env.VITE_API_BASE_URL || "https://nyaybodh-backend-1750354950-7824ed4d28cf.herokuapp.com";
 
 export const api = axios.create({
   baseURL: BACKEND_URL,

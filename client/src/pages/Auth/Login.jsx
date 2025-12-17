@@ -1,14 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Card, CardBody, Input, Link, Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
+import { Button, Card, CardBody, Link, Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
-import { useState } from "react";
+import { User } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
 import { login as apiLogin, register as apiRegister } from "../../api/axios";
+import { useToast, ValidatedInput, validationRules } from "../../components/ui";
 import { apiConfig } from "../../config/api";
 import { setAuthState, setUserRole } from "../../store/slices/authSlice";
 
@@ -26,11 +27,23 @@ const registerSchema = z.object({
 });
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false);
   const [selected, setSelected] = useState("login");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const { toast, removeToast } = useToast();
+  const authToastId = useRef(null);
+
+  const replaceToast = useCallback(
+    (type, message) => {
+      if (authToastId.current) {
+        removeToast(authToastId.current);
+        authToastId.current = null;
+      }
+      authToastId.current = toast[type](message);
+    },
+    [removeToast, toast]
+  );
 
   // Setup forms with react-hook-form and zodResolver for validation
   const loginForm = useForm({
@@ -55,6 +68,8 @@ export default function Login() {
   const onLoginSubmit = async (values) => {
     try {
       console.log("Attempting login with values:", values);
+      replaceToast("loading", "Signing you in...");
+
       const response = await apiLogin(values);
       console.log("Login response:", response);
 
@@ -64,23 +79,30 @@ export default function Login() {
       dispatch(setAuthState(true));
       dispatch(setUserRole(user.role));
 
+      replaceToast("success", "Login successful! Welcome back.");
       console.log("About to navigate to /");
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
+      replaceToast("error", error.response?.data?.detail || "Login failed. Please check your credentials.");
     }
   };
 
   // Handle register submission
   const onRegisterSubmit = async (values) => {
     try {
+      replaceToast("loading", "Creating your account...");
+
       await apiRegister(values);
       const user = JSON.parse(localStorage.getItem("user"));
       dispatch(setAuthState(true));
       dispatch(setUserRole(user.role));
+
+      replaceToast("success", "Account created successfully! Welcome to NyayBodh.");
       navigate("/");
     } catch (error) {
       console.error("Registration failed:", error);
+      replaceToast("error", error.response?.data?.detail || "Registration failed. Please try again.");
     }
   };
 
@@ -88,15 +110,15 @@ export default function Login() {
   const onGoogleSuccess = async (tokenResponse) => {
     try {
       console.log("Google login success, access_token received");
+      replaceToast("loading", "Signing in with Google...");
+
       const { access_token } = tokenResponse;
       const userData = await axios.post(apiConfig.endpoints.auth.googleVerify, { token: access_token });
 
       console.log("Google verify response:", userData.data);
 
-      // The backend returns the token data directly, not wrapped in a user object
       const { access_token: jwt_token, role, user_id, fullname } = userData.data;
 
-      // Create user object for local storage
       const user = {
         id: user_id,
         role: role,
@@ -105,10 +127,7 @@ export default function Login() {
 
       console.log("Storing Google user data:", user);
 
-      // Clear any existing auth data first
       localStorage.clear();
-
-      // Store the user data similar to regular login
       localStorage.setItem("token", jwt_token);
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("isAuthenticated", "true");
@@ -123,17 +142,19 @@ export default function Login() {
       dispatch(setUserRole(role));
       window.dispatchEvent(new Event("auth-state-changed"));
 
+      replaceToast("success", "Google sign-in successful!");
       console.log("Google login complete, navigating to /");
-      // Small delay to ensure state updates are processed
       setTimeout(() => navigate("/"), 100);
     } catch (error) {
       console.error("Google login failed:", error);
+      replaceToast("error", "Google sign-in failed. Please try again.");
     }
   };
 
   // Handle Google login failure
   const onGoogleFailure = (error) => {
     console.error("Google login failed:", error);
+    replaceToast("error", "Google sign-in was cancelled or failed.");
   };
 
   const googleLogin = useGoogleLogin({
@@ -167,57 +188,38 @@ export default function Login() {
               {/* Login Form */}
               <Tab key="login" title="Login">
                 <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="flex flex-col gap-6 mt-4">
-                  <Input
-                    isRequired
+                  <ValidatedInput
                     label="Email"
-                    size="lg"
-                    variant="bordered"
-                    radius="lg"
-                    isInvalid={!!loginForm.formState.errors.email}
-                    errorMessage={loginForm.formState.errors.email?.message}
+                    name="email"
+                    type="email"
+                    value={loginForm.watch("email")}
+                    onChange={(e) => loginForm.setValue("email", e.target.value)}
+                    validation={validationRules.email}
                     placeholder="Enter your email address"
-                    startContent={<span className="text-default-400 text-lg">📧</span>}
+                    isRequired
+                    realTimeValidation={false}
                     classNames={{
-                      input: "text-sm font-medium",
                       inputWrapper:
                         "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
-                    {...loginForm.register("email")}
                   />
 
-                  <Input
-                    isRequired
+                  <ValidatedInput
                     label="Password"
-                    size="lg"
-                    variant="bordered"
-                    radius="lg"
+                    name="password"
+                    type="password"
+                    value={loginForm.watch("password")}
+                    onChange={(e) => loginForm.setValue("password", e.target.value)}
+                    validation={validationRules.required}
                     placeholder="Enter your password"
-                    isInvalid={!!loginForm.formState.errors.password}
-                    errorMessage={loginForm.formState.errors.password?.message}
-                    type={showPassword ? "text" : "password"}
-                    startContent={<span className="text-default-400 text-lg">🔒</span>}
+                    isRequired
+                    realTimeValidation={false}
                     classNames={{
-                      input: "text-sm font-medium",
                       inputWrapper:
                         "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
-                    endContent={
-                      <button
-                        className="focus:outline-none focus-enhanced p-1 rounded-md transition-colors"
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label="toggle password visibility"
-                      >
-                        {showPassword ? (
-                          <EyeOff className="text-xl text-default-400 hover:text-default-600 transition-colors" />
-                        ) : (
-                          <Eye className="text-xl text-default-400 hover:text-default-600 transition-colors" />
-                        )}
-                      </button>
-                    }
-                    {...loginForm.register("password")}
                   />
 
                   <div className="text-center">
@@ -237,9 +239,10 @@ export default function Login() {
                       radius="lg"
                       fullWidth
                       color="primary"
+                      isLoading={loginForm.formState.isSubmitting}
                       className="btn-hover-lift font-semibold text-base py-6 bg-gradient-to-r from-primary to-primary-600 shadow-lg"
                     >
-                      Sign In
+                      {loginForm.formState.isSubmitting ? "Signing In..." : "Sign In"}
                     </Button>
 
                     <Button
@@ -279,76 +282,52 @@ export default function Login() {
               {/* Register Form */}
               <Tab key="sign-up" title="Sign up">
                 <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="flex flex-col gap-6 mt-4">
-                  <Input
-                    isRequired
+                  <ValidatedInput
                     label="Full Name"
-                    size="lg"
-                    variant="bordered"
-                    radius="lg"
-                    isInvalid={!!registerForm.formState.errors.name}
-                    errorMessage={registerForm.formState.errors.name?.message}
+                    name="name"
+                    value={registerForm.watch("name")}
+                    onChange={(e) => registerForm.setValue("name", e.target.value)}
+                    validation={validationRules.minLength(2)}
                     placeholder="Enter your full name"
+                    isRequired
                     startContent={<User className="w-4 h-4 text-default-400" />}
                     classNames={{
-                      input: "text-sm font-medium",
                       inputWrapper:
                         "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
-                    {...registerForm.register("name")}
                   />
 
-                  <Input
-                    isRequired
+                  <ValidatedInput
                     label="Email Address"
-                    size="lg"
-                    variant="bordered"
-                    radius="lg"
-                    isInvalid={!!registerForm.formState.errors.email}
-                    errorMessage={registerForm.formState.errors.email?.message}
+                    name="email"
+                    type="email"
+                    value={registerForm.watch("email")}
+                    onChange={(e) => registerForm.setValue("email", e.target.value)}
+                    validation={validationRules.email}
                     placeholder="Enter your email address"
-                    startContent={<Mail className="w-4 h-4 text-default-400" />}
+                    isRequired
                     classNames={{
-                      input: "text-sm font-medium",
                       inputWrapper:
                         "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
-                    {...registerForm.register("email")}
                   />
 
-                  <Input
-                    isRequired
+                  <ValidatedInput
                     label="Password"
-                    size="lg"
-                    variant="bordered"
-                    radius="lg"
-                    isInvalid={!!registerForm.formState.errors.password}
-                    errorMessage={registerForm.formState.errors.password?.message}
+                    name="password"
+                    type="password"
+                    value={registerForm.watch("password")}
+                    onChange={(e) => registerForm.setValue("password", e.target.value)}
+                    validation={validationRules.password}
                     placeholder="Create a strong password"
-                    type={showPassword ? "text" : "password"}
-                    startContent={<Lock className="w-4 h-4 text-default-400" />}
+                    isRequired
                     classNames={{
-                      input: "text-sm font-medium",
                       inputWrapper:
                         "border-default-200 hover:border-primary-300 focus-within:border-primary backdrop-blur-sm bg-default-50/50",
                       label: "font-semibold text-default-700",
                     }}
-                    endContent={
-                      <button
-                        className="focus:outline-none focus-enhanced p-1 rounded-md transition-colors"
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label="toggle password visibility"
-                      >
-                        {showPassword ? (
-                          <EyeOff className="text-xl text-default-400 hover:text-default-600 transition-colors" />
-                        ) : (
-                          <Eye className="text-xl text-default-400 hover:text-default-600 transition-colors" />
-                        )}
-                      </button>
-                    }
-                    {...registerForm.register("password")}
                   />
 
                   <Select
@@ -357,9 +336,9 @@ export default function Login() {
                     variant="bordered"
                     radius="lg"
                     isRequired
-                    isInvalid={!!registerForm.formState.errors.role}
-                    errorMessage={registerForm.formState.errors.role?.message}
                     placeholder="Select your role"
+                    value={registerForm.watch("role")}
+                    onChange={(e) => registerForm.setValue("role", e.target.value)}
                     classNames={{
                       trigger:
                         "border-default-200 hover:border-primary-300 data-[focus=true]:border-primary backdrop-blur-sm bg-default-50/50",
@@ -367,7 +346,6 @@ export default function Login() {
                       value: "text-sm font-medium",
                       popoverContent: `${isDarkMode ? "dark" : ""} bg-background text-foreground`,
                     }}
-                    {...registerForm.register("role")}
                   >
                     <SelectItem key="USER" value="USER">
                       Normal User
@@ -403,9 +381,10 @@ export default function Login() {
                       radius="lg"
                       fullWidth
                       color="primary"
+                      isLoading={registerForm.formState.isSubmitting}
                       className="btn-hover-lift font-semibold text-base py-6 bg-gradient-to-r from-primary to-primary-600 shadow-lg"
                     >
-                      Create Account
+                      {registerForm.formState.isSubmitting ? "Creating Account..." : "Create Account"}
                     </Button>
                   </div>
                 </form>

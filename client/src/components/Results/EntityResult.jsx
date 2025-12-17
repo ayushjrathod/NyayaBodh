@@ -1,38 +1,66 @@
 import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { FileText, MessageSquare } from "lucide-react";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { memo, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-const EntityResult = ({ resultsData, searchType }) => {
+const EntityResult = memo(({ resultsData, searchType }) => {
   const navigate = useNavigate();
   const [expandedEntities, setExpandedEntities] = useState({});
 
   // Ensure resultsData is an array
-  const safeResultsData = Array.isArray(resultsData) ? resultsData : [];
+  const safeResultsData = useMemo(() => 
+    Array.isArray(resultsData) ? resultsData : [], 
+    [resultsData]
+  );
 
-  // Show empty state if no results
-  if (safeResultsData.length === 0) {
-    return (
-      <div className="flex flex-col justify-center items-center py-16 text-center">
-        <div className="text-lg text-gray-600 mb-2">🔍</div>
-        <div className="text-lg font-medium text-gray-700 mb-1">No Entity Results</div>
-        <div className="text-sm text-gray-500">Try refining your search query</div>
-      </div>
-    );
-  }
-
-  const toggleEntities = (uuid) => {
+  // Memoized toggle function to prevent recreation on every render
+  const toggleEntities = useCallback((uuid) => {
     setExpandedEntities((prev) => ({
       ...prev,
       [uuid]: !prev[uuid],
     }));
-  };
+  }, []);
 
-  const renderEntities = (entities, uuid) => {
+  // Memoized navigation handlers
+  const handleTitleClick = useCallback((result) => {
+    navigate(`/result/${result.uuid}`, {
+      state: {
+        searchType: "entity",
+        EntityResultData: safeResultsData,
+        metadata: result.metadata || {},
+        id: result.uuid,
+        title: `${result.petitioner} v. ${result.respondent}`,
+        petitioner: result.petitioner,
+        respondent: result.respondent,
+        entities: result.entities,
+        summary: result.summary,
+      },
+    });
+  }, [navigate, safeResultsData]);
+
+  const handleChatWithPdfClick = useCallback((uuid) => {
+    navigate(`/chat/${uuid}`);
+  }, [navigate]);
+
+  const handleRecommendCitationsClick = useCallback((uuid) => {
+    navigate(`/recommend/${uuid}`);
+  }, [navigate]);
+
+  // Memoized utility functions
+  const truncateText = useCallback((text, wordLimit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
+    }
+    return text;
+  }, []);
+
+  const renderEntities = useCallback((entities, uuid) => {
     const entityText = entities || "Not specified";
     const isExpanded = expandedEntities[uuid];
-    const maxLength = 100; // Character limit for entities
+    const maxLength = 100;
 
     if (entityText.length <= maxLength) {
       return entityText;
@@ -60,41 +88,21 @@ const EntityResult = ({ resultsData, searchType }) => {
         </button>
       </>
     );
-  };
-  const handleTitleClick = (result) => {
-    navigate(`/result/${result.uuid}`, {
-      state: {
-        searchType: "entity",
-        EntityResultData: safeResultsData,
-        // Legacy support for backward compatibility
-        metadata: result.metadata || {},
-        id: result.uuid,
-        title: `${result.petitioner} v. ${result.respondent}`,
-        petitioner: result.petitioner,
-        respondent: result.respondent,
-        entities: result.entities,
-        summary: result.summary,
-      },
-    });
-  };
+  }, [expandedEntities, toggleEntities]);
 
-  const truncateText = (text, wordLimit) => {
-    const words = text.split(" ");
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(" ") + "...";
-    }
-    return text;
-  };
+  // Show empty state if no results
+  if (safeResultsData.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center py-16 text-center">
+        <div className="text-lg text-gray-600 mb-2">🔍</div>
+        <div className="text-lg font-medium text-gray-700 mb-1">No Entity Results</div>
+        <div className="text-sm text-gray-500">Try refining your search query</div>
+      </div>
+    );
+  }
 
-  const handleChatWithPdfClick = (uuid) => {
-    navigate(`/chat/${uuid}`);
-  };
-  const handleRecommendCitationsClick = (uuid) => {
-    navigate(`/recommend/${uuid}`);
-  };
   return (
     <main className="p-4">
-      {" "}
       <h1 className="mx-2 my-1 mt-2 font-poppins tracking-wide font-semibold">
         Total {safeResultsData.length} results found for your entity search.
       </h1>
@@ -104,9 +112,6 @@ const EntityResult = ({ resultsData, searchType }) => {
           const petitionerName = result.petitioner?.split(",")[0]?.trim() || "Unknown";
           const respondentName = result.respondent?.split(",")[0]?.trim() || "Unknown";
 
-          // Debug: Log the summary content
-          // console.log("Summary content:", result.summary);
-
           // Extract background section
           const summaryContent = result.summary || "";
           const backgroundSection = summaryContent.match(/Background:\s*(.*?)\s*Tasks:/is)?.[1]?.trim();
@@ -115,50 +120,91 @@ const EntityResult = ({ resultsData, searchType }) => {
           const truncatedBackground = backgroundSection ? truncateText(backgroundSection, 250) : null;
 
           return (
-            <Card key={result.uuid} className="w-full">
-              <CardBody>
-                <button
-                  onClick={() => handleTitleClick(result)}
-                  className="text-lg text-start font-semibold hover:underline hover:decoration-1 cursor-pointer hover:text-blue-600"
-                >
-                  {`${petitionerName} v. ${respondentName}`}{" "}
-                </button>{" "}
-                <p className="text-xl font-semibold text-default-500">
-                  Entities: {renderEntities(result.entities, result.uuid)}
-                </p>
-                {truncatedBackground ? (
-                  <p className="text-md  mt-2 text-default-600">{truncatedBackground}</p>
-                ) : (
-                  <p className="text-md mt-2 line-clamp-3 text-default-600 italic">
-                    {summaryContent || "No background information available."}
-                  </p>
-                )}
-              </CardBody>
-              <Divider />
-              <CardFooter className="justify-between">
-                <Button
-                  onClick={() => handleRecommendCitationsClick(result.uuid)}
-                  color="primary"
-                  variant="light"
-                  startContent={<FileText size={18} />}
-                >
-                  Recommend
-                </Button>
-                <Button
-                  onClick={() => handleChatWithPdfClick(result.uuid)}
-                  color="secondary"
-                  variant="light"
-                  startContent={<MessageSquare size={18} />}
-                >
-                  Chat with PDF
-                </Button>
-              </CardFooter>
-            </Card>
+            <EntityResultCard
+              key={result.uuid}
+              result={result}
+              petitionerName={petitionerName}
+              respondentName={respondentName}
+              truncatedBackground={truncatedBackground}
+              summaryContent={summaryContent}
+              renderEntities={renderEntities}
+              onTitleClick={handleTitleClick}
+              onChatClick={handleChatWithPdfClick}
+              onRecommendClick={handleRecommendCitationsClick}
+            />
           );
         })}
       </div>
     </main>
   );
+});
+
+// Separate memoized card component to prevent unnecessary re-renders
+const EntityResultCard = memo(({
+  result,
+  petitionerName,
+  respondentName,
+  truncatedBackground,
+  summaryContent,
+  renderEntities,
+  onTitleClick,
+  onChatClick,
+  onRecommendClick
+}) => (
+  <Card className="w-full">
+    <CardBody>
+      <button
+        onClick={() => onTitleClick(result)}
+        className="text-lg text-start font-semibold hover:underline hover:decoration-1 cursor-pointer hover:text-blue-600"
+      >
+        {`${petitionerName} v. ${respondentName}`}
+      </button>
+      <p className="text-xl font-semibold text-default-500">
+        Entities: {renderEntities(result.entities, result.uuid)}
+      </p>
+      {truncatedBackground ? (
+        <p className="text-md mt-2 text-default-600">{truncatedBackground}</p>
+      ) : (
+        <p className="text-md mt-2 line-clamp-3 text-default-600 italic">
+          {summaryContent || "No background information available."}
+        </p>
+      )}
+    </CardBody>
+    <Divider />
+    <CardFooter className="justify-between">
+      <Button
+        onClick={() => onRecommendClick(result.uuid)}
+        color="primary"
+        variant="light"
+        startContent={<FileText size={18} />}
+      >
+        Recommend
+      </Button>
+      <Button
+        onClick={() => onChatClick(result.uuid)}
+        color="secondary"
+        variant="light"
+        startContent={<MessageSquare size={18} />}
+      >
+        Chat with PDF
+      </Button>
+    </CardFooter>
+  </Card>
+));
+
+EntityResultCard.displayName = "EntityResultCard";
+EntityResult.displayName = "EntityResult";
+
+EntityResultCard.propTypes = {
+  result: PropTypes.object.isRequired,
+  petitionerName: PropTypes.string.isRequired,
+  respondentName: PropTypes.string.isRequired,
+  truncatedBackground: PropTypes.string,
+  summaryContent: PropTypes.string.isRequired,
+  renderEntities: PropTypes.func.isRequired,
+  onTitleClick: PropTypes.func.isRequired,
+  onChatClick: PropTypes.func.isRequired,
+  onRecommendClick: PropTypes.func.isRequired,
 };
 
 EntityResult.propTypes = {

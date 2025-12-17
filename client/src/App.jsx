@@ -1,36 +1,54 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useEffect } from "react";
+import PropTypes from "prop-types";
+import { lazy, Suspense, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import PublicRoute from "./components/Auth/PublicRoute";
-import AgreementOfSaleForm from "./components/DocGen/AOS/AOS";
-import DeedOfSaleOfFlat from "./components/DocGen/DOSF/DOSF";
-import LandSaleDeedForm from "./components/DocGen/DOSL/DOSL";
-import WillDeedForm from "./components/DocGen/DOW/DOW";
-import EmployeeNDAForm from "./components/DocGen/ENDNCA/ENDNCA";
-import GenAIClause from "./components/DocGen/GenAIClause";
-import LicenseAgreementForm from "./components/DocGen/LLA/LLA";
-import NDAForm from "./components/DocGen/NDA/NDA";
-import POA from "./components/DocGen/POW/POA";
 import Layout from "./components/Layout/Layout";
-import EnhancedLoader from "./components/ui/EnhancedLoader";
+import { EnhancedLoader } from "./components/ui";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Login from "./pages/Auth/Login";
-import Chatbot from "./pages/Chatbot/Chatbot";
-import Contact from "./pages/Contact/Contact";
-import AdminDashboard from "./pages/Dashboard/AdminDashboard";
-import SelectionPage from "./pages/DocGen/SelectionPage";
 import LandingSearch from "./pages/Landing/LandingSearch";
 import LandingSearchSemantic from "./pages/Landing/LandingSearchSemantic";
-import LawLookupPage from "./pages/LawLookup/LawLookup";
-import PdfSummary from "./pages/PdfSummary/PdfSummary";
-import Recommend from "./pages/Recommend/Recommend";
 import Results from "./pages/Result/Results";
-import SeprateResults from "./pages/SeprateResults/SeprateResults";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import { checkAuthState } from "./store/slices/authSlice";
+
+// Lazy load heavy components that are not immediately needed
+const AdminDashboard = lazy(() => import("./pages/Dashboard/AdminDashboard"));
+const Chatbot = lazy(() => import("./pages/Chatbot/Chatbot"));
+const Contact = lazy(() => import("./pages/Contact/Contact"));
+const Resources = lazy(() => import("./pages/Resources/Resources"));
+const LawLookupPage = lazy(() => import("./pages/LawLookup/LawLookup"));
+const Recommend = lazy(() => import("./pages/Recommend/Recommend"));
+const SeprateResults = lazy(() => import("./pages/SeprateResults/SeprateResults"));
+const PdfSummary = lazy(() => import("./pages/PdfSummary/PdfSummary"));
+const Profile = lazy(() => import("./pages/Profile/Profile"));
+const PublicLanding = lazy(() => import("./pages/Landing/PublicLanding"));
+
+// DocGen components - these are admin-only and can be lazy loaded
+const SelectionPage = lazy(() => import("./pages/DocGen/SelectionPage"));
+const AgreementOfSaleForm = lazy(() => import("./components/DocGen/AOS/AOS"));
+const DeedOfSaleOfFlat = lazy(() => import("./components/DocGen/DOSF/DOSF"));
+const LandSaleDeedForm = lazy(() => import("./components/DocGen/DOSL/DOSL"));
+const WillDeedForm = lazy(() => import("./components/DocGen/DOW/DOW"));
+const EmployeeNDAForm = lazy(() => import("./components/DocGen/ENDNCA/ENDNCA"));
+const GenAIClause = lazy(() => import("./components/DocGen/GenAIClause"));
+const LicenseAgreementForm = lazy(() => import("./components/DocGen/LLA/LLA"));
+const NDAForm = lazy(() => import("./components/DocGen/NDA/NDA"));
+const POA = lazy(() => import("./components/DocGen/POW/POA"));
+
+// Enhanced loading component for lazy routes
+const LazyLoadingFallback = ({ message = "Loading..." }) => (
+  <div className="min-h-screen flex items-center justify-center">
+    <EnhancedLoader size="lg" label={message} center={true} />
+  </div>
+);
+LazyLoadingFallback.propTypes = {
+  message: PropTypes.string,
+};
 
 const App = () => {
   const isLoading = false;
@@ -53,10 +71,10 @@ const App = () => {
             <p>{error.message}</p>
           </CardBody>
         </Card>
-        ;
       </div>
     );
   }
+
   if (isLoading) {
     return <EnhancedLoader fullScreen={true} size="lg" label="Initializing application..." />;
   }
@@ -64,9 +82,18 @@ const App = () => {
   return (
     <GoogleOAuthProvider clientId="319048462859-357vnfkhosp0dqr66mjpb2lid83duifs.apps.googleusercontent.com">
       <Router>
-        {" "}
         <Routes>
           {/* Public routes - redirect authenticated users */}
+          <Route
+            path="/welcome"
+            element={
+              <PublicRoute redirectTo="/">
+                <Suspense fallback={<LazyLoadingFallback message="Loading experience..." />}>
+                  <PublicLanding />
+                </Suspense>
+              </PublicRoute>
+            }
+          />
           <Route
             path="/login"
             element={
@@ -87,15 +114,19 @@ const App = () => {
           {/* Public route - accessible to all */}
           <Route path="/unauthorized" element={<Unauthorized />} />
 
-          {/* Admin only routes */}
+          {/* Admin only routes with lazy loading */}
           <Route
             path="/admin"
             element={
               <ProtectedRoute adminOnly>
-                <AdminDashboard />
+                <Suspense fallback={<LazyLoadingFallback message="Loading admin dashboard..." />}>
+                  <AdminDashboard />
+                </Suspense>
               </ProtectedRoute>
             }
           />
+
+          {/* Main application routes */}
           <Route
             path="/"
             element={
@@ -111,7 +142,7 @@ const App = () => {
                 <LandingSearchSemantic />
               </ProtectedRoute>
             }
-          ></Route>
+          />
           <Route
             path="/results"
             element={
@@ -122,6 +153,27 @@ const App = () => {
           >
             <Route index element={<Results />} />
           </Route>
+
+          {/* Profile Route */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading profile..." />}>
+                  <Profile />
+                </Suspense>
+              }
+            />
+          </Route>
+
+          {/* Lazy loaded routes with Layout */}
           <Route
             path="/chat/:id"
             element={
@@ -130,7 +182,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<Chatbot />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading chat interface..." />}>
+                  <Chatbot />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/recommend/:uuid"
@@ -140,17 +199,48 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<Recommend />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading recommendations..." />}>
+                  <Recommend />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/contact"
             element={
-              <ProtectedRoute>
+              <PublicRoute redirectTo="/">
                 <Layout />
-              </ProtectedRoute>
+              </PublicRoute>
             }
           >
-            <Route index element={<Contact />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading contact page..." />}>
+                  <Contact />
+                </Suspense>
+              }
+            />
+          </Route>
+          <Route
+            path="/resources"
+            element={
+              <PublicRoute redirectTo="/">
+                <Layout />
+              </PublicRoute>
+            }
+          >
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading resources..." />}>
+                  <Resources />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/lawlookup"
@@ -160,7 +250,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<LawLookupPage />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading law lookup..." />}>
+                  <LawLookupPage />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/result/:uuid"
@@ -170,7 +267,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<SeprateResults />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading case details..." />}>
+                  <SeprateResults />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/summary/pdf"
@@ -180,8 +284,17 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<PdfSummary />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading PDF summary..." />}>
+                  <PdfSummary />
+                </Suspense>
+              }
+            />
           </Route>
+
+          {/* DocGen routes - Admin only with lazy loading */}
           <Route
             path="/docgen"
             element={
@@ -190,7 +303,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<SelectionPage />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading document generator..." />}>
+                  <SelectionPage />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/NDA"
@@ -200,7 +320,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<NDAForm />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading NDA form..." />}>
+                  <NDAForm />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/POA"
@@ -210,7 +337,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<POA />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading POA form..." />}>
+                  <POA />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/LLA"
@@ -220,7 +354,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<LicenseAgreementForm />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading license agreement form..." />}>
+                  <LicenseAgreementForm />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/ENDNCA"
@@ -230,7 +371,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<EmployeeNDAForm />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading employee NDA form..." />}>
+                  <EmployeeNDAForm />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/DOSF"
@@ -240,7 +388,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<DeedOfSaleOfFlat />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading deed of sale form..." />}>
+                  <DeedOfSaleOfFlat />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/DOSL"
@@ -250,7 +405,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<LandSaleDeedForm />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading land sale deed form..." />}>
+                  <LandSaleDeedForm />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/DOW"
@@ -260,7 +422,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<WillDeedForm />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading will deed form..." />}>
+                  <WillDeedForm />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/GenAIClause"
@@ -270,7 +439,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<GenAIClause />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading AI clause generator..." />}>
+                  <GenAIClause />
+                </Suspense>
+              }
+            />
           </Route>
           <Route
             path="/docgen/AOS"
@@ -280,7 +456,14 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route index element={<AgreementOfSaleForm />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<LazyLoadingFallback message="Loading agreement of sale form..." />}>
+                  <AgreementOfSaleForm />
+                </Suspense>
+              }
+            />
           </Route>
         </Routes>
       </Router>

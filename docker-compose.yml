@@ -1,6 +1,6 @@
 networks:
   nyaybodh-network:
-    driver: bridge
+    driver: bridge # create a virtual bridge network that allows communication between containers on same host
 
 services:
   frontend:
