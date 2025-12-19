@@ -8,9 +8,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - "7860:80" # HF Spaces expects port 7860
-    env_file:
-      - client/.env
+      - "7860:80" # HF Spaces expects port 7860, change this if not using HF Spaces
     environment:
       - PORT=80
       - BACKEND_URL=http://backend:8000
@@ -33,12 +31,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    env_file:
+    env_file: # for running locally or on platforms like HF Spaces
       - api/.env
     environment:
       - PORT=8000
       - FRONTEND_URL=http://frontend:80
-      - PYTHONUNBUFFERED=1
     networks:
       - nyaybodh-network
     restart: unless-stopped

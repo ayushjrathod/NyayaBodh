@@ -1,25 +1,26 @@
-import pandas as pd
 import os
-from fastapi import FastAPI, Request
+from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from groq import AsyncGroq
-import asyncio
 from dotenv import load_dotenv
-from .model_config import config
-from .embedding_service import get_embedding_service
+from ..utils.config import config
+from ..services.embedding_service import get_embedding_service
+from ..utils.database import prisma, db_logger
+import logging
+import PyPDF2
 
-# Load environment variables
+#TODO: Improve whole logic accross the file
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 load_dotenv()
 
-app = FastAPI()
+chat_router = APIRouter(prefix="/chat")
 
-# Load CSV
-csv_file = "ner_data.csv"
-
-pdf_folder = "03-09-24"
-ner_data = pd.read_csv(csv_file).set_index("uuid").to_dict()["file_name"]
+pdf_folder = "./data/resources/03-09-24"
 
 # Initialize HuggingFace embedding service
 embedding_service = get_embedding_service()
@@ -27,11 +28,8 @@ embedding_service = get_embedding_service()
 # Initialize Groq client
 groq_client = AsyncGroq(api_key=config.GROQ_API_KEY)
 
-
 # PDF Text Extraction
 def extract_pdf_text(pdf_path):
-    # Note: PyPDF2 import moved to function to avoid import errors
-    import PyPDF2
     with open(pdf_path, "rb") as f:
         reader = PyPDF2.PdfReader(f)
         return " ".join(page.extract_text() for page in reader.pages)
@@ -42,6 +40,7 @@ def chunk_and_encode_text(text, chunk_size=None):
     if chunk_size is None:
         chunk_size = config.MAX_CHUNK_SIZE
         
+    # TODO: Improve chunking strategy (currently simple word-based)
     # Simple text chunking by words since we don't have tokenizer
     words = text.split()
     chunks = []
@@ -76,7 +75,7 @@ def retrieve_context(question, chunks, embeddings, top_n=None):
     """Retrieve the most relevant chunks for the given question using HuggingFace API."""
     if top_n is None:
         top_n = config.TOP_N_CHUNKS
-        
+    
     # Encode the question using HuggingFace API
     question_embedding = embedding_service.encode(question)
     
@@ -93,12 +92,22 @@ def retrieve_context(question, chunks, embeddings, top_n=None):
     # Retrieve top_n most relevant chunks
     top_indices = similarities.argsort()[-top_n:][::-1]
     return " ".join(chunks[i] for i in top_indices)
+
 async def generate_response(question, context):
     """Generate a response using Groq API with streaming."""
+    
+    SYSTEM_MESSAGE = """
+                        You are a helpful assistant that responds to the user based on the context provided. 
+                        If the answer does not lie in the context, you will respond with that is not my area of expertise, 
+                        I am a chatbot designed for Vidi-Lekhak, a platform to help users know and create legal documents. 
+                        You will refer to Vidhi-Lekhak as "our" platform. You are the assistant for the vidhilekhak platform. 
+                        If any document is mentioned by the user you will also give the steps to generate it.
+                    """
+
     messages = [
         {
             "role": "system",
-            "content": config.SYSTEM_MESSAGE
+            "content": SYSTEM_MESSAGE
         },
         {
             "role": "user",
@@ -124,23 +133,25 @@ async def generate_response(question, context):
         yield f"Error generating response: {str(e)}"
 
 
-
-
 # Document preparation global variables
 prepared_documents = {}
 
-@app.post("/get-ready/{document_id}")
+@chat_router.post("/get-ready/{document_id}")
 async def prepare_document(document_id: str):
     """Prepare a document for chat by processing its content."""
     try:
-        # Find the corresponding PDF
-        pdf_name = ner_data.get(document_id)
-        if not pdf_name:
-            return {"error": "Document ID not found."}
+        # Find the corresponding PDF from DB
+        doc = await prisma.document.find_unique(where={'uuid': document_id})
+        
+        if not doc or not doc.filename:
+            return {"error": "Document ID not found or filename missing."}
 
+        pdf_name = doc.filename.strip()
         pdf_path = os.path.join(pdf_folder, pdf_name)
+        
         if not os.path.exists(pdf_path):
-            return {"error": "PDF file not found."}
+            logger.error(f"PDF file missing on disk: {pdf_path}")
+            return {"error": "PDF file not found on server."}
 
         # Extract text and prepare for chat
         pdf_text = extract_pdf_text(pdf_path)
@@ -156,10 +167,11 @@ async def prepare_document(document_id: str):
         return {"message": "Case ready"}
     
     except Exception as e:
+        logger.error(f"Error checking document in DB: {e}")
         return {"error": f"Failed to prepare document: {str(e)}"}
 
 # API Endpoint
-@app.post("/ask")
+@chat_router.post("/ask")
 async def ask_question(request: Request):
     data = await request.json()
     question = data.get("question")
@@ -170,23 +182,31 @@ async def ask_question(request: Request):
         # Fallback: try to use UUID if provided
         uuid = data.get("uuid")
         if uuid:
-            # Find the corresponding PDF
-            pdf_name = ner_data.get(uuid)
-            if not pdf_name:
-                return {"error": "UUID not found."}
+            try: 
+                 # Find the corresponding PDF
+                doc = await prisma.document.find_unique(where={'uuid': uuid})
+                
+                if not doc or not doc.filename:
+                    return {"error": "UUID not found or filename missing."}
 
-            pdf_path = os.path.join(pdf_folder, pdf_name)
-            if not os.path.exists(pdf_path):
-                return {"error": "PDF file not found."}
+                pdf_name = doc.filename.strip()
+                pdf_path = os.path.join(pdf_folder, pdf_name)
+                
+                if not os.path.exists(pdf_path):
+                    return {"error": "PDF file not found."}
 
-            # Extract text and retrieve context
-            pdf_text = extract_pdf_text(pdf_path)
-            chunks, embeddings = chunk_and_encode_text(pdf_text)
-            context = retrieve_context(question, chunks, embeddings)
+                # Extract text and retrieve context
+                pdf_text = extract_pdf_text(pdf_path)
+                chunks, embeddings = chunk_and_encode_text(pdf_text)
+                context = retrieve_context(question, chunks, embeddings)
+            except Exception as e:
+                 logger.error(f"Error in ask_question fallback: {e}")
+                 return {"error": f"Error: {e}"}
         else:
             return {"error": "No prepared document found and no UUID provided."}
     else:
         # Use the first prepared document (could be improved to handle multiple)
+        # TODO: Handle multi-user concurrency better than a global dict
         doc_data = list(prepared_documents.values())[0]
         context = retrieve_context(question, doc_data["chunks"], doc_data["embeddings"])
 

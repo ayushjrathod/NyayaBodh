@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import logging
 import json
 from prisma import Prisma, Json
-from app.embedding_service import get_embedding_service
+from .embedding_service import get_embedding_service
 import asyncio
 
 # Load environment variables

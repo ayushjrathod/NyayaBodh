@@ -13,7 +13,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from prisma.models import User
-from .database import prisma, logger  # Import logger as well
+from ..utils.database import prisma, logger  # Import logger as well
 
 # Configure passlib to use argon2 (more modern and stable)
 try:

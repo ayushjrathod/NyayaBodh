@@ -1,18 +1,9 @@
-# Root .gitignore (merged)
-# Merged from: api/.gitignore, client/.gitignore, db/.gitignore
-
-# Node
-node_modules/
+node_modules
 dist/
 
-# Environment files
 .env
 
-# Python
 __pycache__/
-*.pyc
 *.pyo
 *.pyd
-venv/
-
-# End of merged .gitignore
+.venv/

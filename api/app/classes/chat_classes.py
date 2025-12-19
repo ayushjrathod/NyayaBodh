@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from groq import AsyncGroq
 import asyncio
 import os
-from .model_config import config
+from ..utils.config import config
 
 
 # Configuration

@@ -1,76 +1,56 @@
-import asyncio
-import base64
-import json
-import logging
 import os
 import httpx
-from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
 from urllib.parse import urlencode
 from typing import Optional, List
 
-import jwt  # This was already here, ensure it's the correct jwt for your jose usage if different
-# import requests as python_requests # Consider if this is still needed or if httpx is used elsewhere
-from dotenv import load_dotenv
-from fastapi import (Cookie, Depends, FastAPI, HTTPException, Query, Request,
-                     Response, status, APIRouter)  # Added APIRouter
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse
+import jwt 
+
+from fastapi import (Cookie, Depends, HTTPException, Query, Request,
+                     Response, status, APIRouter) 
+from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError  # This was already here
 from passlib.context import CryptContext
-# from prisma import Prisma # Prisma is now managed in database.py
-from prisma.errors import ClientNotConnectedError
+
 from prisma.models import User
 from pydantic import BaseModel
 
 # Import services and database
-from . import auth_service as services  # Import from same directory
-from .database import prisma, logger  # Import shared prisma and logger
+from ..services import auth_service 
+from ..utils.database import prisma, db_logger  # Import shared prisma and logger
+from ..utils.config import config
 
-# Load environment variables - typically done once at the application entry point
-# If main.py is the entry point, this might be redundant here if already loaded in main.py
-# load_dotenv() # Potentially redundant if loaded in main.py
-
-# Configure logging - similar to load_dotenv, ensure it's configured once appropriately
-# logging.basicConfig(level=logging.INFO) # Potentially redundant
-# logger = logging.getLogger(__name__) # Use the imported logger
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Initialize password hashing
 pwd_context = CryptContext(
     schemes=["bcrypt"],
     deprecated="auto",
-    bcrypt__rounds=12  # Ensure bcrypt__rounds is set
+    bcrypt__rounds=12
 )
 
-# FastAPI setup for the router
-auth_router = APIRouter(prefix="/api/auth", tags=["Authentication"])  # Create an APIRouter
+auth_router = APIRouter(prefix="/api/auth")
 
 # OAuth2 setup - This can remain as it's specific to auth routes
+# clients can get tokens from this route, here its login page takes creds and returns tokens
+# all subsequent requests will use the token to access protected routes
+# when we use Depends(oauth2_scheme), it will look for the token in the Authorization header
+# the OAuth2PasswordBearer tells fastapi to expect a bearer token in the Authorization header
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")  # Adjusted tokenUrl to be relative to the router's prefix
 
-# Constants
-FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
-BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:8080')  # Unused in this file
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
-GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
-GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI')  # Ensure this is correctly configured in Google Cloud Console
-SECRET_KEY = os.getenv("SECRET_KEY", "your-default-secret-key")  # Ensure a strong default or require it to be set
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
 # Pydantic Models for API requests and responses
+# enforce request and response schemas on runtime
 class UserCreate(BaseModel):
     email: str
     password: str
     fullname: str
     role: str = "USER"
 
-
 class UserLogin(BaseModel):
     email: str
     password: str
-
 
 class TokenResponse(BaseModel):
     access_token: str
@@ -80,15 +60,12 @@ class TokenResponse(BaseModel):
     user_id: int
     fullname: str
 
-
 class OTPVerifyRequest(BaseModel):
     otp: str
     userId: int
 
-
 class ResendOTPRequest(BaseModel):
     email: str
-
 
 class UserOut(BaseModel):  # For admin routes, ensure fields match User model
     id: int
@@ -99,63 +76,40 @@ class UserOut(BaseModel):  # For admin routes, ensure fields match User model
     is_google_user: bool  # Added
     # Add other fields as necessary, e.g., created_at
 
-
 class ForgotPasswordRequest(BaseModel):
     email: str
-
 
 class ResetPasswordRequest(BaseModel):
     token: str
     new_password: str
 
-
 class UserUpdateRequest(BaseModel):
     fullname: Optional[str] = None
     role: Optional[str] = None
-
 
 class GoogleTokenRequest(BaseModel):
     token: str
 
 
-# Helper functions (consider moving to auth_service.py if not already there and re-importing)
-# These helpers for password and token creation might be duplicated from auth_service.py
-# If they are, prefer using the versions from auth_service.py to avoid redundancy.
-
-# def hash_password(password: str) -> str: # Potentially redundant
-#     """Hash password using bcrypt"""
-#     return pwd_context.hash(password)
-
-# def verify_password(plain_password: str, hashed_password: str) -> bool: # Potentially redundant
-#     """Verify password hash"""
-#     return pwd_context.verify(plain_password, hashed_password)
-
-# def create_access_token(data: dict, expires_delta: timedelta = None) -> str: # Potentially redundant
-#     to_encode = data.copy()
-#     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-#     to_encode.update({"exp": expire})
-#     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
-
 # FastAPI routes
-@auth_router.post("/register", response_model=TokenResponse)  # Adjusted response model
-async def register(user_data: UserCreate):  # Use Pydantic model for request body
+@auth_router.post("/register", response_model=TokenResponse)
+async def register(user_data: UserCreate):
     try:
         existing_user = await prisma.user.find_unique(where={"email": user_data.email})
         if existing_user:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,  # Use status constants
+                status_code=status.HTTP_400_BAD_REQUEST, 
                 detail="Email already registered"
             )
 
-        user = await services.create_user(
+        user = await auth_service.create_user(
             email=user_data.email,
             password=user_data.password,
             fullname=user_data.fullname,
             role=user_data.role
         )
-        # After user creation, generate tokens
-        return services.create_tokens(user)
+
+        return auth_service.create_tokens(user)
 
     except HTTPException as e:  # Re-raise HTTPExceptions
         raise e
@@ -168,8 +122,8 @@ async def register(user_data: UserCreate):  # Use Pydantic model for request bod
 
 
 @auth_router.post("/login", response_model=TokenResponse)
-async def login(form_data: UserLogin, response: Response):  # Use Pydantic model
-    user = await services.authenticate_user(email=form_data.email, password=form_data.password)
+async def login(form_data: UserLogin, response: Response):
+    user = await auth_service.authenticate_user(email=form_data.email, password=form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -178,11 +132,11 @@ async def login(form_data: UserLogin, response: Response):  # Use Pydantic model
         )
     if not user.is_verified:
          raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,  # Or 401, depending on desired UX
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Account not verified. Please verify your OTP.",
         )
 
-    token_data = services.create_tokens(user)
+    token_data = auth_service.create_tokens(user)
 
     # Set refresh token in an HTTPOnly cookie
     response.set_cookie(
@@ -191,25 +145,22 @@ async def login(form_data: UserLogin, response: Response):  # Use Pydantic model
         httponly=True,
         secure=True,  # Set to True in production (requires HTTPS)
         samesite="lax",  # Or "strict"
-        max_age=timedelta(days=services.REFRESH_TOKEN_EXPIRE_DAYS).total_seconds()
+        max_age=timedelta(days=auth_service.REFRESH_TOKEN_EXPIRE_DAYS).total_seconds()
     )
     return token_data
 
 
 @auth_router.post("/verify-otp")
-async def verify_otp_endpoint(otp_data: OTPVerifyRequest):  # Use Pydantic model
+async def verify_otp_endpoint(otp_data: OTPVerifyRequest):
     try:
-        verified = await services.verify_otp(otp=otp_data.otp, user_id=otp_data.userId)
+        verified = await auth_service.verify_otp(otp=otp_data.otp, user_id=otp_data.userId)
         if verified:
-            # Optionally, you could log the user in here by creating tokens,
-            # or just confirm verification and let them log in separately.
             return {"message": "OTP verified successfully. You can now log in."}
         else:
-            # This case should ideally be handled by exceptions within verify_otp
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="OTP verification failed.")
 
     except HTTPException as e:
-        raise e  # Re-raise HTTPExceptions from the service
+        raise e  
     except Exception as e:
         logger.error(f"OTP Verification error: {str(e)}")
         raise HTTPException(
@@ -219,7 +170,7 @@ async def verify_otp_endpoint(otp_data: OTPVerifyRequest):  # Use Pydantic model
 
 
 @auth_router.post("/resend-otp")
-async def resend_otp_endpoint(request_data: ResendOTPRequest):  # Use Pydantic model
+async def resend_otp_endpoint(request_data: ResendOTPRequest):  
     try:
         user = await prisma.user.find_unique(where={"email": request_data.email})
         if not user:
@@ -227,7 +178,7 @@ async def resend_otp_endpoint(request_data: ResendOTPRequest):  # Use Pydantic m
         if user.is_verified:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already verified.")
 
-        await services.resend_otp(user.id)
+        await auth_service.resend_otp(user.id)
         return {"message": "OTP has been resent."}
     except HTTPException as e:
         raise e
@@ -245,7 +196,7 @@ async def logout(response: Response):
     return {"message": "Successfully logged out"}
 
 
-@auth_router.post("/refresh", response_model=TokenResponse)  # Define a response model if needed, e.g., just new access_token
+@auth_router.post("/refresh", response_model=TokenResponse)  
 async def refresh_token_endpoint(response: Response, refresh_token: Optional[str] = Cookie(None)):
     if not refresh_token:
         raise HTTPException(
@@ -253,18 +204,14 @@ async def refresh_token_endpoint(response: Response, refresh_token: Optional[str
             detail="Refresh token missing."
         )
     try:
-        new_access_token = await services.refresh_access_token(refresh_token)
-        # The refresh_access_token service should return the full token structure or just the access token
-        # For now, assuming it returns just the new access token string.
-        # We need to fetch the user again to get other details for TokenResponse
-        payload = jwt.decode(new_access_token, SECRET_KEY, algorithms=[ALGORITHM])
+        new_access_token = await auth_service.refresh_access_token(refresh_token)
+        payload = jwt.decode(new_access_token, config.SECRET_KEY, algorithms=[config.ALGORITHM])
         user_id = payload.get("sub")
         user = await prisma.user.find_unique(where={"id": int(user_id)})
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found for new token.")
 
-        # Create a new full token response. The old refresh token is still valid.
-        # If you want to rotate refresh tokens, that logic needs to be added.
+        # If in future there is need to rotate refresh tokens, that logic needs to be added.
         refreshed_token_data = {
             "access_token": new_access_token,
             "refresh_token": refresh_token,  # Or a new one if implementing rotation
@@ -290,8 +237,7 @@ async def refresh_token_endpoint(response: Response, refresh_token: Optional[str
 
 
 @auth_router.get("/profile", response_model=UserOut)  # Use UserOut or a more specific Profile model
-async def get_profile(current_user: User = Depends(services.get_current_user)):
-    # get_current_user already fetches the user object
+async def get_profile(current_user: User = Depends(auth_service.get_current_user)):
     return current_user
 
 
@@ -306,10 +252,10 @@ async def forgot_password_endpoint(request_data: ForgotPasswordRequest):
                 "type": "password_reset",
                 "exp": datetime.utcnow() + timedelta(hours=1)  # Token valid for 1 hour
             }
-            reset_token = jwt.encode(reset_token_payload, SECRET_KEY, algorithm=ALGORITHM)
-            reset_link = f"{FRONTEND_URL}/reset-password?token={reset_token}"  # Ensure frontend route exists
+            reset_token = jwt.encode(reset_token_payload, config.SECRET_KEY, algorithm=config.ALGORITHM)
+            reset_link = f"{config.FRONTEND_URL}/reset-password?token={reset_token}"  # Ensure frontend route exists
 
-            email_sent = services.send_password_reset_email(user.email, reset_link)
+            email_sent = auth_service.send_password_reset_email(user.email, reset_link)
             if not email_sent:
                 logger.error(f"Failed to send password reset email to {user.email}")
                 # Don't reveal if email exists, but log the error
@@ -324,7 +270,7 @@ async def forgot_password_endpoint(request_data: ForgotPasswordRequest):
 @auth_router.post("/reset-password")
 async def reset_password_endpoint(request_data: ResetPasswordRequest):
     try:
-        payload = jwt.decode(request_data.token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(request_data.token, config.SECRET_KEY, algorithms=[config.ALGORITHM])
         if payload.get("type") != "password_reset":
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid token type.")
 
@@ -363,8 +309,8 @@ async def auth_google(remember_me: bool = Query(False)):  # remember_me might no
     app_state = "remember_me" if remember_me else "default_oauth_state"
 
     params = {
-        "client_id": GOOGLE_CLIENT_ID,
-        "redirect_uri": GOOGLE_REDIRECT_URI,  # This must match exactly what's in Google Cloud Console
+        "client_id": config.GOOGLE_CLIENT_ID,
+        "redirect_uri": config.GOOGLE_REDIRECT_URI,  # This must match exactly what's in Google Cloud Console
         "response_type": "code",
         "scope": "openid email profile",  # Standard scopes
         "access_type": "offline",  # To get a refresh token from Google if needed
@@ -385,11 +331,11 @@ async def auth_google_callback(request: Request, response: Response, code: str, 
     token_url = "https://oauth2.googleapis.com/token"
     token_payload = {
         "code": code,
-        "client_id": GOOGLE_CLIENT_ID,
-        "client_secret": GOOGLE_CLIENT_SECRET,
-        "redirect_uri": GOOGLE_REDIRECT_URI,  # Must match the one used in the initial auth request
+        "client_id": config.GOOGLE_CLIENT_ID,
+        "client_secret": config.GOOGLE_CLIENT_SECRET,
+        "redirect_uri": config.GOOGLE_REDIRECT_URI,  # Must match the one used in the initial auth request
         "grant_type": "authorization_code",
-    }    # Using httpx for async requests (httpx already imported at top)
+    } 
     async with httpx.AsyncClient() as client:
         try:
             token_r = await client.post(token_url, data=token_payload)
@@ -431,10 +377,10 @@ async def auth_google_callback(request: Request, response: Response, code: str, 
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email not provided by Google.")
 
     # 4. Get or create user in your database
-    user = await services.get_or_create_google_user(email=email, name=fullname)
+    user = await auth_service.get_or_create_google_user(email=email, name=fullname)
 
     # 5. Create your application's tokens (access and refresh)
-    app_tokens = services.create_tokens(user)
+    app_tokens = auth_service.create_tokens(user)
 
     # Set refresh token in cookie
     response.set_cookie(
@@ -443,7 +389,7 @@ async def auth_google_callback(request: Request, response: Response, code: str, 
         httponly=True,
         secure=True, # Production
         samesite="lax",
-        max_age=timedelta(days=services.REFRESH_TOKEN_EXPIRE_DAYS).total_seconds()
+        max_age=timedelta(days=config.REFRESH_TOKEN_EXPIRE_DAYS).total_seconds()
     )
 
     # Instead of redirecting with tokens in URL, return them in the response body.
@@ -511,7 +457,7 @@ async def verify_google_token(token_request: GoogleTokenRequest):
 
         # Get or create user
         try:
-            user = await services.get_or_create_google_user(
+            user = await auth_service.get_or_create_google_user(
                 email=user_data["email"],
                 name=user_data["name"]
             )
@@ -522,7 +468,7 @@ async def verify_google_token(token_request: GoogleTokenRequest):
 
         # Create JWT tokens
         try:
-            token_data = services.create_tokens(user)
+            token_data = auth_service.create_tokens(user)
             logger.info(f"Tokens created successfully for user: {user.email}")
             return token_data
         except Exception as e:
@@ -537,9 +483,12 @@ async def verify_google_token(token_request: GoogleTokenRequest):
         raise HTTPException(status_code=500, detail="Authentication failed")
 
 
+# -----------------------------------------------------------------------
 # Admin Routes (example, ensure proper admin authentication/authorization)
+# -----------------------------------------------------------------------
+
 # These should be protected by a dependency that checks for ADMIN role.
-async def get_current_admin_user(current_user: User = Depends(services.get_current_user)):
+async def get_current_admin_user(current_user: User = Depends(auth_service.get_current_user)):
     if current_user.role != "ADMIN":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized for this action.")
     return current_user
@@ -559,7 +508,7 @@ async def update_user_endpoint(user_id: int, user_data: UserUpdateRequest):
         # Handle password update securely, e.g., by hashing or disallowing
         del update_data["password"]  # Or use a specific service for password changes
 
-    updated_user = await services.update_user(user_id, update_data)
+    updated_user = await auth_service.update_user(user_id, update_data)
     if not updated_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
     return updated_user
@@ -567,7 +516,7 @@ async def update_user_endpoint(user_id: int, user_data: UserUpdateRequest):
 @admin_router.delete("/users/{user_id}")
 async def delete_user_endpoint(user_id: int):
     try:
-        result = await services.delete_user(user_id)
+        result = await auth_service.delete_user(user_id)
         return result
     except HTTPException as e:  # Catch specific 404 from service
         raise e
@@ -575,13 +524,4 @@ async def delete_user_endpoint(user_id: int):
         logger.error(f"Admin delete user error: {str(e)}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error deleting user.")
 
-# The main.py will include these routers:
-# from api.app.auth_main import auth_router, admin_router
-# app.include_router(auth_router)
-# app.include_router(admin_router)
 
-# Remove the lifespan and app instantiation from here, as it will be in main.py
-# @asynccontextmanager
-# async def lifespan(app: FastAPI): ...
-# app = FastAPI(...)
-# app.add_middleware(CORSMiddleware, ...

@@ -1,17 +1,13 @@
-# Removed heavy CPU-only PyTorch builds - using HuggingFace API instead
 # --extra-index-url https://download.pytorch.org/whl/cpu
 # torch==2.3.0+cpu
 # torchvision==0.18.0+cpu
 # torchaudio==2.3.0+cpu
 
-# CPU-only FAISS for vector search (keeping for migration compatibility)
-faiss-cpu==1.11.0
-
 # Database & ORM
 prisma
 psycopg2-binary>=2.9.0
-sqlalchemy>=2.0.0
-pgvector>=0.2.0
+# sqlalchemy>=2.0.0
+# pgvector>=0.2.0
 asyncpg>=0.29.0
 
 # Authentication & Security
@@ -20,8 +16,8 @@ python-jose[cryptography]>=3.5.0
 passlib[argon2]>=1.7.4
 argon2-cffi>=21.0.0
 python-multipart
-google-auth
-slowapi
+# google-auth
+# slowapi
 
 # Web Framework & ASGI
 fastapi>=0.95,<1.0
@@ -31,8 +27,7 @@ uvicorn>=0.22,<1.0
 pandas>=2.0,<3.0
 numpy>=1.24,<2.0
 scikit-learn>=1.2,<2.0
-scipy>=1.10,<2.0
-# Removed transformers and sentence-transformers - using HF API instead
+# scipy>=1.10,<2.0
 # transformers
 # sentence-transformers
 
@@ -45,6 +40,6 @@ pydantic>=1.10,<2.0
 python-dotenv
 httpx>=0.24,<1.0
 PyPDF2
-fuzzywuzzy
-python-Levenshtein
+# fuzzywuzzy
+# python-Levenshtein
 groq
